@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Gestión de Stock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* --- Reset Básico y Estilos Globales --- */
         :root {
@@ -166,6 +166,30 @@
             font-size: 2em;
             color: var(--primary-color);
         }
+        /* Para el saludo de bienvenida que podrías añadir */
+        .content-header .user-info {
+            font-size: 0.9em;
+        }
+        .content-header .user-info strong {
+            color: var(--primary-color);
+        }
+        .content-header .user-info form {
+            display: inline;
+            margin-left: 15px;
+        }
+        .content-header .user-info .logout-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .content-header .user-info .logout-btn:hover {
+            background-color: #d88c0a;
+        }
+
 
         .toggle-sidebar-btn {
             background: var(--primary-color);
@@ -177,15 +201,13 @@
             border-radius: 5px;
             position: fixed;
             top: 15px;
-            left: 15px; /* Inicialmente para expandir */
+            /* Ajuste inicial del botón toggle basado en el estado del sidebar */
+            left: 215px; 
             z-index: 1001; /* Encima del sidebar */
             transition: left 0.3s ease;
         }
         .sidebar.collapsed ~ .toggle-sidebar-btn {
             left: 15px; /* Cuando el sidebar está colapsado */
-        }
-        .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
-             left: 215px; /* Cuando el sidebar está expandido */
         }
 
 
@@ -246,6 +268,8 @@
             cursor: pointer;
             font-size: 0.9em;
             transition: background-color 0.2s ease;
+            text-decoration: none; /* Para enlaces que parecen botones */
+            display: inline-block; /* Para enlaces que parecen botones */
         }
         .btn-edit {
             background-color: #ffc107; /* Amarillo */
@@ -268,45 +292,50 @@
         /* --- Responsividad Básica --- */
         @media (max-width: 768px) {
             .sidebar {
-                width: 0; /* Ocultar sidebar por defecto en móviles */
+                width: 0; 
                 padding: 0;
-                /* position: fixed; */ /* Ya es fixed */
-                /* left: -260px; */ /* Para animar entrada */
-                /* transition: left 0.3s ease; */
+                 left: -280px; /* Oculto fuera de la pantalla */
             }
-            .sidebar.open-mobile {
-                width: 260px; /* Mostrar sidebar */
-                left: 0;
+            .sidebar.open-mobile { /* Esta clase se añade con JS */
+                width: 260px; 
+                left: 0; /* Mostrar sidebar */
             }
 
             .main-content {
-                margin-left: 0; /* Contenido ocupa todo el ancho */
+                margin-left: 0; 
                 padding: 20px;
             }
-             .main-content.collapsed { /* Ya no aplica este colapso en móvil */
+             .main-content.collapsed { 
                 margin-left: 0;
             }
 
-
             .toggle-sidebar-btn {
-                left: 15px; /* Siempre visible a la izquierda para abrir/cerrar */
+                left: 15px; 
             }
              .sidebar.collapsed ~ .toggle-sidebar-btn,
-             .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
+             .sidebar:not(.collapsed):not(.open-mobile) ~ .toggle-sidebar-btn { /* Ajuste para que el botón no se mueva si no está en modo móvil */
                  left: 15px;
+            }
+            .sidebar.open-mobile ~ .toggle-sidebar-btn {
+                left: 215px; /* Cuando el menú móvil está abierto */
             }
 
 
             .content-header h2 {
                 font-size: 1.5em;
             }
-            .content-header .toggle-sidebar-btn {
-                display: block; /* Mostrar botón para móviles */
+             .content-header .user-info {
+                display: block;
+                text-align: right;
+                margin-top: 10px;
+            }
+            .content-header .user-info form {
+                margin-left: 0;
+                margin-top: 5px;
+                display: block;
             }
         }
-
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -319,32 +348,36 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item">
-                        <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                        <a th:href="@{/usuario/inicioUsuario}" th:classappend="${#httpServletRequest.requestURI == '/usuario/inicioUsuario' ? 'active' : ''}">
+                            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                        </a>
                     </li>
                     <li class="nav-item has-submenu">
                         <a href="#"><i class="fas fa-box-open"></i> <span>Productos</span> <i class="fas fa-chevron-right arrow"></i></a>
                         <ul class="submenu">
-                            <li><a href="#">Ver Productos</a></li>
-                            <li><a href="#">Añadir Producto</a></li>
-                            <li><a href="#">Categorías</a></li>
+                            <li><a th:href="@{/productos/listar}">Ver Productos</a></li>
+                            <li><a th:href="@{/productos/nuevo}">Añadir Producto</a></li>
+                            <li><a th:href="@{/productos/categorias}">Categorías</a></li>
                         </ul>
                     </li>
                     <li class="nav-item has-submenu">
                         <a href="#"><i class="fas fa-dolly-flatbed"></i> <span>Inventario</span> <i class="fas fa-chevron-right arrow"></i></a>
                         <ul class="submenu">
-                            <li><a th:href="@{/usuario/panel-barra(id=__${session.usuariosession.id}__)}">Ajustes de Stock</a></li>
-                            <li><a href="#">Movimientos</a></li>
-                            <li><a href="#">Alertas de Stock Bajo</a></li>
+                            <li><a th:href="@{/inventario/ajustes}">Ajustes de Stock</a></li>
+                            <li><a th:href="@{/inventario/movimientos}">Movimientos</a></li>
+                            <li><a th:href="@{/inventario/alertas}">Alertas de Stock Bajo</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="#"><i class="fas fa-truck"></i> <span>Proveedores</span></a>
+                     <li class="nav-item" th:if="${session.usuariosession != null}">
+                         <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}"><i class="fas fa-chart-pie"></i> <span>Mi Panel Barra</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#"><i class="fas fa-chart-bar"></i> <span>Reportes</span></a>
+                        <a th:href="@{/proveedores/listar}"><i class="fas fa-truck"></i> <span>Proveedores</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#"><i class="fas fa-cog"></i> <span>Configuración</span></a>
+                        <a th:href="@{/reportes/generar}"><i class="fas fa-chart-bar"></i> <span>Reportes</span></a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/admin/configuracion}"><i class="fas fa-cog"></i> <span>Configuración</span></a>
                     </li>
                 </ul>
             </nav>
@@ -352,10 +385,17 @@
 
         <main class="main-content" id="mainContent">
             <header class="content-header">
-                <h2>Gestión de Stock Principal</h2>
-                </header>
+                <h2 th:text="${tituloPagina != null ? tituloPagina : 'Gestión de Stock'}">Gestión de Stock Principal</h2>
+                <div class="user-info" sec:authorize="isAuthenticated()">
+                    <span>Bienvenido/a, <strong sec:authentication="principal.nombreCompleto" th:if="${#authentication.principal instanceof T(com.proyecto.demo.entidades.Usuario)}"> <span th:unless="${#authentication.principal instanceof T(com.proyecto.demo.entidades.Usuario)}" sec:authentication="name">Usuario</span>
+                    </strong>!</span>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </header>
 
-            <section class="data-table-container">
+            <section class="data-table-container" th:if="${productosRecientes != null and not #lists.isEmpty(productosRecientes)}">
                 <h3>Productos Recientes</h3>
                 <table class="data-table">
                     <thead>
@@ -369,47 +409,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>P001</td>
-                            <td>Laptop Gamer Pro</td>
-                            <td>Electrónica</td>
-                            <td>25</td>
-                            <td>$1200.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        <tr th:each="producto : ${productosRecientes}">
+                            <td th:text="${producto.idProducto}">P00X</td>
+                            <td th:text="${producto.nombre}">Nombre Producto</td>
+                            <td th:text="${producto.categoria != null ? producto.categoria.nombre : 'N/A'}">Categoría</td> <td th:text="${producto.stockActual}">0</td>
+                            <td th:text="${#numbers.formatCurrency(producto.precioUnitario)}">$0.00</td> <td>
+                                <a th:href="@{/productos/ver/{id}(id=${producto.idProducto})}" class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></a>
+                                <a th:href="@{/productos/editar/{id}(id=${producto.idProducto})}" class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></a>
+                                <form th:action="@{/productos/eliminar/{id}(id=${producto.idProducto})}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                                   <button type="submit" class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td>P002</td>
-                            <td>Teclado Mecánico RGB</td>
-                            <td>Accesorios</td>
-                            <td>150</td>
-                            <td>$75.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>P003</td>
-                            <td>Monitor Curvo 27"</td>
-                            <td>Monitores</td>
-                            <td>40</td>
-                            <td>$350.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        </tbody>
+                    </tbody>
                 </table>
             </section>
+            <div th:if="${productosRecientes == null or #lists.isEmpty(productosRecientes)}">
+                <p>No hay productos recientes para mostrar.</p>
+            </div>
 
-            <section class="data-table-container" style="margin-top: 30px;">
+
+            <section class="data-table-container" style="margin-top: 30px;" th:if="${movimientosInventario != null and not #lists.isEmpty(movimientosInventario)}">
                 <h3>Movimientos de Inventario</h3>
                 <table class="data-table">
                     <thead>
@@ -419,37 +439,22 @@
                             <th>Tipo</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>Usuario</th>
+                            <th>Usuario Responsable</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>M001</td>
-                            <td>2025-05-16</td>
-                            <td>Entrada</td>
-                            <td>Laptop Gamer Pro (P001)</td>
-                            <td>+10</td>
-                            <td>admin</td>
-                        </tr>
-                        <tr>
-                            <td>M002</td>
-                            <td>2025-05-15</td>
-                            <td>Salida</td>
-                            <td>Teclado Mecánico RGB (P002)</td>
-                            <td>-5</td>
-                            <td>vendedor1</td>
-                        </tr>
-                        <tr>
-                            <td>M003</td>
-                            <td>2025-05-14</td>
-                            <td>Ajuste</td>
-                            <td>Monitor Curvo 27" (P003)</td>
-                            <td>+2 (Corrección)</td>
-                            <td>supervisor</td>
-                        </tr>
+                        <tr th:each="movimiento : ${movimientosInventario}">
+                            <td th:text="${movimiento.idMovimiento}">M00X</td>
+                            <td th:text="${#temporals.format(movimiento.fecha, 'dd-MM-yyyy HH:mm')}">dd-MM-yyyy HH:mm</td>
+                            <td th:text="${movimiento.tipo}">Tipo</td>
+                            <td th:text="${movimiento.producto != null ? movimiento.producto.nombre : 'N/A'}">Producto (ID)</td> <td th:text="${(movimiento.tipo == 'Entrada' ? '+' : (movimiento.tipo == 'Salida' ? '-' : '')) + movimiento.cantidad}">+/-0</td>
+                            <td th:text="${movimiento.usuario != null ? movimiento.usuario.username : 'Sistema'}">Usuario</td> </tr>
                     </tbody>
                 </table>
             </section>
+            <div th:if="${movimientosInventario == null or #lists.isEmpty(movimientosInventario)}" style="margin-top: 30px;">
+                <p>No hay movimientos de inventario para mostrar.</p>
+            </div>
 
         </main>
     </div>
@@ -461,76 +466,82 @@
             const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
             const navItemsWithSubmenu = document.querySelectorAll('.sidebar-nav .has-submenu > a');
 
-            // Función para colapsar/expandir el sidebar
-            function toggleSidebar() {
+            // Función para colapsar/expandir el sidebar en desktop
+            function toggleDesktopSidebar() {
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('collapsed');
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+                updateToggleButtonIcon(sidebar.classList.contains('collapsed'));
+            }
+            
+            // Funcionalidad para abrir/cerrar en móvil
+            function toggleMobileSidebar() {
+                sidebar.classList.toggle('open-mobile');
+                updateToggleButtonIcon(!sidebar.classList.contains('open-mobile')); // Icono de barras si está cerrado, X si está abierto
+            }
 
-                // Ajustar el ícono del botón
+            // Actualiza el icono del botón toggle
+            function updateToggleButtonIcon(isEffectivelyClosed) { // true si está colapsado en desktop o cerrado en móvil
                 const icon = toggleSidebarBtn.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.remove('fa-times'); // Cambiar a X si se quiere
+                if (isEffectivelyClosed) {
+                    icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
                 } else {
                     icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times'); // Opcional: cambiar a X cuando está abierto
+                    icon.classList.add('fa-times');
                 }
-
-                // Guardar estado en localStorage
-                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
             }
             
-            // Funcionalidad para responsive (abrir/cerrar en móvil)
-            function toggleMobileSidebar() {
-                sidebar.classList.toggle('open-mobile');
-                // Puedes añadir un overlay o cambiar el ícono del botón si lo deseas
-                const icon = toggleSidebarBtn.querySelector('i');
-                if (sidebar.classList.contains('open-mobile')) {
-                     icon.classList.remove('fa-bars');
-                     icon.classList.add('fa-times');
-                } else {
-                     icon.classList.remove('fa-times');
-                     icon.classList.add('fa-bars');
-                }
-            }
-
-
+            // Event listener para el botón toggle
             if (toggleSidebarBtn) {
                  toggleSidebarBtn.addEventListener('click', function() {
                     if (window.innerWidth <= 768) {
                         toggleMobileSidebar();
                     } else {
-                        toggleSidebar();
+                        toggleDesktopSidebar();
                     }
                 });
             }
 
-            // Cargar estado del sidebar desde localStorage para persistencia en desktop
-             if (window.innerWidth > 768) {
-                if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                    sidebar.classList.add('collapsed');
-                    mainContent.classList.add('collapsed');
-                    toggleSidebarBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
-                } else {
-                    // Si no está colapsado, asegurarse que el ícono esté correcto (si lo cambias a X)
-                     if (toggleSidebarBtn.querySelector('i').classList.contains('fa-bars')) {
-                         toggleSidebarBtn.querySelector('i').classList.replace('fa-bars', 'fa-times');
-                     }
+            // Cargar estado del sidebar desde localStorage y configurar estado inicial del botón
+            function initializeSidebarState() {
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    sidebar.classList.remove('collapsed'); // No queremos 'collapsed' en móvil
+                    sidebar.classList.remove('open-mobile'); // Empezar cerrado en móvil
+                    mainContent.classList.remove('collapsed');
+                    updateToggleButtonIcon(true); // Icono de barras (cerrado)
+                } else { // Desktop
+                    sidebar.classList.remove('open-mobile');
+                    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+                        sidebar.classList.add('collapsed');
+                        mainContent.classList.add('collapsed');
+                        updateToggleButtonIcon(true); // Icono de barras (colapsado)
+                    } else {
+                        sidebar.classList.remove('collapsed');
+                        mainContent.classList.remove('collapsed');
+                        updateToggleButtonIcon(false); // Icono de X (expandido)
+                    }
                 }
-            } else { // En móvil, el sidebar siempre empieza cerrado
-                toggleSidebarBtn.querySelector('i').classList.add('fa-bars');
-                sidebar.classList.remove('open-mobile'); // Asegurar que no esté abierto por error
             }
+            initializeSidebarState(); // Llamar al cargar la página
 
 
             // Funcionalidad para desplegar submenús
             navItemsWithSubmenu.forEach(function(item) {
                 item.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevenir navegación si es un enlace '#'
+                    // Permitir que los enlaces reales naveguen
+                    if (this.getAttribute('href') && this.getAttribute('href') !== '#') {
+                         // Si es un enlace real que debe navegar, no prevenir default.
+                         // O, si el submenú ya está abierto y se hace clic de nuevo, permitir navegar.
+                         // La lógica actual previene default para todos los 'has-submenu > a'.
+                         // Considera si quieres que el ítem padre también sea un enlace navegable.
+                    } else {
+                        event.preventDefault(); 
+                    }
                     
-                    // Si el sidebar está colapsado y tiene submenú, no hacer nada o manejar diferente (ej. tooltip)
                     if (sidebar.classList.contains('collapsed') && window.innerWidth > 768) {
-                        return;
+                        return; // No desplegar submenús si el sidebar principal está colapsado en desktop
                     }
 
                     const submenu = this.nextElementSibling;
@@ -545,41 +556,8 @@
                 });
             });
 
-
-            // Adaptar la funcionalidad del botón y el estado del sidebar al cambiar el tamaño de la ventana
-            window.addEventListener('resize', function() {
-                const isMobile = window.innerWidth <= 768;
-                const icon = toggleSidebarBtn.querySelector('i');
-
-                if (isMobile) {
-                    // En móvil, el botón siempre es para abrir/cerrar el menú completo
-                    mainContent.classList.remove('collapsed'); // Quitar colapso de escritorio
-                    sidebar.classList.remove('collapsed');    // Quitar colapso de escritorio
-                    if (sidebar.classList.contains('open-mobile')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                } else {
-                    // En escritorio, el botón es para colapsar/expandir
-                    sidebar.classList.remove('open-mobile'); // Quitar estado móvil
-                    // Restaurar estado de colapso de escritorio desde localStorage si existe
-                    if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                        sidebar.classList.add('collapsed');
-                        mainContent.classList.add('collapsed');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    } else {
-                        sidebar.classList.remove('collapsed');
-                        mainContent.classList.remove('collapsed');
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times'); // Opcional, si usas X
-                    }
-                }
-            });
-
+            // Adaptar al cambiar el tamaño de la ventana
+            window.addEventListener('resize', initializeSidebarState);
         });
     </script>
 </body>

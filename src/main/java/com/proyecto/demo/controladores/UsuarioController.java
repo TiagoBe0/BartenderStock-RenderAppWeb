@@ -311,7 +311,7 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         } catch (ErrorServicio e) {
             model.addAttribute("error", e.getMessage());
         }
-        return "index_app.html";
+        return "render-panel-barra.html";
     }
       //ESTE ES PARA ENTRAR AL PANEL DE STOCK DE BARTENDER INSUMOS
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
@@ -861,7 +861,6 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
     }
      @GetMapping("/inicioUsuario")
     public String inicioUsuario(ModelMap modelo) {
-        modelo.put("usuarios", usuarioServicio.todosLosUsuarios());
         return  "render-inicio.html";
     }
     
