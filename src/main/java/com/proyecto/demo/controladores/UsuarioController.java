@@ -859,16 +859,28 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
        modelo.put("barras", barras);
         return "registroBarra.html";
     }
-     @GetMapping("/inicioUsuario")
-    public String inicioUsuario(HttpSession session,ModelMap modelo) {
-         Usuario usuario = null;
-         Usuario login = (Usuario) session.getAttribute("usuariosession");
-         session.setAttribute("usuariosession", usuario);
-         modelo.put("nombre" , usuario.getNombre());
-         
-        return  "render-inicio.html";
+       @GetMapping("/inicioUsuario")
+    public String inicioUsuario(HttpSession session, ModelMap modelo) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+
+        // 2. Verificar si el usuario realmente existe en la sesión (puede que la sesión haya expirado o el usuario no esté logueado).
+        if (usuarioLogueado != null) {
+            // 3. Si el usuario existe, agregar sus datos al modelo para que la vista (HTML) los pueda usar.
+            modelo.put("nombre", usuarioLogueado.getNombre());
+
+            
+            return "render-inicio.html"; // Nombre de tu archivo HTML de inicio
+        } else {
+            // 4. Si no hay un usuario en la sesión, es una buena práctica redirigir
+            //    a la página de login o mostrar un mensaje de error.
+            //    Esto evita errores si alguien intenta acceder a /inicioUsuario directamente sin loguearse.
+            modelo.put("error", "No se encontró un usuario en la sesión. Por favor, inicia sesión.");
+            // Podrías redirigir a la página de login:
+            // return "redirect:/login";
+            // O mostrar una página de error específica:
+            return "pagina-de-error.html"; // O tu página de login
+        }
     }
-    
      @PostMapping("/registrar")
     public String registrar( ModelMap modelo,MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2) {
         System.out.println("LLEGAMOS A LOS CONTROLADORES TIOOOOOOO");
