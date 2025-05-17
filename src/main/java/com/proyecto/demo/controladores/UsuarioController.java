@@ -860,7 +860,12 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         return "registroBarra.html";
     }
      @GetMapping("/inicioUsuario")
-    public String inicioUsuario(ModelMap modelo) {
+    public String inicioUsuario(HttpSession session,ModelMap modelo) {
+         Usuario usuario = null;
+         Usuario login = (Usuario) session.getAttribute("usuariosession");
+         session.setAttribute("usuariosession", usuario);
+         modelo.put("nombre" , usuario.getNombre());
+         
         return  "render-inicio.html";
     }
     
