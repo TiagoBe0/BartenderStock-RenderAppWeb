@@ -141,7 +141,7 @@ public class UsuarioController {
     // --- Controlador para Registro (ejemplo básico) ---
     @GetMapping("/registro")
     public String mostrarPaginaRegistro() {
-        return "registro"; // HTML para la página de registro (registro.html)
+        return "render-registro.html"; // HTML para la página de registro (registro.html)
     }
 
     

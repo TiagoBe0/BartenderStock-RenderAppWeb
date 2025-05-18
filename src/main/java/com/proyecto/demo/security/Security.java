@@ -73,7 +73,7 @@ public class Security extends WebSecurityConfigurerAdapter {
             )
             .formLogin(form -> form
                 .loginPage("/usuario/loginUsuario")         // Especifica la URL de tu página de login personalizada
-                .loginProcessingUrl("/logincheck")          // La URL a la que se envía el formulario de login (Spring Security la maneja)
+                .loginProcessingUrl("/usuario/loginUsuario")          // La URL a la que se envía el formulario de login (Spring Security la maneja)
                 .usernameParameter("username")              // Nombre del parámetro para el nombre de usuario en el formulario
                 .passwordParameter("password")              // Nombre del parámetro para la contraseña en el formulario
                 .defaultSuccessUrl("/usuario/inicioUsuario", true) // URL a la que redirigir tras un login exitoso (true para forzar siempre esta URL)
