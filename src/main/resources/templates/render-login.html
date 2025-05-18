@@ -27,7 +27,7 @@
             <p th:text="${mensaje}"></p>
         </div>
 
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/usuario/loginUsuario}" method="POST">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required autofocus />
@@ -41,7 +41,7 @@
             </div>
         </form>
         <p style="text-align: center; margin-top: 15px;">
-            ¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a>
+            ¿No tienes cuenta? <a th:href="@{/usuario/registro}">Regístrate aquí</a>
         </p>
     </div>
 </body>
