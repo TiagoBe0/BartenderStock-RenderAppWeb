@@ -22,7 +22,7 @@ public class Foto {
     
     
 
-    @Lob @Basic(fetch = FetchType.LAZY)
+    @Lob @Basic(fetch = FetchType.EAGER)
     private byte[] contenido;
 
     public String getId() {

@@ -70,6 +70,7 @@ public class UsuarioServicio implements UserDetailsService {
      * @param contrasenaHasheadaAlmacenada La contraseña hasheada almacenada en la base de datos.
      * @return true si las contraseñas coinciden, false en caso contrario.
      */
+     @Transactional
     public boolean verificarContrasena(String contrasenaIngresada, String contrasenaHasheadaAlmacenada) {
         return passwordEncoder.matches(contrasenaIngresada, contrasenaHasheadaAlmacenada);
     }
@@ -80,6 +81,7 @@ public class UsuarioServicio implements UserDetailsService {
      * @param contrasenaIngresada Contraseña en texto plano.
      * @return El objeto Usuario si la autenticación es exitosa, null en caso contrario.
      */
+    @Transactional
     public Usuario autenticarUsuario(String email, String contrasenaIngresada) {
         Usuario usuario = usuarioRepositorio.buscarPorMail(email);
         if (usuario!=null) {
