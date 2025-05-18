@@ -61,6 +61,15 @@ public class UsuarioController {
     
     
     
+   @GetMapping("/inicioUsuario")
+public String inicioUsuario(HttpSession session,ModelMap modelo) {
+    Usuario usuario = null; // 1. Creas una variable local 'usuario' y la inicializas como null.
+    Usuario login = (Usuario) session.getAttribute("usuariosession"); // 2. Obtienes el usuario de la sesión (¡esto está bien!). 'login' ahora tiene los datos del usuario logueado.
+    session.setAttribute("usuariosession", usuario); // 3. ¡Aquí está el problema! Vuelves a guardar en la sesión el objeto 'usuario', que es null. Esto borra la información del usuario que tenías en "usuariosession".
+    modelo.put("nombre" , usuario.getNombre()); // 4. Intentas obtener el nombre de 'usuario'. Como 'usuario' es null (lo estableciste en el paso 1 y lo confirmaste en el paso 3), esto causará un NullPointerException.
+
+    return  "render-inicio.html";
+}
     
     
     
@@ -86,11 +95,6 @@ public class UsuarioController {
     
     
 
-     @GetMapping("/inicioUsuario")
-    public String inicioUsuario(ModelMap modelo) {
-        
-        return  "render-inicio.html";
-    }
     
     
     @GetMapping("/logout")
