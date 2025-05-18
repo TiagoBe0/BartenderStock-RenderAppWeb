@@ -64,59 +64,40 @@ public class UsuarioServicio implements UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
      
-         /**
-     * Verifica la contraseña ingresada contra la almacenada (hasheada).
-     * @param contrasenaIngresada La contraseña en texto plano ingresada por el usuario.
-     * @param contrasenaHasheadaAlmacenada La contraseña hasheada almacenada en la base de datos.
-     * @return true si las contraseñas coinciden, false en caso contrario.
-     */
-     @Transactional
-    public boolean verificarContrasena(String contrasenaIngresada, String contrasenaHasheadaAlmacenada) {
-        return passwordEncoder.matches(contrasenaIngresada, contrasenaHasheadaAlmacenada);
-    }
-
-    /**
-     * Autentica a un usuario.
-     * @param email Email del usuario.
-     * @param contrasenaIngresada Contraseña en texto plano.
-     * @return El objeto Usuario si la autenticación es exitosa, null en caso contrario.
-     */
-    @Transactional
-    public Usuario autenticarUsuario(String email, String contrasenaIngresada) {
-        Usuario usuario = usuarioRepositorio.buscarPorMail(email);
-        if (usuario!=null) {
-            if (verificarContrasena(contrasenaIngresada, usuario.getClave())) {
-                return usuario; // Autenticación exitosa
-            }
-        }
-        return null; // Email no encontrado o contraseña incorrecta
-    }
-
-     
-     
+    
     @Override
-    @Transactional(readOnly = true) // ¡AÑADE ESTA ANOTACIÓN!
-public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-    // Busca por username o email, según tu lógica
-    Usuario usuario = usuarioRepositorio.buscarPorMail(usernameOrEmail); // O findByUsername
-    if (usuario == null) {
-        throw new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail);
+    @Transactional
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+    	
+        Usuario usuario = usuarioRepositorio.buscarPorMail(mail);
+        
+        if (usuario != null) {
+        	
+            List<GrantedAuthority> permisos = new ArrayList<>();
+                        
+            //Creo una lista de permisos! 
+            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_"+ usuario.getRol());
+            
+            permisos.add(p1);
+         
+            //Esto me permite guardar el OBJETO USUARIO LOG, para luego ser utilizado
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession(true);
+            
+            session.setAttribute("usuariosession", usuario); // llave + valor
+
+            User user = new User(usuario.getMail(), usuario.getClave(), permisos);
+            
+    
+            
+            return user;
+
+        } else {
+            return null;
+        }
+
     }
 
-    // Asumiendo que tu entidad Usuario tiene un método getRoles() que devuelve una colección de Strings o Entidades Rol
-    // Y que tu entidad Usuario tiene un campo 'activo' o similar
-    // if (!usuario.isActivo()) {
-    //     throw new DisabledException("Usuario deshabilitado");
-    // }
-
-    List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString())); // o usuario.getRoles().stream()...
-
-    return new User(usuario.getMail(), // o getUsername()
-                    usuario.getClave(), // ¡DEBE SER LA CONTRASEÑA HASHEADA DE LA BD!
-                    authorities);
-}  
-     
-     
      
  @javax.transaction.Transactional
     public void registrarBarra(String nombre,String idUsuario) throws ErrorServicio {
@@ -438,6 +419,7 @@ public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNot
     return costeMensual;
     
     }
+    
     
     public float costeMensualTotal(String id) throws ErrorServicio{
        Usuario usuario =buscarPorId(id);

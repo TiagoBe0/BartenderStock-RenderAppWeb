@@ -61,7 +61,7 @@ public class Controlador {
         if (logout != null) {
             model.put("logout", "Ha salido correctamente.");
         }
-        return "login.html";
+        return "render-inicio.html";
     }
     
     @GetMapping("/formularioBarra")
