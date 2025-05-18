@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/usuario")
@@ -56,6 +57,130 @@ public class UsuarioController {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private CristalServicio cristalServicio;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     @GetMapping("/loginUsuario")
+    public String palabrota() {
+        
+        return "render-login.html";
+    }
+    
+    
+    
+
+    /**
+     * Procesa la solicitud de login.
+     */
+    @PostMapping("/loginUsuario")
+    public String procesarLogin(@RequestParam String email,
+                                @RequestParam String contrasena,
+                                HttpSession session, // Para guardar datos del usuario logueado
+                                RedirectAttributes redirectAttributes) { // Para enviar mensajes en redirecciones
+
+        Usuario usuarioAutenticado = usuarioServicio.autenticarUsuario(email, contrasena);
+
+        if (usuarioAutenticado != null) {
+            // Autenticación exitosa
+            session.setAttribute("usuariosession", usuarioAutenticado); // ¡Clave! Guarda el usuario en sesión
+            // Puedes guardar solo el ID o un DTO más ligero si prefieres
+            // session.setMaxInactiveInterval(30*60); // Sesión expira en 30 minutos
+            return "redirect:/inicioUsuario"; // Redirige a la página principal del usuario
+        } else {
+            // Autenticación fallida
+            redirectAttributes.addFlashAttribute("error", "Email o contraseña incorrectos.");
+            return "redirect:/login"; // Vuelve a la página de login con mensaje de error
+        }
+    }
+
+    /**
+     * Página de inicio del usuario (ejemplo de página protegida conceptualmente).Debería verificar si el usuario está en sesión.
+     * @param session
+     */
+    @GetMapping("/inicioUsuario")
+    public String paginaInicioUsuario(HttpSession session, ModelMap model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuarioLogueado != null) {
+            model.addAttribute("usuario", usuarioLogueado);
+            // O model.addAttribute("nombre", usuarioLogueado.getNombre());
+            return "render-inicio"; // Nombre de tu HTML para la página de inicio del usuario
+        } else {
+            // Si no hay usuario en sesión, redirigir al login
+            return "redirect:/login";
+        }
+    }
+
+    /**
+     * Cierra la sesión del usuario.
+     */
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.invalidate(); // Invalida la sesión actual
+        redirectAttributes.addFlashAttribute("mensaje", "Has cerrado sesión exitosamente.");
+        return "redirect:/login";
+    }
+    
+    // --- Controlador para Registro (ejemplo básico) ---
+    @GetMapping("/registro")
+    public String mostrarPaginaRegistro() {
+        return "registro"; // HTML para la página de registro (registro.html)
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     //COPIA DE HTML FORMULARIO USUARIO
@@ -838,48 +963,11 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         }
     }
 
-      @GetMapping("/loginUsuarioModelo")
-    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap model) {
-        if (error != null) {
-            model.put("error", "Usuario o clave incorrectos");
-        }
-        if (logout != null) {
-            model.put("logout", "Ha salido correctamente.");
-        }
-        return "loginUsuario1.html";
-    }
-     @GetMapping("/loginUsuario")
-    public String palabrota() {
-        
-        return "loginUsuario1.html";
-    }
      @GetMapping("/listarbarra/{idUsuario}")
     public String barras(ModelMap modelo , @PathVariable String idUsuario) throws ErrorServicio {
         List<Barra> barras =usuarioServicio.buscarPorId(idUsuario).getBarras();
        modelo.put("barras", barras);
         return "registroBarra.html";
-    }
-       @GetMapping("/inicioUsuario")
-    public String inicioUsuario(HttpSession session, ModelMap modelo) {
-        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
-
-        // 2. Verificar si el usuario realmente existe en la sesión (puede que la sesión haya expirado o el usuario no esté logueado).
-        if (usuarioLogueado != null) {
-            // 3. Si el usuario existe, agregar sus datos al modelo para que la vista (HTML) los pueda usar.
-            modelo.put("nombre", usuarioLogueado.getNombre());
-
-            
-            return "render-inicio.html"; // Nombre de tu archivo HTML de inicio
-        } else {
-            // 4. Si no hay un usuario en la sesión, es una buena práctica redirigir
-            //    a la página de login o mostrar un mensaje de error.
-            //    Esto evita errores si alguien intenta acceder a /inicioUsuario directamente sin loguearse.
-            modelo.put("error", "No se encontró un usuario en la sesión. Por favor, inicia sesión.");
-            // Podrías redirigir a la página de login:
-            // return "redirect:/login";
-            // O mostrar una página de error específica:
-            return "pagina-de-error.html"; // O tu página de login
-        }
     }
      @PostMapping("/registrar")
     public String registrar( ModelMap modelo,MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2) {

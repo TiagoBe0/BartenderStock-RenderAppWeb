@@ -61,9 +61,35 @@ public class UsuarioServicio implements UserDetailsService {
      @Autowired
     private ProveedorRepositorio proveedorRepositorio;
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
      
-     
-     
+         /**
+     * Verifica la contraseña ingresada contra la almacenada (hasheada).
+     * @param contrasenaIngresada La contraseña en texto plano ingresada por el usuario.
+     * @param contrasenaHasheadaAlmacenada La contraseña hasheada almacenada en la base de datos.
+     * @return true si las contraseñas coinciden, false en caso contrario.
+     */
+    public boolean verificarContrasena(String contrasenaIngresada, String contrasenaHasheadaAlmacenada) {
+        return passwordEncoder.matches(contrasenaIngresada, contrasenaHasheadaAlmacenada);
+    }
+
+    /**
+     * Autentica a un usuario.
+     * @param email Email del usuario.
+     * @param contrasenaIngresada Contraseña en texto plano.
+     * @return El objeto Usuario si la autenticación es exitosa, null en caso contrario.
+     */
+    public Usuario autenticarUsuario(String email, String contrasenaIngresada) {
+        Usuario usuario = usuarioRepositorio.buscarPorMail(email);
+        if (usuario!=null) {
+            if (verificarContrasena(contrasenaIngresada, usuario.getClave())) {
+                return usuario; // Autenticación exitosa
+            }
+        }
+        return null; // Email no encontrado o contraseña incorrecta
+    }
+
      
      
     @Override
