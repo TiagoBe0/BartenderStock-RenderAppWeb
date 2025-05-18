@@ -352,15 +352,9 @@
         </aside>
 
         <main class="main-content" id="mainContent">
-             <header class="content-header">
+            <header class="content-header">
                 <h2>Gestión de Stock Principal</h2>
-                <div style="margin-top: 10px; padding: 8px; background-color: #e7f3fe; border: 1px solid #cfe2ff; border-radius: 4px;">
-                    <p style="font-weight: bold; color: #0c5460;">ID del Usuario Logueado:
-                        <span th:if="${session.usuariosession != null}" th:text="${session.usuariosession.id}">[ID Usuario Aquí]</span>
-                        <span th:if="${session.usuariosession == null}" style="color: red;">No se encontró usuario en sesión</span>
-                    </p>
-                </div>
-            </header>
+                </header>
 
             <section class="data-table-container">
                 <h3>Productos Recientes</h3>
