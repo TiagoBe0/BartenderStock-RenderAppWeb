@@ -1,587 +1,278 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Gestión de Stock</title>
-    <style>
-        /* --- Reset Básico y Estilos Globales --- */
-        :root {
-            --primary-color: #4A90E2; /* Azul principal */
-            --secondary-color: #F5A623; /* Naranja para acentos */
-            --background-color: #f4f7f6; /* Fondo general gris claro */
-            --sidebar-bg: #2c3e50; /* Fondo del sidebar oscuro */
-            --sidebar-text-color: #ecf0f1; /* Color de texto del sidebar */
-            --sidebar-hover-bg: #34495e; /* Fondo al pasar el mouse en sidebar */
-            --table-header-bg: #e9ecef; /* Fondo cabecera de tablas */
-            --table-border-color: #dee2e6; /* Color de bordes de tablas */
-            --text-color: #333; /* Color de texto principal */
-            --card-bg: #ffffff; /* Fondo de tarjetas o contenedores */
-            --shadow-color: rgba(0, 0, 0, 0.1); /* Color para sombras suaves */
-        }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Página de inicio del usuario">
+    <meta name="author" content="Tu Nombre/Empresa">
 
+    <title>BARTENDER STOCK - Inicio</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+
+    <style>
+        /* Estilos Globales y Resets (Similares a las páginas anteriores) */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
+            background-color: #6f42c1; /* Fondo principal violeta */
+            color: white;
             line-height: 1.6;
         }
 
-        /* --- Estructura Principal: Sidebar y Contenido --- */
-        .dashboard-container {
+        .page-container { /* Contenedor principal de la página */
             display: flex;
-            width: 100%;
+            flex-direction: column;
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text-color);
+        /* Header similar al de las páginas de login/registro */
+        .main-header {
+            background-color: blueviolet;
             padding: 20px 0;
-            transition: width 0.3s ease;
-            overflow-y: auto; /* Para scroll si el menú es largo */
-            position: fixed; /* Para que quede fijo */
-            height: 100%;
-            z-index: 1000;
-        }
-
-        .sidebar.collapsed {
-            width: 70px;
-        }
-
-        .sidebar.collapsed .sidebar-header h1,
-        .sidebar.collapsed .nav-item span,
-        .sidebar.collapsed .submenu {
-            display: none;
-        }
-
-        .sidebar.collapsed .nav-item i {
-            font-size: 1.5em; /* Iconos más grandes cuando está colapsado */
-            padding: 10px 0;
-        }
-         .sidebar.collapsed .nav-item a {
-            justify-content: center;
-        }
-
-
-        .sidebar-header {
             text-align: center;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--sidebar-hover-bg);
-        }
-
-        .sidebar-header h1 {
-            font-size: 1.5em;
-            margin: 0;
-            white-space: nowrap; /* Evitar que el texto se rompa */
-        }
-
-        .sidebar-nav ul {
-            list-style: none;
-        }
-
-        .sidebar-nav .nav-item a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--sidebar-text-color);
-            text-decoration: none;
-            transition: background-color 0.3s ease, padding-left 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .sidebar-nav .nav-item a:hover,
-        .sidebar-nav .nav-item a.active {
-            background-color: var(--sidebar-hover-bg);
-            padding-left: 25px; /* Ligero indentado al hacer hover/active */
-        }
-
-        .sidebar-nav .nav-item i {
-            margin-right: 15px;
-            width: 20px; /* Para alinear iconos y texto */
-            text-align: center;
-            font-size: 1.1em;
-        }
-
-        /* Submenú */
-        .submenu {
-            list-style: none;
-            padding-left: 30px; /* Indentación para submenús */
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .submenu.open {
-            max-height: 500px; /* Un valor suficientemente grande */
-        }
-
-        .submenu li a {
-            padding: 10px 20px;
-            font-size: 0.9em;
-        }
-        .submenu li a:hover,
-        .submenu li a.active {
-            background-color: var(--sidebar-bg); /* Un poco más oscuro o diferente */
-            border-left: 3px solid var(--primary-color);
-            padding-left: 22px;
-        }
-
-        .arrow {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-        }
-        .arrow.open {
-            transform: rotate(90deg);
-        }
-
-
-        .main-content {
-            flex-grow: 1;
-            padding: 30px;
-            margin-left: 260px; /* Mismo ancho que el sidebar */
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.collapsed {
-            margin-left: 70px; /* Ancho del sidebar colapsado */
-        }
-
-        .content-header {
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .content-header h2 {
-            font-size: 2em;
-            color: var(--primary-color);
-        }
-
-        .toggle-sidebar-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            position: fixed;
-            top: 15px;
-            left: 15px; /* Inicialmente para expandir */
-            z-index: 1001; /* Encima del sidebar */
-            transition: left 0.3s ease;
-        }
-        .sidebar.collapsed ~ .toggle-sidebar-btn {
-            left: 15px; /* Cuando el sidebar está colapsado */
-        }
-        .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
-             left: 215px; /* Cuando el sidebar está expandido */
-        }
-
-
-        /* --- Estilos para las Tablas --- */
-        .data-table-container {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            overflow-x: auto; /* Para scroll horizontal si la tabla es muy ancha */
-        }
-        
-        .data-table-container h3 {
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            color: var(--text-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-        }
-
-        table.data-table {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
         }
 
-        table.data-table th,
-        table.data-table td {
-            border: 1px solid var(--table-border-color);
-            padding: 12px 15px;
-            text-align: left;
+        .main-header .logo img {
+            width: 100px;
+            height: 100px;
             vertical-align: middle;
         }
 
-        table.data-table thead th {
-            background-color: var(--table-header-bg);
-            font-weight: 600;
-            color: var(--text-color);
-            position: sticky; /* Para que la cabecera quede fija al hacer scroll vertical */
-            top: 0;
-            z-index: 10;
+        /* Barra de Navegación Adaptada */
+        .custom-navbar {
+            background-color: #5a34a7; /* Un tono de violeta para la navbar */
+            padding: 0.75rem 1rem;
         }
 
-        table.data-table tbody tr:nth-child(even) {
-            background-color: #f8f9fa; /* Color alterno para filas */
-        }
-
-        table.data-table tbody tr:hover {
-            background-color: #e9ecef; /* Color al pasar el mouse */
-        }
-
-        /* Botones dentro de las tablas (ej. para acciones) */
-        .action-btn {
-            padding: 6px 12px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.2s ease;
-        }
-        .btn-edit {
-            background-color: #ffc107; /* Amarillo */
-            color: #212529;
-        }
-        .btn-edit:hover { background-color: #e0a800; }
-
-        .btn-delete {
-            background-color: #dc3545; /* Rojo */
+        .custom-navbar .navbar-brand {
             color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
         }
-        .btn-delete:hover { background-color: #c82333; }
 
-        .btn-view {
-            background-color: #17a2b8; /* Celeste info */
+        .custom-navbar .nav-link {
+            color: #f0f0f0;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .custom-navbar .nav-link:hover,
+        .custom-navbar .nav-link.active {
             color: white;
+            font-weight: bold;
         }
-        .btn-view:hover { background-color: #138496; }
-
-        /* --- Responsividad Básica --- */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 0; /* Ocultar sidebar por defecto en móviles */
-                padding: 0;
-                /* position: fixed; */ /* Ya es fixed */
-                /* left: -260px; */ /* Para animar entrada */
-                /* transition: left 0.3s ease; */
-            }
-            .sidebar.open-mobile {
-                width: 260px; /* Mostrar sidebar */
-                left: 0;
-            }
-
-            .main-content {
-                margin-left: 0; /* Contenido ocupa todo el ancho */
-                padding: 20px;
-            }
-             .main-content.collapsed { /* Ya no aplica este colapso en móvil */
-                margin-left: 0;
-            }
+        .navbar-toggler{
+             background-color: #f0f0f0; /* Para que el icono del toggler sea visible */
+        }
 
 
-            .toggle-sidebar-btn {
-                left: 15px; /* Siempre visible a la izquierda para abrir/cerrar */
-            }
-             .sidebar.collapsed ~ .toggle-sidebar-btn,
-             .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
-                 left: 15px;
-            }
+        /* Contenido Principal */
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 30px 15px; /* Padding general para el contenido */
+            width: 100%;
+            max-width: 1200px; /* Ancho máximo para el contenido principal */
+            margin: 0 auto; /* Centrar el contenido */
+        }
 
+        .welcome-section {
+            background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil para la sección de bienvenida */
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
-            .content-header h2 {
-                font-size: 1.5em;
-            }
-            .content-header .toggle-sidebar-btn {
-                display: block; /* Mostrar botón para móviles */
-            }
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.8rem;
+            color: #f0f0f0;
+            margin-bottom: 25px;
+        }
+
+        /* Estilo para los botones de acción */
+        .action-buttons .btn-custom {
+            display: inline-block;
+            background-color: white;
+            color: #6f42c1;
+            padding: 12px 25px;
+            border-radius: 25px;
+            margin: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            border: 2px solid #6f42c1; /* Borde violeta */
+        }
+
+        .action-buttons .btn-custom:hover {
+            background-color: #6f42c1;
+            color: white;
+            border-color: white; /* Borde blanco al hacer hover */
+            transform: translateY(-2px);
+        }
+        
+        /* Sección de Información Adicional */
+        .info-section {
+            background-color: #f3f3f3; /* Fondo claro para contraste */
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .info-section h3 {
+            color: #6f42c1;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Estilo de la Tabla (similar a la tabla de usuarios) */
+        .table-custom {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: white;
+            color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .table-custom th,
+        .table-custom td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .table-custom th {
+            background-color: #8A2BE2; /* Encabezado de tabla violeta */
+            color: white;
+            font-weight: bold;
+        }
+
+        .table-custom tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table-custom tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #333; /* Footer oscuro */
+            color: #ccc;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto; /* Empuja el footer al final si el contenido es corto */
+        }
+        .main-footer p {
+            margin: 0;
+            font-size: 0.9rem;
         }
 
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <button class="toggle-sidebar-btn" id="toggleSidebarBtn"><i class="fas fa-bars"></i></button>
 
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1>StockSys</h1>
+<div class="page-container">
+
+    <header class="main-header">
+        <div class="logo">
+            <img th:src="@{/img/rahip-logo-blanco.svg}" alt="Logo Rahip">
             </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="nav-item">
-                        <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+    </header>
+
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">BARTENDER STOCK</a> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto"> <li class="nav-item" th:if="${session.usuariosession == null}">
+                        <a class="nav-link" th:href="@{/usuario/registroUsuario}">Regístrate</a>
                     </li>
-                    <li class="nav-item has-submenu">
-                        <a href="#"><i class="fas fa-box-open"></i> <span>Productos</span> <i class="fas fa-chevron-right arrow"></i></a>
-                        <ul class="submenu">
-                            <li><a href="#">Ver Productos</a></li>
-                            <li><a href="#">Añadir Producto</a></li>
-                            <li><a href="#">Categorías</a></li>
-                        </ul>
+                    <li class="nav-item" th:if="${session.usuariosession == null}">
+                        <a class="nav-link" th:href="@{/usuario/loginUsuario}">Log In</a>
                     </li>
-                    <li class="nav-item has-submenu">
-                        <a href="#"><i class="fas fa-dolly-flatbed"></i> <span>Inventario</span> <i class="fas fa-chevron-right arrow"></i></a>
-                        <ul class="submenu">
-                            <li><a th:href="@{/usuario/panel-barra(id=__${session.usuariosession.id}__)}">Ajustes de Stock</a></li>
-                            <li><a href="#">Movimientos</a></li>
-                            <li><a href="#">Alertas de Stock Bajo</a></li>
-                        </ul>
+                    <li class="nav-item" th:if="${session.usuariosession != null}">
+                        <a class="nav-link" th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}">Editar Perfil</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#"><i class="fas fa-truck"></i> <span>Proveedores</span></a>
+                    <li class="nav-item" th:if="${session.usuariosession != null}">
+                        <a class="nav-link" th:href="@{/logout}">Salir</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#"><i class="fas fa-chart-bar"></i> <span>Reportes</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#"><i class="fas fa-cog"></i> <span>Configuración</span></a>
-                       
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{/admin/dashboard}">Dashboard Admin</a>
                     </li>
                 </ul>
-            </nav>
-        </aside>
+            </div>
+        </div>
+    </nav>
 
-        <main class="main-content" id="mainContent">
-            <header class="content-header">
-                <h2>Gestión de Stock Principal</h2>
-                </header>
+    <main class="content-wrapper">
+        <section class="welcome-section">
+            <h1>Bienvenido a Bartender Stock</h1>
+            <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}">Nombre Usuario</h2>
+            <p th:if="${session.usuariosession == null}">Gestiona tu stock de barra de forma eficiente.</p>
+        </section>
 
-            <section class="data-table-container">
-                <h3>Productos Recientes</h3>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID Producto</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Stock Actual</th>
-                            <th>Precio Unitario</th>
-                            <th>Acciones</th>
+        <section class="action-buttons text-center mb-4" th:if="${session.usuariosession != null}">
+            <a th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}" class="btn-custom">Crear Barra</a> <a th:href="@{/usuario/editar-barra(id=${session.usuariosession.id})}" class="btn-custom">Crear Cristalería</a> <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}" class="btn-custom">Administrar Barra</a> <a th:href="@{/usuario/editar-ruptura(id=${session.usuariosession.id})}" class="btn-custom">Nueva Ruptura</a> <a th:href="@{/usuario/editar-cristal(id=${session.usuariosession.id})}" class="btn-custom">Nuevo Cristal</a> <a th:href="@{/usuario/editar-perfil-nuevo(id=${session.usuariosession.id})}" class="btn-custom">Modificar Perfil</a> </section>
+        
+        <section class="action-buttons text-center mb-4" th:if="${session.usuariosession == null}">
+             <a th:href="@{/usuario/registroUsuario}" class="btn-custom">¡Regístrate para empezar!</a>
+        </section>
+
+
+        <section class="info-section" th:if="${usuarios != null && !#lists.isEmpty(usuarios)}">
+            <h3>Listado de Usuarios del Sistema</h3>
+            <table class="table-custom">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>P001</td>
-                            <td>Laptop Gamer Pro</td>
-                            <td>Electrónica</td>
-                            <td>25</td>
-                            <td>$1200.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>P002</td>
-                            <td>Teclado Mecánico RGB</td>
-                            <td>Accesorios</td>
-                            <td>150</td>
-                            <td>$75.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>P003</td>
-                            <td>Monitor Curvo 27"</td>
-                            <td>Monitores</td>
-                            <td>40</td>
-                            <td>$999999950.00</td>
-                            <td>
-                                <button class="action-btn btn-view" title="Ver"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        </tbody>
-                </table>
-            </section>
-
-            <section class="data-table-container" style="margin-top: 30px;">
-                <h3>Movimientos de Inventario</h3>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID Movimiento</th>
-                            <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Usuario</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>M001</td>
-                            <td>2025-05-16</td>
-                            <td>Entrada</td>
-                            <td>Laptop Gamer Pro (P001)</td>
-                            <td>+10</td>
-                            <td>admin</td>
-                        </tr>
-                        <tr>
-                            <td>M002</td>
-                            <td>2025-05-15</td>
-                            <td>Salida</td>
-                            <td>Teclado Mecánico RGB (P002)</td>
-                            <td>-5</td>
-                            <td>vendedor1</td>
-                        </tr>
-                        <tr>
-                            <td>M003</td>
-                            <td>2025-05-14</td>
-                            <td>Ajuste</td>
-                            <td>Monitor Curvo 27" (P003)</td>
-                            <td>+2 (Corrección)</td>
-                            <td>supervisor</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-        </main>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-            const navItemsWithSubmenu = document.querySelectorAll('.sidebar-nav .has-submenu > a');
-
-            // Función para colapsar/expandir el sidebar
-            function toggleSidebar() {
-                sidebar.classList.toggle('collapsed');
-                mainContent.classList.toggle('collapsed');
-
-                // Ajustar el ícono del botón
-                const icon = toggleSidebarBtn.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.remove('fa-times'); // Cambiar a X si se quiere
-                    icon.classList.add('fa-bars');
-                } else {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times'); // Opcional: cambiar a X cuando está abierto
-                }
-
-                // Guardar estado en localStorage
-                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-            }
-            
-            // Funcionalidad para responsive (abrir/cerrar en móvil)
-            function toggleMobileSidebar() {
-                sidebar.classList.toggle('open-mobile');
-                // Puedes añadir un overlay o cambiar el ícono del botón si lo deseas
-                const icon = toggleSidebarBtn.querySelector('i');
-                if (sidebar.classList.contains('open-mobile')) {
-                     icon.classList.remove('fa-bars');
-                     icon.classList.add('fa-times');
-                } else {
-                     icon.classList.remove('fa-times');
-                     icon.classList.add('fa-bars');
-                }
-            }
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.apellido}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="info-section" th:if="${session.usuariosession != null && (usuarios == null || #lists.isEmpty(usuarios))}">
+            <h3>Información</h3>
+            <p class="text-center">Utiliza los botones de acción para gestionar tu inventario y perfil.</p>
+             <p class="text-center" th:if="${session.usuariosession != null}">
+                Usuario actual: <strong th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}"></strong>
+            </p>
+        </section>
 
 
-            if (toggleSidebarBtn) {
-                 toggleSidebarBtn.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        toggleMobileSidebar();
-                    } else {
-                        toggleSidebar();
-                    }
-                });
-            }
+    </main>
 
-            // Cargar estado del sidebar desde localStorage para persistencia en desktop
-             if (window.innerWidth > 768) {
-                if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                    sidebar.classList.add('collapsed');
-                    mainContent.classList.add('collapsed');
-                    toggleSidebarBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
-                } else {
-                    // Si no está colapsado, asegurarse que el ícono esté correcto (si lo cambias a X)
-                     if (toggleSidebarBtn.querySelector('i').classList.contains('fa-bars')) {
-                         toggleSidebarBtn.querySelector('i').classList.replace('fa-bars', 'fa-times');
-                     }
-                }
-            } else { // En móvil, el sidebar siempre empieza cerrado
-                toggleSidebarBtn.querySelector('i').classList.add('fa-bars');
-                sidebar.classList.remove('open-mobile'); // Asegurar que no esté abierto por error
-            }
+    <footer class="main-footer">
+        <div class="container">
+            <p>Copyright &copy; Bartender Stock <span th:text="${#dates.year(#dates.createNow())}">2024</span></p>
+        </div>
+    </footer>
 
-
-            // Funcionalidad para desplegar submenús
-            navItemsWithSubmenu.forEach(function(item) {
-                item.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevenir navegación si es un enlace '#'
-                    
-                    // Si el sidebar está colapsado y tiene submenú, no hacer nada o manejar diferente (ej. tooltip)
-                    if (sidebar.classList.contains('collapsed') && window.innerWidth > 768) {
-                        return;
-                    }
-
-                    const submenu = this.nextElementSibling;
-                    const arrow = this.querySelector('.arrow');
-
-                    if (submenu && submenu.classList.contains('submenu')) {
-                        submenu.classList.toggle('open');
-                        if (arrow) {
-                           arrow.classList.toggle('open');
-                        }
-                    }
-                });
-            });
-
-
-            // Adaptar la funcionalidad del botón y el estado del sidebar al cambiar el tamaño de la ventana
-            window.addEventListener('resize', function() {
-                const isMobile = window.innerWidth <= 768;
-                const icon = toggleSidebarBtn.querySelector('i');
-
-                if (isMobile) {
-                    // En móvil, el botón siempre es para abrir/cerrar el menú completo
-                    mainContent.classList.remove('collapsed'); // Quitar colapso de escritorio
-                    sidebar.classList.remove('collapsed');    // Quitar colapso de escritorio
-                    if (sidebar.classList.contains('open-mobile')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                } else {
-                    // En escritorio, el botón es para colapsar/expandir
-                    sidebar.classList.remove('open-mobile'); // Quitar estado móvil
-                    // Restaurar estado de colapso de escritorio desde localStorage si existe
-                    if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                        sidebar.classList.add('collapsed');
-                        mainContent.classList.add('collapsed');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    } else {
-                        sidebar.classList.remove('collapsed');
-                        mainContent.classList.remove('collapsed');
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times'); // Opcional, si usas X
-                    }
-                }
-            });
-
-        });
-    </script>
+</div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

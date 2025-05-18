@@ -86,51 +86,13 @@ public class UsuarioController {
     
     
 
-    /**
-     * Procesa la solicitud de login.
-     */
-    @PostMapping("/loginUsuario")
-    public String procesarLogin(@RequestParam String email,
-                                @RequestParam String contrasena,
-                                HttpSession session, // Para guardar datos del usuario logueado
-                                RedirectAttributes redirectAttributes) { // Para enviar mensajes en redirecciones
-
-        Usuario usuarioAutenticado = usuarioServicio.autenticarUsuario(email, contrasena);
-
-        if (usuarioAutenticado != null) {
-            // Autenticación exitosa
-            session.setAttribute("usuariosession", usuarioAutenticado); // ¡Clave! Guarda el usuario en sesión
-            // Puedes guardar solo el ID o un DTO más ligero si prefieres
-            // session.setMaxInactiveInterval(30*60); // Sesión expira en 30 minutos
-            return "redirect:/inicioUsuario"; // Redirige a la página principal del usuario
-        } else {
-            // Autenticación fallida
-            redirectAttributes.addFlashAttribute("error", "Email o contraseña incorrectos.");
-            return "redirect:/login"; // Vuelve a la página de login con mensaje de error
-        }
+     @GetMapping("/inicioUsuario")
+    public String inicioUsuario(ModelMap modelo) {
+        
+        return  "render-inicio.html";
     }
-
-    /**
-     * Página de inicio del usuario (ejemplo de página protegida conceptualmente).Debería verificar si el usuario está en sesión.
-     * @param session
-     */
-    @GetMapping("/inicioUsuario")
-    public String paginaInicioUsuario(HttpSession session, ModelMap model) {
-        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuarioLogueado != null) {
-            model.addAttribute("usuario", usuarioLogueado);
-            // O model.addAttribute("nombre", usuarioLogueado.getNombre());
-            return "render-inicio"; // Nombre de tu HTML para la página de inicio del usuario
-        } else {
-            // Si no hay usuario en sesión, redirigir al login
-            return "redirect:/login";
-        }
-    }
-
-    /**
-     * Cierra la sesión del usuario.
-     */
+    
+    
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         session.invalidate(); // Invalida la sesión actual

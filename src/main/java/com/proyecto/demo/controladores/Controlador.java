@@ -53,7 +53,16 @@ public class Controlador {
     return "render-listaUsuarios.html";
     }
     
-    
+       @GetMapping("/login-render")
+    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap model) {
+        if (error != null) {
+            model.put("error", "Usuario o clave incorrectos");
+        }
+        if (logout != null) {
+            model.put("logout", "Ha salido correctamente.");
+        }
+        return "login.html";
+    }
     
     @GetMapping("/formularioBarra")
     public String form(ModelMap modelo) {
@@ -240,22 +249,7 @@ public class Controlador {
         
         return "loginUsuario1.html";
     }
-    @GetMapping("/loginUsuarioModelo")
-    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap model) {
-        if (error != null) {
-            model.put("error", "Usuario o clave incorrectos");
-        }
-        if (logout != null) {
-            model.put("logout", "Ha salido correctamente.");
-        }
-        return "loginUsuario1.html";
-    }
-     @GetMapping("/loginUsuarioControlador")
-    public String loginUser() {
-        
-        return "loginUsuario1.html";
-    }
-
+    
     @GetMapping("/registro")
     public String registro() {
         
