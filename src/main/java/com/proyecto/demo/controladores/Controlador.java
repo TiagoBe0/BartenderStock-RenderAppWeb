@@ -53,12 +53,12 @@ public class Controlador {
     return "render-listaUsuarios.html";
     }
     
-      @GetMapping("/login-render")
+      @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap model) {
         if (error != null) {
             model.put("error", "Usuario o clave incorrectos");
         }
-        return "login.html";
+        return "render-login.html";
     }
     
     @GetMapping("/formularioBarra")
