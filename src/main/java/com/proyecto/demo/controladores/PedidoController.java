@@ -78,20 +78,12 @@ public class PedidoController {
     }
     
      @PostMapping("/registrar")
-    public String registrar(ModelMap modelo,  @RequestParam String nombre, @RequestParam String idUsuario) throws ErrorServicio {
+    public String registrar(ModelMap modelo,int cantidad,  @RequestParam String nombre, @RequestParam String idUsuario) throws ErrorServicio {
         
          System.out.println("EL NOMBRE DE LA BARRA LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
          
-         
-        try {
-            barraServicio.registrar(nombre,idUsuario);
-        } catch (ErrorServicio ex) {
-           modelo.put(nombre,"nombre");
-            
-             
-            return "registroCristaleria.html";
-        }
+       ///ARREGLAR ESTE METODO CON BARRAsertviico.registraR(..)
         modelo.put("titulo", "Bienvenido");
         modelo.put("descripcion", "Barra cargada correctamente");
         return "exitoBarra.html";

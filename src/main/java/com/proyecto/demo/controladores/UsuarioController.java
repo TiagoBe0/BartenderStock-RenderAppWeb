@@ -556,11 +556,11 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
     
      @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @PostMapping("/actualizar-cristal")
-    public String actualizarCristal(ModelMap modelo, HttpSession session,@RequestParam   String id,MultipartFile archivo, String nombre) throws ErrorServicio {
+    public String actualizarCristal(ModelMap modelo, HttpSession session,int insumo,@RequestParam   String id,MultipartFile archivo, String nombre) throws ErrorServicio {
         
         //Aqui me comunico con modificar cristaleria
           usuarioServicio.actualizarCapitalTotal(id);
-         cristalServicio.registrar(archivo, nombre);
+         cristalServicio.registrar(archivo, nombre,insumo);
         Usuario usuario = null;
         try {
 

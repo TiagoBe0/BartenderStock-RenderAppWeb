@@ -228,32 +228,34 @@ public class UsuarioServicio implements UserDetailsService {
     }
     
     
-    
-    //CALCULAR CAPITAL TOTAL EN STCOK
-    public void actualizarCapitalTotal(String idUsuario) throws ErrorServicio{
-        actualizarNumeroTotalDeCristalerias(idUsuario);
-        Usuario usuario = buscarPorId(idUsuario);
-        
-        if(usuario!=null){
-            float suma=0.f;
-            List<Barra> barras = usuario.getBarras();
-            for (Barra barra : barras) {
+    public void actualizarListBarras(String idUsuario,String idBarra) throws ErrorServicio{
+        //buscamos el usuario y getiamos las listas de Barra
+    Usuario usuario = buscarPorId(idUsuario);
+    List<Barra> barras = usuario.getBarras();
+    //sumamos las barras a la list
+    barras.add(barraServicio.buscarPorId(idBarra));
+    usuario.setBarras(barras);
+    int[] array= barraServicio.actualizarStockBarra(idUsuario);
+    usuario.setTotalCristalerias(array[0]);
+     usuario.setTotalInsumos(array[1]);
+    usuario.setTotalDeBarras(barras.size());
+    float suma=0.f;
+    float sumaInsumos=0.f;
+        for (Barra barra : barras) {
+            if(!barra.isInsumo()){
+            suma=suma+barra.getPrecioTotal();
+            }else{
                 
-                suma=suma+barra.getPrecioTotal();
-                
+                 sumaInsumos=sumaInsumos+barra.getPrecioTotal();
+            
             }
-        usuario.setCapitalTotal(suma);
-        usuario.setTotalCristalerias(barraServicio.actualizarStockBarra(idUsuario));
-        Calendar calendario = new GregorianCalendar();
-            actualizacionCosteMensualRupturas(idUsuario,calendario );
-       
         }
-    
+        usuario.setCapitalTotal(suma);
+        usuario.setCapitalTotalInsumos(sumaInsumos);
     
     
     
     }
-    
     //RUPTURA DEL MES
     
     public float actualizacionCosteMensualRupturas(String idUsuario,Calendar calendario) throws ErrorServicio{
@@ -295,6 +297,80 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
 
 
 }
+
+
+
+    //CALCULAR CAPITAL TOTAL EN STCOK
+    public void actualizarCapitalTotal(String idUsuario) throws ErrorServicio{
+        actualizarNumeroTotalDeCristalerias(idUsuario);
+        Usuario usuario = buscarPorId(idUsuario);
+        
+        if(usuario!=null){
+            float suma=0.f;
+            float sumaInsumos=0.f;
+            List<Barra> barras = usuario.getBarras();
+            for (Barra barra : barras) {
+                if(barra.isInsumo()){
+                    sumaInsumos=sumaInsumos+barra.getPrecioTotal();
+                
+                }
+                else{
+                    suma=suma+barra.getPrecioTotal();
+                
+                }
+                
+                
+                
+            }
+        usuario.setCapitalTotal(suma);
+        usuario.setCapitalTotalInsumos(sumaInsumos);
+        int[] array = barraServicio.actualizarStockBarra(idUsuario);
+        usuario.setTotalCristalerias(array[0]);
+        usuario.setTotalInsumos(array[1]);
+        Calendar calendario = new GregorianCalendar();
+       
+
+         usuario.setCosteMensualInsumos(actualizacionCosteMensualVencimientos(idUsuario, calendario));
+            usuario.setCosteMensual(actualizacionCosteMensualRupturas(idUsuario, calendario));
+        }
+        
+           
+       
+        }
+    
+    
+    
+    //VENCIMIENTOS
+    
+    public float actualizacionCosteMensualVencimientos(String idUsuario,Calendar calendario) throws ErrorServicio{
+        float costeMensual=0.f;
+        Usuario usuario =buscarPorId(idUsuario);
+        int diasLimpios=32;
+        if(usuario!=null){
+            for (Ruptura ruptura : usuario.getTodasLasRupturas()) {
+                if(ruptura.isInsumo()){
+                if(ruptura.getCalendario().get(Calendar.MONTH)==calendario.get(Calendar.MONTH)){
+                    
+                    costeMensual=costeMensual+ruptura.getCostoRuptura();
+                    if(calendario.get(Calendar.DATE)-ruptura.getDia()<=diasLimpios){
+                    
+                    diasLimpios=calendario.get(Calendar.DATE)-ruptura.getDia();
+                    }
+                
+                }
+                
+                }
+                
+                
+            }
+            usuario.setDiasLimpiosInsumos(diasLimpios);
+            usuario.setCosteMensualInsumos(costeMensual);
+            return costeMensual;
+        }
+    
+    return costeMensual;
+    
+    }
 @Transactional
 public void actualizarCristaleriasAlterada(String idUsuario,String idCristaleria) throws ErrorServicio{
     
@@ -533,6 +609,7 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
         
     }
     
+   /*
     public void actualizarListBarras(String idUsuario,String idBarra) throws ErrorServicio{
         //buscamos el usuario y getiamos las listas de Barra
     Usuario usuario = buscarPorId(idUsuario);
@@ -540,19 +617,28 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
     //sumamos las barras a la list
     barras.add(barraServicio.buscarPorId(idBarra));
     usuario.setBarras(barras);
-    usuario.setTotalCristalerias(barraServicio.actualizarStockBarra(idUsuario));
+    int[] array= barraServicio.actualizarStockBarra(idUsuario);
+    usuario.setTotalCristalerias(array[0]);
+     usuario.setTotalInsumos(array[1]);
     usuario.setTotalDeBarras(barras.size());
     float suma=0.f;
+    float sumaInsumos=0.f;
         for (Barra barra : barras) {
+            if(!barra.isInsumo()){
             suma=suma+barra.getPrecioTotal();
+            }else{
+                
+                 sumaInsumos=sumaInsumos+barra.getPrecioTotal();
             
+            }
         }
         usuario.setCapitalTotal(suma);
+        usuario.setCapitalTotalInsumos(sumaInsumos);
     
     
     
     }
-   
+   */
  public void actualizarListProveedores(String idUsuario,String idBarra) throws ErrorServicio{
         //buscamos el usuario y getiamos las listas de Barra
     Usuario usuario = buscarPorId(idUsuario);

@@ -27,8 +27,7 @@ public class RupturaServicio {
     private CristaleriaServicio cristaleriaServicio;
     @Autowired
     private BarraServicio barraServicio;
-    
-    @Transactional
+        @Transactional
     public void modificar( String nombre, String explicacion, int cantidad,String idCristaleria,String id) throws ErrorServicio {
 
        Ruptura ruptura = new Ruptura();
@@ -41,27 +40,45 @@ public class RupturaServicio {
         if (!idCristaleria.isEmpty()) {
 
             Cristaleria cristaleria = cristaleriaServicio.buscarPorId(idCristaleria);
-                 Usuario usuario = usuarioServicio.buscarPorId(id);
-                 
+            Usuario usuario = usuarioServicio.buscarPorId(id);
+          
            ruptura.setNombre(nombre);
            ruptura.setExplicacion(explicacion);
+           ruptura.setIdUsuario(id);
+           ruptura.setUsuario(usuario);
+           
            ruptura.setNumeroDeRuptura(cantidad);
            ruptura.setCostoRuptura(cristaleria.getPrecio()*cantidad);
            ruptura.setTipoCristaleria(cristaleria);
            ruptura.setCalendario(calendario);
            cristaleria.setEnStock(cristaleria.getEnStock()-cantidad);
-           cristaleria.setIdUsuario(usuario.getId());
+           
+           if(cristaleria.isInsumo()){
+               ruptura.setInsumo(true);
+               
+           }
+           else{
+           
+               ruptura.setInsumo(false);
+           }
+           
+           
            List<Ruptura> rupturas =usuario.getTodasLasRupturas();
            rupturas.add(ruptura);
            usuario.setTodasLasRupturas(rupturas);
+       
           barraServicio.actualizarStockBarra(cristaleria.getBarraPerteneciente().getId(), cantidad);
            barraServicio.actualizarPrecioBarra(cristaleria.getBarraPerteneciente(), ruptura.getCostoRuptura());
         usuarioServicio.actualizarCapitalTotal(id);
+        //COSTE MENSUAL
+         
+       
            //barraRepositorio.save(barraPerteneciente);
 
         }
         rupturaRepositorio.save(ruptura);
     }
+    
     
     
     //RUPTURA DEL MES
