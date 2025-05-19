@@ -226,27 +226,19 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
-        model.put("barras", usuarioServicio.buscarPorId(id).getBarras());
-        List<Cristaleria> cristalerias=usuarioServicio.buscarCristaleriaPorIdUsuario(id);
+        model.put("barras", login.getBarras());
+        List<Cristaleria> cristalerias=login.getTodasLasCristalerias();
          model.put("cristalerias",cristalerias );
-         
+            model.addAttribute("proveedores", login.getProveedores());
+            model.addAttribute("rupturas",login.getTodasLasRupturas());
+             model.addAttribute("perfil", login);
+             usuarioServicio.actualizarCapitalTotal(id);
          
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
         }
 
-        try {
-            //barraServicio.registrar(nombre, id);
-            Usuario usuario = usuarioServicio.buscarPorId(id);
-              usuarioServicio.actualizarCapitalTotal(id);
-             model.addAttribute("barras", usuarioServicio.todasLasBarras(id));
-              model.addAttribute("proveedores", usuario.getProveedores());
-            model.addAttribute("rupturas",usuario.getTodasLasRupturas());
-             model.addAttribute("perfil", usuario);
-                
-        } catch (ErrorServicio e) {
-            model.addAttribute("error", e.getMessage());
-        }
+        
         return "index_app.html";
     }
       //ESTE ES PARA ENTRAR AL PANEL DE STOCK DE BARTENDER
