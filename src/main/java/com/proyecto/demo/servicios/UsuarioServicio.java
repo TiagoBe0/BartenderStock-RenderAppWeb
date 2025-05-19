@@ -86,6 +86,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setMail(mail);
+        usuario.setCapitalTotal(0);
+        
         
         usuario.setRol(Rol.USUARIO);
 

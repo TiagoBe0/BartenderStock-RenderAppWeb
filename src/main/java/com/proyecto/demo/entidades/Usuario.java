@@ -35,12 +35,20 @@ public class Usuario {
     private int diasLimpios;
      
     private float costeMensual;
+     private float capitalTotalInsumos;
+  
+    private int diasLimpiosInsumos;
+    private int totalInsumos;
+    @OneToMany
+     private List<Balance> balances;
+    private float costeMensualInsumos;
     @ManyToOne
     private Zona zona;
     
     @OneToMany
     private List<Barra> barras;
-    
+        @OneToMany
+    private List<Pedido> pedidos;
     @OneToMany
     private List<Proveedor> proveedores;
     
@@ -67,6 +75,45 @@ public class Usuario {
     
     public List<Barra> getBarras() {
         return barras;
+    }
+
+    public float getCapitalTotalInsumos() {
+        return capitalTotalInsumos;
+    }
+
+    public void setCapitalTotalInsumos(float capitalTotalInsumos) {
+        this.capitalTotalInsumos = capitalTotalInsumos;
+    }
+
+    public int getTotalInsumos() {
+        return totalInsumos;
+    }
+
+    public void setTotalInsumos(int totalInsumos) {
+        this.totalInsumos = totalInsumos;
+    }
+
+    public int getDiasLimpiosInsumos() {
+        return diasLimpiosInsumos;
+    }
+
+    public void setDiasLimpiosInsumos(int diasLimpiosInsumos) {
+  
+    }
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public float getCosteMensualInsumos() {
+        return costeMensualInsumos;
+    }
+
+    public void setCosteMensualInsumos(float costeMensualInsumos) {
+        this.costeMensualInsumos = costeMensualInsumos;
     }
 
     public void setBarras(List<Barra> barras) {
@@ -138,6 +185,7 @@ public class Usuario {
     }
 
     public void setTodasLasRupturas(List<Ruptura> todasLasRupturas) {
+        
         this.todasLasRupturas = todasLasRupturas;
     }
     
