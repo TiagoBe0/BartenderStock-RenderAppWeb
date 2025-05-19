@@ -471,6 +471,7 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
     }
 
     @Override
+ @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
     	
         Usuario usuario = usuarioRepositorio.buscarPorMail(mail);
