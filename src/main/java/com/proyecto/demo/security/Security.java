@@ -17,7 +17,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true) // Habilita la seguridad a nivel de método (ej. @PreAuthorize)
 public class Security extends WebSecurityConfigurerAdapter {
 
-   
+    
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+    
+    @Autowired
+    public void configuracionGlobal(AuthenticationManagerBuilder auth)throws Exception{
+        auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder())
+         ;
+    }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,11 +37,11 @@ public class Security extends WebSecurityConfigurerAdapter {
                         "/**").permitAll()
                 .and().
                 formLogin()
-                .loginPage("/login-render")
+                .loginPage("/login")
                 .loginProcessingUrl("/logincheck")
-                .usernameParameter("username")
+                .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/usuario/inicioUsuario")
+                .defaultSuccessUrl("/inicio")
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")

@@ -1,0 +1,40 @@
+<h2>Listado de Usuarios</h2>
+<table th:if="${not #lists.isEmpty(usuarios)}"> <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            </tr>
+    </thead>
+    <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.id}">1</td>
+            <td th:text="${usuario.nombre}">Ana Pérez</td>
+            <td th:text="${usuario.mail}">ana.perez@example.com</td>
+            <td th:text="${usuario.rol}">ADMIN</td>
+            </tr>
+    </tbody>
+</table>
+<div th:if="${#lists.isEmpty(usuarios)}" class="empty-message">
+    No hay usuarios para mostrar.
+</div>
+
+<h2>Listado de Barras</h2>
+<table th:if="${not #lists.isEmpty(barras)}">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre de la Barra</th>
+            <th>Dirección</th>
+            </tr>
+    </thead>
+    <tbody>
+        <tr th:each="barra : ${barras}"> <td th:text="${barra.id}">101</td>
+            <td th:text="${barra.nombre}">El Rincón Bohemio</td>
+            </tr>
+    </tbody>
+</table>
+<div th:if="${#lists.isEmpty(barras)}" class="empty-message">
+    No hay barras para mostrar.
+</div>

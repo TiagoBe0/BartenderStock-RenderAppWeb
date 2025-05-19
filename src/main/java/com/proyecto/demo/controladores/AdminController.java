@@ -40,7 +40,7 @@ public class AdminController {
                 
                 
 		
-		return "inicioAdmin";
+		return "render-inicioAdmin";
 	}
 	
 	@GetMapping("/habilitar/{id}")

@@ -80,17 +80,12 @@ public class UsuarioServicio implements UserDetailsService {
             
             permisos.add(p1);
          
-            //Esto me permite guardar el OBJETO USUARIO LOG, para luego ser utilizado
+           
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpSession session = attr.getRequest().getSession(true);
+            HttpSession sesion = attr.getRequest().getSession();
+            sesion.setAttribute("usuariosession", usuario);
             
-            session.setAttribute("usuariosession", usuario); // llave + valor
-
-            User user = new User(usuario.getMail(), usuario.getClave(), permisos);
-            
-    
-            
-            return user;
+            return new User(usuario.getMail(),usuario.getClave(),permisos);
 
         } else {
             return null;

@@ -53,15 +53,12 @@ public class Controlador {
     return "render-listaUsuarios.html";
     }
     
-       @GetMapping("/login-render")
-    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap model) {
+      @GetMapping("/login-render")
+    public String login(@RequestParam(required = false) String error, ModelMap model) {
         if (error != null) {
             model.put("error", "Usuario o clave incorrectos");
         }
-        if (logout != null) {
-            model.put("logout", "Ha salido correctamente.");
-        }
-        return "render-inicio.html";
+        return "login.html";
     }
     
     @GetMapping("/formularioBarra")
@@ -238,17 +235,13 @@ public class Controlador {
     }
     
     
-       @GetMapping("/inicioUsuario")
+       @GetMapping("/inicio")
     public String inicioUsuario(ModelMap modelo) {
        
         return  "render-neutral.html";
     }
     
-   @GetMapping("/loginUsuario")
-    public String palabrota() {
-        
-        return "loginUsuario1.html";
-    }
+  
     
     @GetMapping("/registro")
     public String registro() {
