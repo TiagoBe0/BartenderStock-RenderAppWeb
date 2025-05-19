@@ -51,9 +51,6 @@ public class CristaleriaServicio {
     @Transactional
     public void registrar(MultipartFile archivo, String tipo, String descripcion, float precio, int enStock,String idBarra) throws ErrorServicio {
 
-      
-
-        
 
        Cristaleria cristaleria = new Cristaleria();
        
@@ -96,6 +93,9 @@ public class CristaleriaServicio {
    
     
     }
+    
+    
+    
      public List<Cristaleria> listarInsumosPorIdUsuario(String idUsuario){
     
     
@@ -105,7 +105,7 @@ public class CristaleriaServicio {
     
     }
     
-    
+ 
     public List<Cristaleria> listarPorIdUsuario(String idUsuario){
     
     

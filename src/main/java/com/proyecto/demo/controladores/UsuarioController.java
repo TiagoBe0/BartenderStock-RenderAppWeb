@@ -227,7 +227,7 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
         model.put("barras", usuarioServicio.buscarPorId(id).getBarras());
-        List<Cristaleria> cristalerias=usuarioServicio.buscarPorId(id).getTodasLasCristalerias();
+        List<Cristaleria> cristalerias=usuarioServicio.buscarCristaleriaPorIdUsuario(id);
          model.put("cristalerias",cristalerias );
          
          

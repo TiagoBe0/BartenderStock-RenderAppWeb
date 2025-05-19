@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CristaleriaRepositorio extends JpaRepository<Cristaleria,String> {
   
-    @Query("SELECT c FROM Cristaleria c WHERE c.idUsuario = :mail")
-    public List<Cristaleria> buscarPorIdUsuario(@Param("mail") String mail);
-    
+    @Query("SELECT c FROM Cristaleria c WHERE c.idUsuario = :idDeUsuario")
+     List<Cristaleria> buscarPorIdUsuario(@Param("idDeUsuario") String idDeUsuario);
 }
+

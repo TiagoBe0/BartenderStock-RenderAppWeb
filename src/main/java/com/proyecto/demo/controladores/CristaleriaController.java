@@ -31,7 +31,11 @@ public class CristaleriaController {
         return "registroCristaleria.html";
     }
     
-    
+     @GetMapping("/tabla")
+    public String tabla(ModelMap modelo){
+        modelo.put("cristalerias", cristaleriaServicio.todasCristalrias());
+    return "render-cristaleria.html";
+    }
     
      @PostMapping("/registrar")
     public String registrar(ModelMap modelo,  MultipartFile archivo,@RequestParam String tipo, @RequestParam String idBarra,@RequestParam String descripcion,@RequestParam float precio,@RequestParam int enStock) {
