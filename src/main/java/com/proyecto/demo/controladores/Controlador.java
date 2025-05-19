@@ -77,7 +77,7 @@ public class Controlador {
     
      @GetMapping("/registro")
     public String registro(){
-        return "registroUsuario.html";
+        return "render-registro.html";
     }
     
     
@@ -209,13 +209,15 @@ public class Controlador {
        
         try {
             usuarioServicio.registrar(archivo, nombre, apellido, mail, clave1, clave2);
+         modelo.put("titulo", "Bienvenido a Tinder de Mascotas");
+        modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
+        
+        return "exito.html";
         } catch (ErrorServicio ex) {
            
-            return "index.html";
+            return "error.html";
         }
-        modelo.put("titulo", "Bienvenido a Tinder de Mascotas");
-        modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
-        return "index.html";
+      
     }
 
 }
