@@ -12,6 +12,7 @@ import com.proyecto.demo.repositorios.BarraRepositorio;
 import com.proyecto.demo.repositorios.CristalRepositorio;
 
 import com.proyecto.demo.repositorios.CristaleriaRepositorio;
+import com.proyecto.demo.repositorios.UsuarioRepositorio;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +38,9 @@ public class CristaleriaServicio {
      
      @Autowired
      private UsuarioServicio usuarioServicio;
-     
+       @Autowired
+    private UsuarioRepositorio usuarioRepositorio;
+    
      
      @Autowired
      private BarraRepositorio barraRepositorio;
@@ -78,7 +81,8 @@ public class CristaleriaServicio {
          
         cristaleria.setBarraPerteneciente(barra);
         
-        
+        usuarioRepositorio.save(usuario);
+        barraRepositorio.save(barra);
         cristaleriaRepositorio.save(cristaleria);
         
 
