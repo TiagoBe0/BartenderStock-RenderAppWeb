@@ -195,12 +195,35 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         }
         return "index_app_registroCristaleria.html";
     }
+    
+    //ESTE ES PARA ENTRAR AL FORMULARIO DE CRISTALERIA 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/tabla-cristaleria")
+    public String tablaCristaleria(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
+        //barraServicio.registrar(nombre, id);
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        model.put("cristalerias", usuarioServicio.buscarCristaleriaPorIdUsuario(id));
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            //barraServicio.registrar(nombre, id);
+            Usuario usuario = usuarioServicio.buscarPorId(id);
+            
+             model.addAttribute("barras", usuarioServicio.todasLasBarras(id));
+            
+        } catch (ErrorServicio e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "render-cristalerias.html";
+    }
      //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @GetMapping("/panel-barra")
     public String panelBarra(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
         //barraServicio.registrar(nombre, id);
-        System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
+        
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
         model.put("barras", usuarioServicio.buscarPorId(id).getBarras());
