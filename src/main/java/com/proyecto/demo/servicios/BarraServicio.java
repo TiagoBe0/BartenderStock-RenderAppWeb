@@ -52,12 +52,12 @@ public class BarraServicio {
     
     barra.setPrecioTotal(barra.getPrecioTotal()-costoRuptura);
     
-    
+        barraRepositorio.save(barra);
     
     
     }
     
-    
+    @Transactional
     public int[] actualizarStockBarra(String idUsuario) throws ErrorServicio{
         int[] array=new int[2];
         int total=0;
@@ -68,6 +68,7 @@ public class BarraServicio {
             for (Barra barra : usuario.getBarras()) {
                if(barra.isInsumo() ){
                     totalInsumos=totalInsumos+barra.getTotalUnidades();
+                        barraRepositorio.save(barra);
                }else{
                     total=total+barra.getTotalUnidades();
                
@@ -161,7 +162,7 @@ public class BarraServicio {
         }
 
     }
-     
+     @Transactional
      public void deshabilitar(String id) throws ErrorServicio{
      
           Barra barra = buscarPorId(id);

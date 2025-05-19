@@ -7,6 +7,7 @@ import com.proyecto.demo.entidades.Cristal;
 import com.proyecto.demo.entidades.Foto;
 import com.proyecto.demo.errores.ErrorServicio;
 import com.proyecto.demo.repositorios.CristalRepositorio;
+import com.proyecto.demo.repositorios.UsuarioRepositorio;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class CristalServicio {
     
     @Autowired
     private FotoServicio fotoServicio;
+    
+    @Autowired
+    private UsuarioRepositorio  usuarioRepositorio;
      
      
     @Transactional

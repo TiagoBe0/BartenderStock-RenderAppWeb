@@ -57,19 +57,19 @@ public class UsuarioServicio implements UserDetailsService {
      @Autowired
     private ProveedorRepositorio proveedorRepositorio;
 
- @javax.transaction.Transactional
+ @Transactional
     public void registrarBarra(String nombre,String idUsuario) throws ErrorServicio {
 
        System.out.println("LLEGAMOS A USUARIO REGISTRO BARRAS");
        Barra barra = new Barra();
        barra.setNombre(nombre);
-
+       Usuario usuario = buscarPorId(idUsuario);
        //barra.setAlta(new Date());
-       barra.setUsuario(buscarPorId(idUsuario));
+       barra.setUsuario(usuario);
        
        actualizarListBarras(idUsuario,barra.getId());
        
-       
+       usuarioRepositorio.save(usuario);
         
         barraRepositorio.save(barra);
         
@@ -199,24 +199,19 @@ public class UsuarioServicio implements UserDetailsService {
         
         Proveedor barra = new Proveedor();
         barra.setNombre(nombre.toUpperCase());
-        barra.setUsuario(buscarPorId(id));
+        Usuario usuario = buscarPorId(id);
+        barra.setUsuario(usuario);
         barra.setLink(link);
         barra.setCelular(contacto);
        
+        usuarioRepositorio.save(usuario);
          proveedorRepositorio.save(barra);
         
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        if (respuesta.isPresent()) {
+        if (usuario!=null) {
 
-            Usuario usuario = respuesta.get();
-           
+          
             actualizarListProveedores(id, barra.getId());
-            
-            
-           
-            
-
             
 
             usuarioRepositorio.save(usuario);
@@ -227,7 +222,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
     
-    
+    @Transactional
     public void actualizarListBarras(String idUsuario,String idBarra) throws ErrorServicio{
         //buscamos el usuario y getiamos las listas de Barra
     Usuario usuario = buscarPorId(idUsuario);
@@ -254,10 +249,11 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setCapitalTotalInsumos(sumaInsumos);
     
     
+        usuarioRepositorio.save(usuario);
     
     }
     //RUPTURA DEL MES
-    
+    @Transactional
     public float actualizacionCosteMensualRupturas(String idUsuario,Calendar calendario) throws ErrorServicio{
         float costeMensual=0.f;
         Usuario usuario =buscarPorId(idUsuario);
@@ -283,6 +279,8 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setCosteMensual(costeMensual);
             return costeMensual;
         }
+        
+        usuarioRepositorio.save(usuario);
     
     return costeMensual;
     
@@ -294,6 +292,7 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
     usuario.setTodasLasCristalerias(cristalerias);
     
 
+        usuarioRepositorio.save(usuario);
 
 
 }
@@ -301,6 +300,7 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
 
 
     //CALCULAR CAPITAL TOTAL EN STCOK
+@Transactional
     public void actualizarCapitalTotal(String idUsuario) throws ErrorServicio{
         actualizarNumeroTotalDeCristalerias(idUsuario);
         Usuario usuario = buscarPorId(idUsuario);
@@ -334,6 +334,7 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
             usuario.setCosteMensual(actualizacionCosteMensualRupturas(idUsuario, calendario));
         }
         
+        usuarioRepositorio.save(usuario);
            
        
         }
@@ -341,7 +342,7 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
     
     
     //VENCIMIENTOS
-    
+    @Transactional
     public float actualizacionCosteMensualVencimientos(String idUsuario,Calendar calendario) throws ErrorServicio{
         float costeMensual=0.f;
         Usuario usuario =buscarPorId(idUsuario);
@@ -368,6 +369,7 @@ public void actualizarListaDeCristalerias(Usuario usuario,List<Cristaleria> cris
             return costeMensual;
         }
     
+        usuarioRepositorio.save(usuario);
     return costeMensual;
     
     }
@@ -393,6 +395,7 @@ public void actualizarCristaleriasAlterada(String idUsuario,String idCristaleria
     
 
 
+        usuarioRepositorio.save(usuario);
 
 }
     @Transactional
@@ -411,6 +414,7 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
         usuario.setTotalCristalerias(total);
     }
 
+        usuarioRepositorio.save(usuario);
 
 }
     
@@ -639,6 +643,7 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
     
     }
    */
+    @Transactional
  public void actualizarListProveedores(String idUsuario,String idBarra) throws ErrorServicio{
         //buscamos el usuario y getiamos las listas de Barra
     Usuario usuario = buscarPorId(idUsuario);
@@ -647,6 +652,7 @@ public void actualizarNumeroTotalDeCristalerias(String id ) throws ErrorServicio
     barras.add(proveedorServicio.buscarPorId(idBarra));
     usuario.setProveedores(barras);
     
+        usuarioRepositorio.save(usuario);
     
     
     

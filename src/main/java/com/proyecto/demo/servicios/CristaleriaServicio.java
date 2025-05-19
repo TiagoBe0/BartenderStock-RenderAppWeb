@@ -197,7 +197,7 @@ public class CristaleriaServicio {
       
         barraPerteneciente.setListaCristalerias(cristalerias);
         
-           //barraRepositorio.save(barraPerteneciente);
+           barraRepositorio.save(barraPerteneciente);
 /*
             String idFoto = null;
             if (cristaleria.getFoto() != null) {
@@ -340,7 +340,7 @@ public class CristaleriaServicio {
                   //usuarioServicio.actualizarListBarras(idUsuario, idBarra);
                  //usuarioServicio.actualizarCapitalTotal(idUsuario);
                  usuarioServicio.actualizarNumeroTotalDeCristalerias(idUsuario);
-         
+         barraRepositorio.save(barra);
      
      
      
