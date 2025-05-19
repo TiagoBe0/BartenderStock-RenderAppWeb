@@ -44,6 +44,21 @@ public class Controlador {
         return "render-listaUsuarios.html";
     }
     
+  
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/inicio")
+    public String inicio(HttpSession session,ModelMap modelo) {
+        Usuario logueado = (Usuario) session.getAttribute("usuariossesion");
+        modelo.put("usuario",logueado);
+        
+        if(logueado.getRol().equals("ADMIN")){
+        }else{
+        
+            return "redirect:/admin/dashboard";
+        }
+        
+        return "render-neutral.html";
+    }
     
     
     @GetMapping("/listaUsuarios")
@@ -234,12 +249,6 @@ public class Controlador {
         return "index_app_inicio.html";
     }
     
-    
-       @GetMapping("/inicio")
-    public String inicioUsuario(ModelMap modelo) {
-       
-        return  "render-neutral.html";
-    }
     
   
     
