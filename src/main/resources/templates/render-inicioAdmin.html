@@ -1,40 +1,209 @@
-<h2>Listado de Usuarios</h2>
-<table th:if="${not #lists.isEmpty(usuarios)}"> <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Rol</th>
-            </tr>
-    </thead>
-    <tbody>
-        <tr th:each="usuario : ${usuarios}">
-            <td th:text="${usuario.id}">1</td>
-            <td th:text="${usuario.nombre}">Ana Pérez</td>
-            <td th:text="${usuario.mail}">ana.perez@example.com</td>
-            <td th:text="${usuario.rol}">ADMIN</td>
-            </tr>
-    </tbody>
-</table>
-<div th:if="${#lists.isEmpty(usuarios)}" class="empty-message">
-    No hay usuarios para mostrar.
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6; /* Un fondo más claro */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Estilos para la simulación del navbar y header si no se cargan desde fragmentos */
+        .simulated-navbar {
+            background-color: #343a40; /* Navbar oscuro */
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .simulated-header {
+            background-color: #007bff; /* Header azul */
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        /* Fin de simulación */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto; /* Más espacio arriba/abajo */
+            padding: 1rem;
+            background-color: #ffffff; /* Contenido principal sobre fondo blanco */
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #0056b3; /* Azul más oscuro para el título principal */
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card.bg-success { /* Estilo para el mensaje de éxito */
+            background-color: #d4edda !important; /* Bootstrap success verde claro */
+            color: #155724 !important;
+            border-color: #c3e6cb !important;
+            margin: 1rem auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        .card.bg-success .card-title {
+             color: #155724 !important;
+        }
+
+        /* Estilos para las tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        table thead {
+            background-color: #007bff; /* Cabecera de tabla azul */
+            color: #ffffff;
+        }
+
+        table th, table td {
+            padding: 12px 15px; /* Más padding */
+            text-align: left;
+            border-bottom: 1px solid #dee2e6; /* Bordes más sutiles */
+        }
+
+        table tbody tr {
+            background-color: #ffffff;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: #f8f9fa; /* Filas alternas con color */
+        }
+
+        table tbody tr:hover {
+            background-color: #e9ecef; /* Efecto hover en filas */
+        }
+
+        table a { /* Estilo para los iconos/enlaces de acciones */
+            color: #007bff;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        table a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Imagen */
+        .img-fluid.rounded-circle {
+            border: 3px solid #007bff; /* Borde azul para la imagen */
+            padding: 3px;
+            background-color: white;
+            max-width: 200px; /* Ajustar tamaño si es necesario */
+            display: block;
+            margin: 1rem auto; /* Centrar imagen */
+        }
+        
+        .p-5 { /* Ajustar padding si es necesario, o crear clases específicas */
+             padding: 1.5rem !important; /* Reducir un poco el padding original si era muy grande */
+        }
+
+        /* Footer */
+        footer.bg-black { /* Cambiar estilos del footer */
+            background-color: #343a40 !important; /* Footer oscuro consistente */
+            color: #f8f9fa !important; /* Texto claro */
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        footer .small {
+            font-size: 0.875em;
+        }
+
+        /* Para asegurar que los iconos de FontAwesome se vean (necesitarás FontAwesome linkeado) */
+        .fa, .fas {
+           /* Podrías añadir estilos específicos aquí si es necesario */
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+<nav th:replace="/fragments/navbar :: nav"></nav>
+<header th:replace="/fragments/headergenerico :: header"></header>
+<div th:if="${exito}!=null" class="card text-white bg-success mb-3" >
+    <div class="card-body">
+        <h5 class="card-title">Éxito</h5>
+        <p class="card-text" th:text="${exito}"></p>
+    </div>
 </div>
 
-<h2>Listado de Barras</h2>
-<table th:if="${not #lists.isEmpty(barras)}">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre de la Barra</th>
-            <th>Dirección</th>
-            </tr>
-    </thead>
-    <tbody>
-        <tr th:each="barra : ${barras}"> <td th:text="${barra.id}">101</td>
-            <td th:text="${barra.nombre}">El Rincón Bohemio</td>
-            </tr>
-    </tbody>
-</table>
-<div th:if="${#lists.isEmpty(barras)}" class="empty-message">
-    No hay barras para mostrar.
-</div>
+<section>
+    <div class="container">
+      <div class="row align-items-center"> <div class="col-lg-6 order-lg-2">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="img/m1.jpeg" alt="Imagen descriptiva">
+          </div>
+        </div>
+        <div class="col-lg-12 order-lg-1"> <div class="p-5">
+              <h1>Panel Administrativo</h1>
+              
+              <h2>Lista de Usuarios</h2>
+              <table class="table"> <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Mail</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody th:each="usuario : ${usuarios}"> 
+                    <tr>
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.apellido}"></td>
+                        <td th:text="${usuario.mail}"></td>
+                        <td th:text="${usuario.rol}"></td>
+                        <td>
+                            <a th:href="@{/admin/habilitar/__${usuario.id}__}" title="Habilitar"><i class="fa fa-arrow-up"></i></a>
+                            <a th:href="@{/admin/deshabilitar/__${usuario.id}__}" title="Deshabilitar"><i class="fa fa-ban"></i></a>
+                            <a th:href="@{/admin/cambiar_rol/__${usuario.id}__}" title="Cambiar Rol"><i class="fas fa-feather-alt"></i></a> 
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+
+              <h2>Otra Lista (ejemplo)</h2>
+              <table class="table"> <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                    </tr>
+                </thead>
+                <tbody th:each="usuario : ${usuarioss}"> <tr>
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.nombre}"></td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <footer class="py-5 bg-black"> <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; Tu Sitio Web 2024</p> </div>
+  </footer>
+
+ </body>
+</html>

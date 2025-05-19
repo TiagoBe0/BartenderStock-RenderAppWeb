@@ -239,15 +239,15 @@ public class Controlador {
             modelo.put("cristalerias",barraServicio.buscarPorId(id).getListaCristalerias() );
             return "modificarBarraPanel.html";
 	}
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
-    @GetMapping("/inicio/{id}")
-    public String inicio(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
-        modelo.put("perfil",usuarioServicio.buscarPorId(id));
-    	modelo.put("cristalerias",cristaleriaServicio.listarCristaleriasPorIdUsuario(id));
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    //@GetMapping("/inicio/{id}")
+    //public String inicio(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
+        //modelo.put("perfil",usuarioServicio.buscarPorId(id));
+    	//modelo.put("cristalerias",cristaleriaServicio.listarCristaleriasPorIdUsuario(id));
     	  
     	
-        return "index_app_inicio.html";
-    }
+       // return "index_app_inicio.html";
+    //}
     
     
   
