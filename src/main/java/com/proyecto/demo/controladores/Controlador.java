@@ -49,7 +49,7 @@ public class Controlador {
     @GetMapping("/inicio")
     public String inicio(HttpSession session,ModelMap modelo) {
         Usuario logueado = (Usuario) session.getAttribute("usuariossesion");
-        modelo.put("usuario",logueado);
+        //modelo.put("usuario",logueado);
         
         if(logueado.getRol().equals("ADMIN")){
         }else{
