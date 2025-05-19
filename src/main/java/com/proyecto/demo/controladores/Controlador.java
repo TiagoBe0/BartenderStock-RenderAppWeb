@@ -270,13 +270,19 @@ public class Controlador {
         
         try {
             usuarioServicio.registrar(archivo, nombre, apellido, mail, clave1, clave2);
+                    modelo.put("titulo", "Bienvenido a BartenderStock");
+                    modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
+        
+        return "redirect:/login";
         } catch (ErrorServicio ex) {
-           
-            return "error.html";
+           modelo.put("error",ex.getMessage());
+           modelo.put("nombre",nombre);
+           modelo.put("mail",mail);
+           modelo.put("apellido",apellido);
+           modelo.put("clave1",clave1);
+            return "render-registro.html";
         }
-        modelo.put("titulo", "Bienvenido a BartenderStock");
-        modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
-        return "exito.html";
+
     }
     @PostMapping("/registrarAdmin")
     public String registrarAdmin( ModelMap modelo,MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2) {

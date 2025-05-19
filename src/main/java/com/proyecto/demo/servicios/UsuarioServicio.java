@@ -65,8 +65,8 @@ public class UsuarioServicio implements UserDetailsService {
 
      
     
-    @Override
     @Transactional
+    @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
     	
         Usuario usuario = usuarioRepositorio.buscarPorMail(mail);
@@ -76,9 +76,9 @@ public class UsuarioServicio implements UserDetailsService {
             List<GrantedAuthority> permisos = new ArrayList<>();
                         
             //Creo una lista de permisos! 
-            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_"+ usuario.getRol());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"+ usuario.getRol());
             
-            permisos.add(p1);
+            permisos.add(p);
          
            
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -118,14 +118,14 @@ public class UsuarioServicio implements UserDetailsService {
     public void registrar(MultipartFile archivo, String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
      
 
-        //validar(nombre, apellido, mail, clave, clave2);
+        validar(nombre, apellido, mail, clave, clave2);
 
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setMail(mail);
         
-        usuario.setRol(Rol.ADMIN);
+        usuario.setRol(Rol.USUARIO);
 
         String encriptada = new BCryptPasswordEncoder().encode(clave);
         usuario.setClave(encriptada);
