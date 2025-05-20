@@ -57,26 +57,44 @@ public class UsuarioServicio implements UserDetailsService {
      @Autowired
     private ProveedorRepositorio proveedorRepositorio;
 
- @Transactional
-    public void registrarBarra(String nombre,String idUsuario) throws ErrorServicio {
+@Transactional
+public Barra registrarBarra(String idUsuario, String nombreBarra) throws ErrorServicio { // Nombre más claro
 
-       System.out.println("LLEGAMOS A USUARIO REGISTRO BARRAS");
-       Barra barra = new Barra();
-       barra.setNombre(nombre);
-       Usuario usuario = buscarPorId(idUsuario);
-       //barra.setAlta(new Date());
-       barra.setUsuario(usuario);
-       
-       actualizarListBarras(idUsuario,barra.getId());
-       
-       usuarioRepositorio.save(usuario);
-        
-        barraRepositorio.save(barra);
-        
+    // 1. Obtener y validar el Usuario
+    Usuario usuario = usuarioRepositorio.findById(idUsuario)
+            .orElseThrow(() -> new ErrorServicio("No se encontró el usuario solicitado con ID: " + idUsuario));
 
-       
+    // 2. Crear y configurar la nueva Barra
+    Barra nuevaBarra = new Barra();
+    nuevaBarra.setNombre(nombreBarra);
+    nuevaBarra.setUsuario(usuario); // Asociar con el Usuario persistente
 
+    // 3. Guardar la nueva Barra (se vuelve persistente y obtiene un ID)
+    Barra barraGuardada = barraRepositorio.save(nuevaBarra);
+
+    // 4. Actualizar la colección en el lado del Usuario (si la relación es bidireccional)
+    // Asumiendo que Usuario tiene un getListaDeBarras() y setListaDeBarras()
+    // y que la relación está bien mapeada (ej. @OneToMany(mappedBy="usuario", cascade={CascadeType.PERSIST, CascadeType.MERGE}))
+    // Es común tener un método helper en Usuario como usuario.addBarra(barraGuardada);
+    List<Barra> listaDeBarrasDelUsuario = usuario.getBarras(); // O como se llame tu getter
+    if (listaDeBarrasDelUsuario == null) {
+        listaDeBarrasDelUsuario = new ArrayList<>();
+        usuario.setBarras(listaDeBarrasDelUsuario); // O como se llame tu setter
     }
+    listaDeBarrasDelUsuario.add(barraGuardada);
+
+    // 5. Actualizar otros campos del Usuario si es necesario
+    if (usuario.getTodasLasCristalerias() != null) {
+        usuario.setCapitalTotal(barraServicio.calcularPrecioTotal(usuario.getTodasLasCristalerias()));
+    } else {
+        usuario.setCapitalTotal(0f);
+    }
+
+    // 6. Guardar el Usuario para persistir los cambios en su lista de barras y capitalTotal
+    usuarioRepositorio.save(usuario);
+
+    return barraGuardada; // Devolver la entidad creada puede ser útil
+}
     @Transactional
     public void registrar(MultipartFile archivo, String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
         

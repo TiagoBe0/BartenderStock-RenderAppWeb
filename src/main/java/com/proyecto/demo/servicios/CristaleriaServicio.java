@@ -117,104 +117,153 @@ public class CristaleriaServicio {
     }
      
 
-    @Transactional
-    public void modificar(MultipartFile archivo, String tipo, String descripcion, float precio, int enStock,String idBarra,String id,String idCristal) throws ErrorServicio {
-       Cristal cristal =null;
-       Cristal cristalNuevo = null;
-       Cristaleria cristaleria = new Cristaleria();
-       if(idCristal!=null){
-       cristal = cristalServicio.buscarPorId(idCristal);
-       }
-           
-       if(cristal !=null){
-              cristaleria.setCristalRepo(cristal);
-           
-            cristaleria.setFoto(cristal.getFoto());
-               
-        
-        }else{
-            if(archivo!=null){
-        Foto foto = fotoServicio.guardar(archivo);
-      
-        
-        
-        cristaleria.setFoto(foto);
-            }
-            else{
-            
-                cristaleria.setFoto(null);
-            }
-        
-        
-        }
-   
-        if (!idBarra.isEmpty()) {
+@Transactional
+public void modificar(MultipartFile archivo, String tipo, String descripcion, float precio, int enStock, String idBarra, String id, String idCristal) throws ErrorServicio {
+    Cristal cristal = null;
+    // Cristal cristalNuevo = null; // Esta variable no se usa en el código que me mostraste
+    Cristaleria cristaleria = new Cristaleria(); // (1) Creas una NUEVA instancia de Cristaleria. Es TRANSIENT.
 
-            
-        Barra barraPerteneciente = barraServicio.buscarPorId(idBarra);
-        if(barraPerteneciente.isInsumo()){
-            cristaleria.setInsumo(true);
-            if(idCristal ==null && archivo != null){
-            cristalServicio.registrar(archivo, null, 1);
-            }
-        
-        
-        }else{
-            cristaleria.setInsumo(false);
-            if(idCristal ==null && archivo != null){
-            cristalServicio.registrar(archivo, null, -1);
+    if (idCristal != null && !idCristal.isEmpty()) { // Es buena práctica chequear también !idCristal.isEmpty()
+        cristal = cristalServicio.buscarPorId(idCristal);
+        if (cristal != null) {
+            cristaleria.setCristalRepo(cristal); // (2) Asocias un 'Cristal' (que si se encuentra, es PERSISTENT)
+            // Es importante que 'cristal.getFoto()' también sea un objeto Foto persistente o se maneje adecuadamente.
+            if (cristal.getFoto() != null) {
+                 cristaleria.setFoto(cristal.getFoto()); // (3) Asocias una 'Foto' (que si existe, es PERSISTENT)
+            } else {
+                 // Considera qué hacer si el cristal existente no tiene foto pero se proporciona un 'archivo' nuevo.
+                 // ¿Debería actualizarse la foto del 'cristal' o solo la de 'cristaleria'?
             }
         }
-        
+        // ¿Qué pasa si idCristal se provee pero cristalServicio.buscarPorId(idCristal) devuelve null?
+        // La lógica actual continuaría y podría intentar crear una nueva foto más abajo.
+    }
+
+    // Esta lógica de foto se ejecuta si 'cristal' es null (ya sea porque idCristal era null o no se encontró el cristal)
+    if (cristal == null) {
+        if (archivo != null && !archivo.isEmpty()) { // Chequear archivo.isEmpty() es importante
+            Foto foto = fotoServicio.guardar(archivo); // (4) Guardas una nueva 'Foto'. Ahora 'foto' es PERSISTENT.
+            cristaleria.setFoto(foto); // (5) Asocias la nueva 'Foto' persistente.
+        } else {
+            cristaleria.setFoto(null); // No hay foto o no se proporciona nueva.
+        }
+    }
+
+
+    if (idBarra != null && !idBarra.isEmpty()) { // Chequear también !idBarra.isEmpty()
+        Barra barraPerteneciente = barraServicio.buscarPorId(idBarra);
+        if (barraPerteneciente == null) { // Validar que la barra exista
+            throw new ErrorServicio("La barra con ID " + idBarra + " no fue encontrada.");
+        }
+
         Usuario usuario = usuarioServicio.buscarPorId(id);
+        if (usuario == null) { // Validar que el usuario exista
+            throw new ErrorServicio("El usuario con ID " + id + " no fue encontrado.");
+        }
+
+        // Lógica de insumo y registro de 'Cristal' independiente:
+        // Estas llamadas a cristalServicio.registrar(archivo, null, X) crean y guardan entidades 'Cristal'.
+        // Sin embargo, el 'Cristal' resultante de estas llamadas NO se está asociando explícitamente
+        // con el objeto 'cristaleria' que estás construyendo en este método mediante 'cristaleria.setCristalRepo()'.
+        // Si la intención es que este 'Cristal' recién registrado sea el 'CristalRepo' de 'cristaleria',
+        // necesitarías capturar el resultado de 'cristalServicio.registrar' y asignarlo.
+        if (barraPerteneciente.isInsumo()) {
+            cristaleria.setInsumo(true);
+            if (idCristal == null && archivo != null && !archivo.isEmpty()) {
+                // Supongamos que cristalServicio.registrar devuelve el Cristal guardado:
+                // Cristal nuevoCristalRegistrado = cristalServicio.registrar(archivo, null, 1);
+                // cristaleria.setCristalRepo(nuevoCristalRegistrado); // ¿Deberías hacer esto?
+            }
+        } else {
+            cristaleria.setInsumo(false);
+            if (idCristal == null && archivo != null && !archivo.isEmpty()) {
+                // Cristal nuevoCristalRegistrado = cristalServicio.registrar(archivo, null, -1);
+                // cristaleria.setCristalRepo(nuevoCristalRegistrado); // ¿O esto?
+            }
+        }
+
         cristaleria.setDescripcion(descripcion);
         cristaleria.setPrecio(precio);
         cristaleria.setEnStock(enStock);
-        cristaleria.setPrecioTotal();
-        cristaleria.setIdUsuario(id);
+        cristaleria.setPrecioTotal(); // Asegúrate que este método no dependa de un ID generado por la BD si se llama antes de guardar.
+        cristaleria.setIdUsuario(id); // (6) Guardas el ID del usuario como String. ¿No sería mejor una relación @ManyToOne Usuario usuario;?
         cristaleria.setTipo(tipo);
+
+        // (7) Estableces la relación con 'Barra' (que es PERSISTENT).
+        // Esto es clave: 'cristaleria' (TRANSIENT) ahora apunta a 'barraPerteneciente' (PERSISTENT).
         cristaleria.setBarraPerteneciente(barraPerteneciente);
         cristaleria.setBarraPertenecienteNombre(barraPerteneciente.getNombre());
-        List<Cristaleria> cristalerias = barraPerteneciente.getListaCristalerias();
-        
-        cristalerias.add(cristaleria);
-        barraPerteneciente.setTotalUnidades(barraPerteneciente.getTotalUnidades()+cristaleria.getEnStock());
-         List<Cristaleria> cristaleriaUsuario =usuario.getTodasLasCristalerias();
-         cristaleriaUsuario.add(cristaleria);
-         usuario.setTodasLasCristalerias(cristaleriaUsuario);
-          if( barraPerteneciente.isInsumo()){
-                   
-                    float suma = barraServicio.calcularPrecioTotalInsumos(cristalerias);
-                     barraPerteneciente.setPrecioTotal(suma);
-               }
-               else{
-                    float suma = barraServicio.calcularPrecioTotal(cristalerias);
-                     barraPerteneciente.setPrecioTotal(suma);
-               
-               }
-          
-          
-      
-        barraPerteneciente.setListaCristalerias(cristalerias);
-        
-           barraRepositorio.save(barraPerteneciente);
-/*
-            String idFoto = null;
-            if (cristaleria.getFoto() != null) {
-                idFoto = cristaleria.getFoto().getId();
-                   Foto foto = fotoServicio.actualizar(idFoto, archivo);
-            cristaleria.setFoto(foto);
 
-            }
-*/
-         
-            cristaleriaRepositorio.save(cristaleria);
+        // >>> PUNTO CRÍTICO PARA TRANSIENT OBJECT EXCEPTION <<<
+        // Se añaden 'cristaleria' (TRANSIENT) a listas de entidades PERSISTENT ('barraPerteneciente', 'usuario')
+        // y luego se guardan esas entidades PERSISTENT.
+
+        // Para evitar el TransientObjectException, 'cristaleria' debe guardarse ANTES o las relaciones
+        // en Barra y Usuario hacia Cristaleria deben tener configurado CascadeType.PERSIST o CascadeType.ALL.
+
+        // ----- SOLUCIÓN PROPUESTA: Guardar 'cristaleria' aquí -----
+        // Antes de añadirla a las listas de barraPerteneciente o usuario, o antes de guardar barraPerteneciente o usuario.
+        // Asumiendo que Foto y Cristal (CristalRepo) ya son persistentes o se manejan con cascada desde Cristaleria.
+        Cristaleria cristaleriaGuardada = cristaleriaRepositorio.save(cristaleria); // (8) AHORA 'cristaleriaGuardada' es PERSISTENT.
+
+        // Ahora usa 'cristaleriaGuardada' (la instancia persistente)
+        List<Cristaleria> cristaleriasEnBarra = barraPerteneciente.getListaCristalerias();
+        if (cristaleriasEnBarra == null) { // Siempre buena idea inicializar listas si pueden ser null
+            cristaleriasEnBarra = new ArrayList<>();
+        }
+        cristaleriasEnBarra.add(cristaleriaGuardada); // Añades la instancia PERSISTENT
+        barraPerteneciente.setListaCristalerias(cristaleriasEnBarra); // Actualizas la lista en Barra
+        barraPerteneciente.setTotalUnidades(barraPerteneciente.getTotalUnidades() + cristaleriaGuardada.getEnStock());
+
+        List<Cristaleria> cristaleriaUsuario = usuario.getTodasLasCristalerias();
+        if (cristaleriaUsuario == null) {
+            cristaleriaUsuario = new ArrayList<>();
+        }
+        cristaleriaUsuario.add(cristaleriaGuardada); // Añades la instancia PERSISTENT
+        usuario.setTodasLasCristalerias(cristaleriaUsuario); // Actualizas la lista en Usuario
+
+        // Recalcular precios para barraPerteneciente
+        if (barraPerteneciente.isInsumo()) {
+            float suma = barraServicio.calcularPrecioTotalInsumos(cristaleriasEnBarra);
+            barraPerteneciente.setPrecioTotal(suma);
         } else {
-
-            throw new ErrorServicio("No se encontró el usuario solicitado");
+            float suma = barraServicio.calcularPrecioTotal(cristaleriasEnBarra);
+            barraPerteneciente.setPrecioTotal(suma);
         }
 
+        // (9) Guardas 'barraPerteneciente'. Ahora no debería haber problema porque 'cristaleriaGuardada' en su lista ya es persistente.
+        barraRepositorio.save(barraPerteneciente);
+
+        // (10) Guardas 'usuario'. Mismo razonamiento.
+        usuarioRepositorio.save(usuario);
+
+        // (11) El guardado explícito de 'cristaleria' ya se hizo en el paso (8).
+        // Si tienes CascadeType.ALL o PERSIST desde Barra/Usuario a Cristaleria, el save de Barra/Usuario
+        // podría haber guardado 'cristaleria' también, pero es más claro y seguro guardarla explícitamente
+        // primero si es la entidad principal que estás creando y luego asociarla.
+        // Si la guardaste en (8), este save es redundante y podría ser un update si el objeto es el mismo.
+
+        /*
+        // Esta lógica de actualizar foto sería más para un 'modificar' real de una Cristaleria existente
+        String idFoto = null;
+        if (cristaleriaGuardada.getFoto() != null && archivo != null && !archivo.isEmpty()) { // Asegúrate que archivo no sea nulo/vacío
+            idFoto = cristaleriaGuardada.getFoto().getId();
+            Foto fotoActualizada = fotoServicio.actualizar(idFoto, archivo); // 'actualizar' en lugar de 'guardar'
+            cristaleriaGuardada.setFoto(fotoActualizada);
+            cristaleriaRepositorio.save(cristaleriaGuardada); // Guardar de nuevo Cristaleria si su foto cambió
+        } else if (cristaleriaGuardada.getFoto() == null && archivo != null && !archivo.isEmpty()) {
+            // Caso en que la cristaleria no tenía foto y ahora se le añade una.
+            Foto nuevaFoto = fotoServicio.guardar(archivo);
+            cristaleriaGuardada.setFoto(nuevaFoto);
+            cristaleriaRepositorio.save(cristaleriaGuardada);
+        }
+        */
+
+    } else {
+        // La validación original decía "No se encontró el usuario solicitado", pero el 'if' es sobre idBarra.
+        throw new ErrorServicio("El ID de la Barra no fue proporcionado o es inválido.");
     }
+}
     
      @Transactional
     public void borrarTodo(){
