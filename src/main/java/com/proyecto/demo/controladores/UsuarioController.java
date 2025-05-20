@@ -280,19 +280,15 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         //barraServicio.registrar(nombre, id);
        System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         Usuario login = (Usuario) session.getAttribute("usuariosession");
-        model.put("barras", usuarioServicio.buscarPorId(id).getBarras());
-        model.put("cristalerias",usuarioServicio.buscarPorId(id).getTodasLasCristalerias());
+        model.put("cristalerias",login.getTodasLasCristalerias());
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
         }
 
         try {
-            //barraServicio.registrar(nombre, id);
-            Usuario usuario = usuarioServicio.buscarPorId(id);
-            
             
              model.addAttribute("barras", usuarioServicio.todasLasBarras(id));
-            model.addAttribute("perfil", usuario);
+            model.addAttribute("perfil", login);
         } catch (ErrorServicio e) {
             model.addAttribute("error", e.getMessage());
         }
