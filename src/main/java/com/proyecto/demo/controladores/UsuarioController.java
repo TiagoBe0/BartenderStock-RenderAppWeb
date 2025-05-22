@@ -498,7 +498,7 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         
         
         
-        return  "inicioUsuario.html";
+        return  "render-inicioUsuario.html";
     }
     
      @PostMapping("/registrar")
