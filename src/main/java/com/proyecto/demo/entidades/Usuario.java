@@ -44,7 +44,8 @@ public class Usuario {
     private float costeMensualInsumos;
     @ManyToOne
     private Zona zona;
-    
+        @OneToMany
+    private List<Cliente> clientes;
     @OneToMany
     private List<Barra> barras;
         @OneToMany
@@ -87,6 +88,22 @@ public class Usuario {
 
     public int getTotalInsumos() {
         return totalInsumos;
+    }
+
+    public List<Balance> getBalances() {
+        return balances;
+    }
+
+    public void setBalances(List<Balance> balances) {
+        this.balances = balances;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     public void setTotalInsumos(int totalInsumos) {

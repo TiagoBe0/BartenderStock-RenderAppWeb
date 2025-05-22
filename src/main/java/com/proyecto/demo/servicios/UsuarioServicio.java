@@ -57,6 +57,15 @@ public class UsuarioServicio implements UserDetailsService {
      @Autowired
     private ProveedorRepositorio proveedorRepositorio;
 
+     @Transactional
+     public void repositorioSave(Usuario s){
+     
+     usuarioRepositorio.save(s);
+     
+     }
+     
+     
+     
 @Transactional
 public Barra registrarBarra(String idUsuario, String nombreBarra) throws ErrorServicio { // Nombre más claro
 
