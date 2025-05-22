@@ -3,7 +3,6 @@ package com.proyecto.demo.servicios;
 import com.proyecto.demo.entidades.Foto;
 import com.proyecto.demo.errores.ErrorServicio;
 import com.proyecto.demo.repositorios.FotoRepositorio;
-import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,12 +76,6 @@ public class FotoServicio {
             throw new ErrorServicio("No se encontró la cristaleria solicitada");
         }
 
-    }
-    
-    
-    public List<Foto> getAll(){
-    
-    return fotoRepositorio.findAll();
     }
     
     

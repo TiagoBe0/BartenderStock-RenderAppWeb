@@ -1,9 +1,7 @@
 package com.proyecto.demo.controladores;
 
 import com.proyecto.demo.entidades.Usuario;
-import com.proyecto.demo.entidades.Zona;
 import com.proyecto.demo.errores.ErrorServicio;
-import com.proyecto.demo.repositorios.ZonaRepositorio;
 import com.proyecto.demo.servicios.UsuarioServicio;
 import java.util.List;
 
@@ -23,34 +21,7 @@ public class Controlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @Autowired
-    private ZonaRepositorio zonaRepositorio;
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
     
         @GetMapping("/calificanos")
     public String calificanos(){
@@ -147,12 +118,6 @@ public class Controlador {
         return "login.html";
     }
 
-    @GetMapping("/registro-render")
-    public String registro(ModelMap modelo) {
-        List<Zona> zonas = zonaRepositorio.findAll();
-        modelo.put("zonas", zonas);
-        return "registro.html";
-    }
 
     @GetMapping("/s")
     public String indexx(ModelMap modelo) {
