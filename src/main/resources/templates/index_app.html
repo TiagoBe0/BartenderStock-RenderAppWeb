@@ -1,689 +1,230 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"> <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rahip - Gestión</title>
 
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    
-    <link rel="icon" type="image/svg+xml" th:href="@{/img/rahip-logo-blanco.svg}" /> <title>BartenderStock - Dashboard</title>
-
-    <style>
-        /* ESTILOS GENERALES Y RESET */
-        :root {
-            --primary-color: #6f42c1; /* Violeta principal */
-            --primary-color-darker: #5a34a7;
-            --secondary-color: blueviolet; /* Violeta más claro para acentos */
-            --light-grey: #f3f3f3;
-            --dark-grey: #333;
-            --text-color-light: #ffffff;
-            --text-color-dark: #333333;
-            --sidebar-bg: #4e2a8e; /* Un violeta más oscuro para el sidebar */
-            --content-bg: #f9f9f9; /* Fondo claro para el area de contenido */
-            --card-bg: #ffffff;
-            --border-color: #e0e0e0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--primary-color); /* Fondo violeta principal */
-            color: var(--text-color-dark); /* Color de texto por defecto para el contenido */
-            overflow-x: hidden; /* Prevenir scroll horizontal innecesario */
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--primary-color-darker);
-        }
-        a:hover {
-            color: var(--secondary-color);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* --- ESTRUCTURA PRINCIPAL --- */
-        #app-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* --- SIDEBAR --- */
-        #sidebar {
-            background: var(--sidebar-bg);
-            color: var(--text-color-light);
-            width: 280px;
-            position: fixed; /* O 'sticky' dependiendo del comportamiento deseado */
-            top: 0;
-            left: 0;
-            height: 100%;
-            overflow-y: auto;
-            z-index: 1000;
-            transition: width 0.3s ease;
-        }
-
-        #sidebar.hide { /* Para cuando el sidebar se oculte con JS */
-            width: 60px;
-        }
-        #sidebar.hide .text {
-            display: none;
-        }
-         #sidebar.hide .brand i {
-            margin-right: 0;
-        }
-        #sidebar.hide .side-menu a i {
-            margin-right: 0;
-        }
-
-
-        #sidebar .brand {
-            font-size: 24px;
-            font-weight: 700;
-            height: 64px; /* Altura de la navbar superior */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-color-light);
-            padding: 0 10px;
-            gap: 10px; /* Espacio entre icono y texto */
-        }
-        #sidebar .brand .bx {
-            min-width: 40px; /* Para alinear con los iconos del menú */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-        }
-
-        #sidebar .side-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-        }
-        #sidebar .side-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--text-color-light);
-            font-size: 16px;
-            white-space: nowrap;
-            border-left: 3px solid transparent;
-            transition: background 0.3s ease, border-left-color 0.3s ease;
-        }
-        #sidebar .side-menu a:hover,
-        #sidebar .side-menu li.active > a {
-            background: var(--primary-color-darker);
-            border-left-color: var(--secondary-color);
-        }
-        #sidebar .side-menu a .bx {
-            margin-right: 15px;
-            font-size: 20px;
-            min-width: 20px; /* Alineación */
-            text-align: center;
-        }
-        #sidebar .side-menu .logout a {
-            color: #f36d6d; /* Color distintivo para logout */
-        }
-        #sidebar .side-menu .logout a:hover {
-            background: #c83a3a;
-            color: white;
-        }
-
-
-        /* --- ÁREA DE CONTENIDO --- */
-        #content {
-            position: relative;
-            width: calc(100% - 280px);
-            margin-left: 280px; /* Espacio para el sidebar */
-            transition: width 0.3s ease, margin-left 0.3s ease;
-            background-color: var(--content-bg); /* Fondo más claro para el contenido */
-            min-height: 100vh; /* Para que el fondo cubra toda la altura */
-            padding-bottom: 20px; /* Espacio al final */
-        }
-        #sidebar.hide + #content { /* Ajuste cuando el sidebar está oculto */
-            width: calc(100% - 60px);
-            margin-left: 60px;
-        }
-
-        /* NAVBAR SUPERIOR (dentro de #content) */
-        #content nav {
-            height: 64px;
-            background: var(--card-bg);
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            position: sticky; /* Navbar fija al hacer scroll */
-            top: 0;
-            z-index: 900;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        #content nav .bx.bx-menu { /* Botón para colapsar sidebar */
-            cursor: pointer;
-            font-size: 24px;
-            color: var(--text-color-dark);
-        }
-        #content nav .nav-link { /* Título "Categories" o similar */
-            color: var(--text-color-dark);
-            font-size: 16px;
-        }
-        #content nav form {
-            flex-grow: 1;
-            margin-right: auto; /* Empuja el resto de elementos a la derecha */
-        }
-        #content nav .form-input {
-            display: flex;
-            align-items: center;
-            background: var(--light-grey);
-            border-radius: 20px;
-            overflow: hidden;
-            max-width: 350px; /* Ancho de la barra de búsqueda */
-        }
-        #content nav .form-input input {
-            border: none;
-            background: transparent;
-            padding: 10px 15px;
-            outline: none;
-            width: 100%;
-            color: var(--text-color-dark);
-        }
-        #content nav .form-input .search-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0 12px;
-            height: 36px; /* Alineado con el input */
-            border-radius: 0 20px 20px 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #content nav .form-input .search-btn .bx {
-            font-size: 18px;
-        }
-
-        #content nav .switch-mode { /* Modo oscuro toggle */
-            display: block;
-            min-width: 50px;
-            height: 25px;
-            background: var(--light-grey);
-            cursor: pointer;
-            position: relative;
-            border-radius: 25px;
-        }
-        #content nav .switch-mode::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            bottom: 2px;
-            width: calc(25px - 4px);
-            background: var(--primary-color);
-            border-radius: 50%;
-            transition: all .3s ease;
-        }
-        #content nav #switch-mode:checked + .switch-mode::before {
-            left: calc(100% - (25px - 4px) - 2px);
-        }
-
-        #content nav .notification,
-        #content nav .profile img {
-            font-size: 20px;
-            color: var(--text-color-dark);
-            position: relative;
-        }
-        #content nav .notification .num {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #e74c3c; /* Rojo para notificaciones */
-            color: white;
-            font-weight: 700;
-            font-size: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #content nav .profile img {
-            width: 36px;
-            height: 36px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary-color);
-        }
-
-
-        /* MAIN CONTENT AREA */
-        #content main {
-            padding: 24px;
-            width: 100%;
-        }
-        #content main .head-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap; /* Para responsividad */
-            margin-bottom: 24px;
-        }
-        #content main .head-title .left h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--text-color-dark);
-            margin-bottom: 8px;
-        }
-        #content main .head-title .left .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            padding: 0;
-        }
-        #content main .head-title .left .breadcrumb a {
-            color: #888;
-            font-size: 14px;
-        }
-        #content main .head-title .left .breadcrumb a.active,
-        #content main .head-title .left .breadcrumb .bx {
-            color: var(--primary-color);
-        }
-        #content main .btn-download {
-            background: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        #content main .btn-download .bx {
-            font-size: 20px;
-        }
-
-
-        /* BOX INFO (TARJETAS DE ESTADÍSTICAS) */
-        #content main .box-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-        }
-        #content main .box-info li {
-            padding: 20px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center; /* Alinear icono y texto */
-            gap: 20px; /* Espacio entre icono y texto */
-        }
-         #content main .box-info li .bx { /* Estilo para iconos dentro de box-info */
-            font-size: 36px; /* Tamaño del icono */
-            color: var(--text-color-light); /* Color del icono */
-            padding: 12px;
-            border-radius: 8px;
-            /* Colores de fondo para los iconos */
-        }
-        #content main .box-info li:nth-child(1) .bx { background: #3498db; } /* Azul */
-        #content main .box-info li:nth-child(2) .bx { background: #2ecc71; } /* Verde */
-        #content main .box-info li:nth-child(3) .bx { background: #f1c40f; } /* Amarillo */
-        #content main .box-info li:nth-child(4) .bx, /* Los dos últimos pueden tener nuestro color primario */
-        #content main .box-info li:nth-child(5) .bx { background: var(--primary-color); }
-
-        #content main .box-info li .text h3 {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-color-dark);
-        }
-        #content main .box-info li .text p {
-            color: #666;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        /* Estilos para las tarjetas con gradientes (si se quieren mantener) */
-        #content main .box-info li.gradient-loss {
-             background: linear-gradient(90deg, rgba(217,168,2,0.8) 0%, rgba(128,9,19,0.6) 43%, rgba(162,11,29,0.6) 100%);
-             color: white;
-        }
-        #content main .box-info li.gradient-capital {
-            background: linear-gradient(90deg, rgba(2,212,217,0.8) 0%, rgba(9,128,31,0.6) 43%, rgba(11,162,94,0.6) 100%);
-            color: white;
-        }
-         #content main .box-info li.gradient-loss h3,
-         #content main .box-info li.gradient-loss p,
-         #content main .box-info li.gradient-capital h3,
-         #content main .box-info li.gradient-capital p {
-            color: white;
-        }
-         #content main .box-info li.gradient-loss .bx,
-         #content main .box-info li.gradient-capital .bx {
-            background: rgba(255,255,255,0.2); /* Icono más sutil en gradientes */
-            color: white;
-         }
-
-
-        /* TABLAS DE DATOS */
-        #content main .table-data {
-            display: flex;
-            flex-wrap: wrap; /* Para responsividad */
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-        #content main .table-data > div { /* .order, .todo */
-            border-radius: 10px;
-            background: var(--card-bg);
-            padding: 20px;
-            flex-grow: 1;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-        #content main .table-data .head {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        #content main .table-data .head h3 {
-            margin-right: auto; /* Empuja iconos a la derecha */
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-color-dark);
-        }
-        #content main .table-data .head .bx {
-            cursor: pointer;
-            font-size: 20px;
-            color: #666;
-        }
-        #content main .table-data .order table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        #content main .table-data .order th,
-        #content main .table-data .order td {
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 8px; /* Menos padding horizontal si hay muchas columnas */
-            font-size: 14px;
-            text-align: left;
-        }
-        #content main .table-data .order th {
-            font-weight: 600;
-            background-color: var(--light-grey); /* Encabezado sutil */
-            color: var(--text-color-dark);
-        }
-         #content main .table-data .order td img { /* Estilo para imágenes en tablas */
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        #content main .table-data .order td p {
-            display: inline-block;
-            vertical-align: middle;
-            margin:0;
-        }
-         #content main .table-data .order td .bx { /* Iconos de acción en tablas */
-            font-size: 20px;
-            color: var(--primary-color);
-         }
-         #content main .table-data .order td .bx:hover {
-            color: var(--primary-color-darker);
-         }
-
-        /* LISTA "TODO" (PROVEEDORES) */
-        #content main .todo .todo-list {
-            list-style: none;
-            padding: 0;
-        }
-        #content main .todo .todo-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #content main .todo .todo-list li:last-child {
-            border-bottom: none;
-        }
-        #content main .todo .todo-list li.completed h4,
-        #content main .todo .todo-list li.completed h5 {
-            text-decoration: line-through; /* Ejemplo si "completed" significa algo */
-            color: #999;
-        }
-        #content main .todo .todo-list li h4 {
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-        #content main .todo .todo-list li h5 {
-            font-size: 13px;
-            color: #777;
-        }
-        #content main .todo .todo-list li .bx { /* Icono de puntos */
-            cursor: pointer;
-        }
-        #content main .todo .todo-list li a { /* Enlace WhatsApp */
-            font-size: 13px;
-            background-color: #25D366; /* Color WhatsApp */
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-        }
-        #content main .todo .todo-list li a:hover {
-            background-color: #1DAE50;
-        }
-         /* Estilo para el item "Nuevo Pedido" */
-        #content main .todo .todo-list li.new-order-item a {
-            background: none; /* Quitar fondo de WhatsApp */
-            color: var(--primary-color);
-            font-weight: 500;
-            padding: 5px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-         #content main .todo .todo-list li.new-order-item a .bx {
-            font-size: 18px;
-         }
-         #content main .todo .todo-list li.new-order-item a:hover {
-            color: var(--primary-color-darker);
-         }
-
-
-        /* RESPONSIVIDAD (BÁSICA) */
-        @media screen and (max-width: 768px) {
-            #sidebar {
-                width: 60px; /* Sidebar colapsado por defecto en móviles */
-            }
-            #sidebar .text, #sidebar .brand .text {
-                display: none;
-            }
-             #sidebar .brand i { margin-right: 0; }
-             #sidebar .side-menu a i { margin-right: 0; }
-
-            #content {
-                width: calc(100% - 60px);
-                margin-left: 60px;
-            }
-            #content nav .form-input { /* Ocultar búsqueda en móviles pequeños o hacerla más pequeña */
-                display: none; /* O ajustar max-width */
-            }
-        }
-
-        @media screen and (max-width: 576px) {
-            #content main .head-title {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            #content main .btn-download {
-                width: 100%;
-                justify-content: center;
-                margin-top: 10px;
-            }
-            #content main .box-info {
-                grid-template-columns: 1fr; /* Una columna en móviles */
-            }
-             #content nav .nav-link { /* Ocultar "Categories" */
-                display:none;
-             }
-             #content nav .profile {
-                 margin-left: auto; /* Empujar perfil a la derecha si search y categories se ocultan */
-             }
-        }
-
-    </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="nosotros.css">
+  <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
+  
+  <style>
+    .form-section {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2.5rem;
+    }
+    .nav-tabs .nav-link {
+        color: #ddd;
+        background-color: transparent;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .nav-tabs .nav-link.active {
+        color: #4a1580;
+        background-color: #fff;
+        border-color: #fff;
+        font-weight: bold;
+    }
+    .tab-content {
+        color: white;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-                        <h3>Panel De Cristalerías</h3>
-                        <i class='bx bx-search'></i> <i class='bx bx-filter'></i> </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Descripción</th>
-                                <th>Barra</th>
-                                <th>Stock <span th:if="${perfil != null}" th:text="'(Total: ' + ${perfil.totalCristalerias ?: 0} + ')'"></span></th>
-                                <th>Precio Unit.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${#lists.isEmpty(cristalerias)}">
-                                <td colspan="5" style="text-align: center;">No hay cristalerías para mostrar.</td>
-                            </tr>
-                            <tr th:each="cristaleria : ${cristalerias}">
-                                <td>
-                                    <img th:if="${cristaleria.id != null}" th:src="@{'/foto/cristaleriafoto/' + ${cristaleria.id}}" alt="Foto cristalería">
-                                    <p th:text="${cristaleria.tipo}"></p>
-                                </td>
-                                <td th:text="${cristaleria.descripcion}"></td>
-                                <td th:text="${cristaleria.barraPertenecienteNombre}"></td>
-                                <td th:text="${cristaleria.enStock}"></td>
-                                <td><strong th:text="${cristaleria.precio + '$'}"></strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="wrapper">
+    <header>
+      <nav>
+        <a href="index.html" class="brand">
+          <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
+          <span class="hamburger-icon"></span>
+          <span class="sr-only">Menú</span>
+        </button>
+         <ul class="nav-list" id="navList">
+          <li class="nav-item"><a  th:href="@{/usuario/editar-barra(id=${session.usuariosession.id})}">crear empresa</a></li>
+          <li class="nav-item"><a th:href="@{/usuario/editar-cristal(id=${session.usuariosession.id})}">crear cliente</a></li>
+          
+        </ul>
+      </nav>
+    </header>
 
-            <div class="table-data">
-                 <div class="order">
-                    <div class="head">
-                        <h3>Panel De Rupturas</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Total Unid.</th>
-                                <th>Explicación</th>
-                                <th>Responsable</th>
-                                <th>Tipo Cristal</th>
-                                <th>Barra</th>
-                                <th>Fecha</th>
-                                <th>Coste</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                             <tr th:if="${#lists.isEmpty(rupturas)}">
-                                <td colspan="8" style="text-align: center;">No hay rupturas registradas.</td>
-                            </tr>
-                            <tr th:each="ruptura : ${rupturas}">
-                                <td>
-                                    <img th:if="${ruptura.tipoCristaleria != null && ruptura.tipoCristaleria.id != null}" th:src="@{'/foto/cristaleriafoto/' + ${ruptura.tipoCristaleria.id}}" alt="Cristal roto">
-                                </td>
-                                <td><strong th:text="${ruptura.numeroDeRuptura}"></strong></td>
-                                <td th:text="${ruptura.explicacion}"></td>
-                                <td th:text="${ruptura.nombre}"></td>
-                                <td th:text="${ruptura.tipoCristaleria?.tipo}"></td> <td th:text="${ruptura.tipoCristaleria?.barraPertenecienteNombre}"></td>
-                                <td th:text="${ruptura.dia + '/' + ruptura.mes + '/' + ruptura.anio}"></td>
-                                <td><strong th:text="${ruptura.costoRuptura + '$'}"></strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
+      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
+    </a>
 
-            <div class="table-data">
-                <div class="order"> <div class="head">
-                        <h3>Todas Tus Barras</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Total Cristalerías</th>
-                                <th>Valor Total</th>
-                                <th>Stock Unidades</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${#lists.isEmpty(barras)}">
-                                <td colspan="5" style="text-align: center;">No hay barras creadas.</td>
-                            </tr>
-                            <tr th:each="barra : ${barras}" th:if="${barra.activa != false}">
-                                <td>
-                                    <i class='bx bxs-store' style="font-size: 24px; vertical-align: middle; margin-right: 10px; color: var(--primary-color);"></i>
-                                    <p th:text="${barra.nombre}"></p>
-                                </td>
-                                <td th:text="${barra.totalUnidades}"></td>
-                                <td><strong th:text="${barra.precioTotal + '$'}"></strong></td>
-                                <td th:text="${barra.totalUnidades}"></td>
-                                <td>
-                                    <a th:href="@{/usuario/modificar-barra-panel/__${barra.id}__}" title="Modificar Barra">
-                                        <i class='bx bxs-edit'></i>
-                                    </a>
-                                    </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <main class="content">
+      <div class="container mt-4">
+        
+        <section class="form-section">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="empresa-tab" data-bs-toggle="tab" data-bs-target="#empresa-tab-pane" type="button" role="tab" aria-controls="empresa-tab-pane" aria-selected="true">Crear Empresa</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente-tab-pane" type="button" role="tab" aria-controls="cliente-tab-pane" aria-selected="false">Crear Cliente</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="orden-tab" data-bs-toggle="tab" data-bs-target="#orden-tab-pane" type="button" role="tab" aria-controls="orden-tab-pane" aria-selected="false">Crear Orden</button>
+                </li>
+            </ul>
+            <div class="tab-content pt-4" id="myTabContent">
+                <div class="tab-pane fade show active" id="empresa-tab-pane" role="tabpanel" aria-labelledby="empresa-tab" tabindex="0">
+                    <h4>Nueva Empresa</h4>
+                    <form th:action="@{/empresas/crear}" method="post">
+                        <div class="mb-3">
+                            <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
+                            <input type="text" class="form-control" id="nombreEmpresa" name="nombre" required>
+                        </div>
+                        <button type="submit" class="btn btn-light">Guardar Empresa</button>
+                    </form>
                 </div>
 
-                <div class="todo"> <div class="head">
-                        <h3>Proveedores</h3>
-                        <a th:href="@{/usuario/editar-proveedor(id=${session.usuariosession.id})}" title="Nuevo Proveedor"><i class='bx bx-user-plus'></i></a>
-                        <i class='bx bx-filter'></i>
-                    </div>
-                    <ul class="todo-list">
-                        <li th:if="${#lists.isEmpty(proveedores)}" style="justify-content: center;">
-                            <span>No hay proveedores.</span>
-                        </li>
-                        <li th:each="proveedor : ${proveedores}" > <div>
-                                <h4 th:text="${proveedor.nombre}">Nombre Proveedor</h4>
-                                <h5 th:text="'+' + ${proveedor.celular}">+54123456789</h5>
-                            </div>
-                            <a th:if="${proveedor.celular != null}" th:href="'https://api.whatsapp.com/send?phone=' + ${proveedor.celular} + '&text=Hola%20' + ${proveedor.nombre} + ',%20te%20contacto%20desde%20BartenderStock.'" target="_blank">
-                                <i class='bx bxl-whatsapp'></i> Chat
-                            </a>
-                        </li>
-                        <li class="new-order-item"> <a th:href="@{/usuario/editar-pedido(id=${session.usuariosession.id})}">
-                                <i class='bx bx-cart-add'></i>
-                                <span class="text">Nuevo Pedido</span>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="tab-pane fade" id="cliente-tab-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
+                    <h4>Nuevo Cliente</h4>
+                    <form th:action="@{/clientes/crear}" method="post">
+                        <div class="mb-3">
+                            <label for="nombreCliente" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreCliente" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidoCliente" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellidoCliente" name="apellido" required>
+                        </div>
+                        <button type="submit" class="btn btn-light">Guardar Cliente</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="orden-tab-pane" role="tabpanel" aria-labelledby="orden-tab" tabindex="0">
+                    <h4>Nueva Orden de Trabajo</h4>
+                    <form th:action="@{/ordenes/crear}" th:object="${orden}" method="post">
+                        <div class="mb-3">
+                            <label for="empresaSelect" class="form-label">Seleccionar Empresa</label>
+                            <select class="form-select" id="empresaSelect" th:field="*{empresaId}" required>
+                                <option value="">-- Elige una empresa --</option>
+                                <option th:each="emp : ${empresas}" th:value="${emp.id}" th:text="${emp.nombre}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clienteSelect" class="form-label">Seleccionar Cliente</label>
+                            <select class="form-select" id="clienteSelect" th:field="*{clienteId}" required>
+                                <option value="">-- Elige un cliente --</option>
+                                <option th:each="cli : ${clientes}" th:value="${cli.id}" th:text="${cli.nombre + ' ' + cli.apellido}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionOrden" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcionOrden" rows="3" th:field="*{descripcion}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-light">Generar Orden</button>
+                    </form>
                 </div>
             </div>
-        </main>
         </section>
-    </div> <script th:src="@{/js/script.js}"></script> </body>
+        <h2 class="text-center text-white mb-4">Lista de Empresas</h2>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="barra : ${barras}">
+                <td th:text="${barra.id}">ID del Usuario</td>
+                <td th:text="${barra.nombre}">Nombre del Usuario</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+        <h2 class="text-center text-white mb-4">Lista de Ordenes</h2>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">telefono</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="orden : ${ordenes}">
+                <td th:text="${orden.id}">ID del Usuario</td>
+                <td th:text="${orden.descripcion}">Nombre del Usuario</td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <h2 class="text-center text-white mb-4">Lista de Clientes</h2>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.id}">ID del Usuario</td>
+                <td th:text="${cliente.nombre}">Nombre del Usuario</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <p style="font-size: 10px;">RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
+      </div>
+      <div class="footer-right">
+        <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email"></a>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const button = document.getElementById('theme-toggle');
+      body.classList.toggle('dark-theme');
+      button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+    }
+
+    const navToggle = document.getElementById('navToggle');
+    const navList = document.getElementById('navList');
+
+    if (navToggle && navList) {
+      navToggle.addEventListener('click', () => {
+        navList.classList.toggle('active');
+        const isExpanded = navList.classList.contains('active');
+        navToggle.setAttribute('aria-expanded', isExpanded);
+      });
+    }
+  </script>
+  
+</body>
 </html>

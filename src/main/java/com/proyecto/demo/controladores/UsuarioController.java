@@ -66,7 +66,28 @@ public class UsuarioController {
         return  "render-inicioUsuario.html";
     }
     
-    
+        //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/panel-barra")
+    public String panelBarra(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
+        //barraServicio.registrar(nombre, id);
+        
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        
+        model.put("barras", login.getBarras());
+        List<Cristaleria> cristalerias=login.getTodasLasCristalerias();
+         model.put("ordenes",cristalerias );
+            model.addAttribute("clientes", cristalServicio.listarTodas());
+             model.addAttribute("perfil", login);
+             usuarioServicio.actualizarCapitalTotal(id);
+         
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        
+        return "index_app.html";
+    }
    
     ///FIN COPNTROLADORES RAHIP WEB 
     
@@ -280,29 +301,7 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
         }
         return "render-cristalerias.html";
     }
-     //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
-    @GetMapping("/panel-barra")
-    public String panelBarra(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
-        //barraServicio.registrar(nombre, id);
-        
-        Usuario login = (Usuario) session.getAttribute("usuariosession");
-        
-        model.put("barras", login.getBarras());
-        List<Cristaleria> cristalerias=login.getTodasLasCristalerias();
-         model.put("cristalerias",cristalerias );
-            model.addAttribute("proveedores", login.getProveedores());
-            model.addAttribute("rupturas",login.getTodasLasRupturas());
-             model.addAttribute("perfil", login);
-             usuarioServicio.actualizarCapitalTotal(id);
-         
-        if (login == null || !login.getId().equals(id)) {
-            return "redirect:/inicio";
-        }
-
-        
-        return "index_app.html";
-    }
+ 
       //ESTE ES PARA ENTRAR AL PANEL DE STOCK DE BARTENDER
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @GetMapping("/panel-insumos")
