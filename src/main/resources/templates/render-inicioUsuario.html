@@ -416,8 +416,8 @@
     <header>
         <nav>
             <a th:href="@{/}" class="brand">
-                <img th:src="@{/img/rahip-logo-blanco.svg}" alt="Logo RAHIP" class="brand-icon">
-            </a>
+           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
+       </a>
             <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
                 <span class="hamburger-icon"></span>
                 <span class="sr-only">Menú</span>
@@ -453,6 +453,8 @@
             <a th:href="@{/usuario/registro-empresa(id=${session.usuariosession.id})}" class="btn-custom">Crear Empresa</a>
            <a th:href="@{/usuario/registro-cliente(id=${session.usuariosession.id})}" class="btn-custom">Crear Cliente</a>
             <a th:href="@{/usuario/registro-orden(id=${session.usuariosession.id})}" class="btn-custom">Orden de Trabajo</a>
+            
+            <a th:href="@{/usuario/panel-empresas(id=${session.usuariosession.id})}" class="btn-custom">Panel</a>
             <a th:href="@{/usuario/editar-perfil-nuevo(id=${session.usuariosession.id})}" class="btn-custom">Modificar Perfil</a>
         </section>
         
