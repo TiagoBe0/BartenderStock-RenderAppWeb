@@ -37,10 +37,10 @@ public class BarraController {
     @GetMapping("/listartodas")
     public String tabladeBarra(ModelMap modelo, @PathVariable String idUsuario) {
         
-        //modelo.addAttribute("barra",barraServicio.listarTodas().get(0).getNombre() );
+        modelo.addAttribute("empresas",barraServicio.listarTodas().get(0).getNombre() );
         
         
-        return "listarBarras.html";
+        return "empresas.html";
     }
     
     

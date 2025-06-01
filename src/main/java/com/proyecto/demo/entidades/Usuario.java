@@ -45,16 +45,16 @@ public class Usuario {
     private float costeMensualInsumos;
     @ManyToOne
     private Zona zona;
-      @OneToMany(fetch = FetchType.EAGER)
+      @OneToMany
     private List<Cliente> clientes;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     private List<Barra> barras;
-       @OneToMany(fetch = FetchType.EAGER)
+       @OneToMany
     private List<Pedido> pedidos;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     private List<Proveedor> proveedores;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     private List<Cristaleria> todasLasCristalerias;
      
     @OneToMany
