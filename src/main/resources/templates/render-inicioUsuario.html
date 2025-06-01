@@ -1,100 +1,537 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAHIP - Inicio</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Página de inicio del usuario">
+    <meta name="author" content="RAHIP Estudio Creativo">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-  
-  <link rel="stylesheet" href="nosotros.css"> 
-  <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
-  
+    <title>RAHIP - Inicio</title>
+    
+    <!-- Fuentes y estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+    <link rel="icon" type="image/svg+xml" href="/img/rahip-logo-lila.svg">
+
+    <style>
+        /* Estilos Globales */
+        :root {
+            --bg-color: #4a1580;
+            --text-color: white;
+            --link-color: white;
+            --nav-bg: #430465;
+            --footer-bg: rgba(50, 7, 90, 0.983);
+            --btn-primary: #6f42c1;
+            --btn-hover: #5a34a7;
+        }
+
+        body.dark-theme {
+            --bg-color: #111;
+            --text-color: #e0e0e0;
+            --link-color: #7cc5f8;
+            --nav-bg: #2c292d;
+            --footer-bg: #111;
+            --btn-primary: #5a34a7;
+            --btn-hover: #4a2d8a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Header y Navegación */
+        header nav {
+            background-color: var(--nav-bg);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.6s ease;
+        }
+
+        .brand-icon {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        /* Nav List (Desktop) */
+        .nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-item {
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .nav-item:not(:last-of-type) {
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-list li a {
+            display: flex;
+            align-items: center;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            height: 100%;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-list li a:hover {
+            color: white;
+        }
+
+        /* Hamburger Toggle Button */
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger-icon {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            position: relative;
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: #fff;
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .hamburger-icon::before { top: -8px; }
+        .hamburger-icon::after { bottom: -8px; }
+
+        .nav-toggle[aria-expanded="true"] .hamburger-icon { background-color: transparent; }
+        .nav-toggle[aria-expanded="true"] .hamburger-icon::before { transform: translateY(8px) rotate(45deg); }
+        .nav-toggle[aria-expanded="true"] .hamburger-icon::after { transform: translateY(-8px) rotate(-45deg); }
+
+        /* Contenido Principal */
+        .content {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .welcome-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.8rem;
+            color: #f0f0f0;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Botones de Acción */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-custom {
+            background-color: white;
+            color: var(--btn-primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid var(--btn-primary);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--btn-primary);
+            color: white;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sección de Información */
+        .info-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .info-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .info-section p {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        .footer-left p {
+            margin: 0;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .social-icon {
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+        .social-icon img {
+            width: 24px;
+            height: auto;
+        }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: rgba(114, 5, 153, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 0.8rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #theme-toggle:hover {
+            background-color: rgba(66, 9, 124, 0.6);
+            transform: scale(1.05);
+        }
+
+        body.dark-theme #theme-toggle {
+            background-color: rgba(34, 34, 34, 0.8);
+            color: #5a0280;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 600;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 70px;
+            background-color: rgba(37, 211, 101, 0.55);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-float img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Mobile Navigation */
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-list {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--nav-bg);
+                padding: 0;
+                z-index: 1000;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-item {
+                border-right: none;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-list > li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-list li a {
+                padding: 1rem 1.5rem;
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            /* Content Adjustments */
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn-custom {
+                min-width: 160px;
+                padding: 0.7rem 1.2rem;
+            }
+
+            /* Footer */
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-left p {
+                margin-bottom: 0.5rem;
+            }
+
+            .footer-right {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .social-icon {
+                margin: 0 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .btn-custom {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .footer-left p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrapper">
+<div class="wrapper">
     <header>
-      <nav>
-        <a th:href="@{/}" class="brand">
-          <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
-        </a>
-        <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
-          <span class="hamburger-icon"></span>
-          <span class="sr-only">Menú</span>
-        </button>
-        
-        <ul class="nav-list" id="navList">
-            <li class="nav-item" th:if="${session.usuariosession == null}">
-                <a th:href="@{/usuario/registroUsuario}">Regístrate</a>
-            </li>
-            <li class="nav-item" th:if="${session.usuariosession == null}">
-                <a th:href="@{/usuario/loginUsuario}">Log In</a>
-            </li>
-
-            <li class="nav-item" th:if="${session.usuariosession != null}">
-                <a th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}">Editar Perfil</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin/dashboard}">Dashboard Admin</a>
-            </li>
-            <li class="nav-item" th:if="${session.usuariosession != null}">
-                <a th:href="@{/logout}">Salir</a>
-            </li>
-        </ul>
-      </nav>
+        <nav>
+            <a th:href="@{/}" class="brand">
+                <img th:src="@{/img/rahip-logo-blanco.svg}" alt="Logo RAHIP" class="brand-icon">
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+                <span class="sr-only">Menú</span>
+            </button>
+            <ul class="nav-list" id="navList">
+                <li class="nav-item" th:if="${session.usuariosession == null}">
+                    <a class="nav-link" th:href="@{/usuario/registroUsuario}">Regístrate</a>
+                </li>
+                <li class="nav-item" th:if="${session.usuariosession == null}">
+                    <a class="nav-link" th:href="@{/usuario/loginUsuario}">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item" th:if="${session.usuariosession != null}">
+                    <a class="nav-link" th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}">Editar Perfil</a>
+                </li>
+                <li class="nav-item" th:if="${session.usuariosession != null}">
+                    <a class="nav-link" th:href="@{/logout}">Salir</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" th:href="@{/admin/dashboard}">Dashboard Admin</a>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
-    <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
-      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
-    </a>
+    <main class="content">
+        <section class="welcome-section">
+            <h1>Bienvenido a RAHIP</h1>
+            <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}">Nombre Usuario</h2>
+            <p th:if="${session.usuariosession == null}">Gestiona tus proyectos y clientes de forma eficiente.</p>
+        </section>
 
-    <main class="content d-flex align-items-center justify-content-center text-center">
-        <div class="container">
-            <h1 class="lilita-one-regular" style="font-size: 4rem;">Bienvenido a RAHIP</h1>
-            <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}" style="font-size: 2rem;"></h2>
-            <p th:if="${session.usuariosession == null}" class="lead mt-3">Inicia sesión o regístrate para gestionar tus proyectos.</p>
-        </div>
+        <section class="action-buttons" th:if="${session.usuariosession != null}">
+            <a th:href="@{/usuario/editar-barra(id=${session.usuariosession.id})}" class="btn-custom">Crear Empresa</a>
+           <a th:href="@{/usuario/editar-proveedor(id=${session.usuariosession.id})}" class="btn-custom">Crear Cliente</a>
+            <a th:href="@{/usuario/editar-cristaleria(id=${session.usuariosession.id})}" class="btn-custom">Orden de Trabajo</a>
+            <a th:href="@{/usuario/editar-perfil-nuevo(id=${session.usuariosession.id})}" class="btn-custom">Modificar Perfil</a>
+        </section>
+        
+        <section class="action-buttons" th:if="${session.usuariosession == null}">
+            <a th:href="@{/usuario/registroUsuario}" class="btn-custom">¡Regístrate para empezar!</a>
+        </section>
+
+        <section class="info-section" th:if="${session.usuariosession != null && (usuarios == null || #lists.isEmpty(usuarios))}">
+            <h3>Información</h3>
+            <p>Utiliza los botones de acción para gestionar tus proyectos, clientes y perfil.</p>
+            <p th:if="${session.usuariosession != null}">
+                Usuario actual: <strong th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}"></strong>
+            </p>
+        </section>
     </main>
 
     <footer class="footer">
         <div class="footer-left">
-            <p style="font-size: 10px;">RAHIP Estudio Creativo | Todos los derechos reservados <span th:text="${#dates.year(#dates.createNow())}"></span></p>
+            <p>Copyright &copy; RAHIP <span th:text="${#dates.year(#dates.createNow())}">2024</span></p>
         </div>
         <div class="footer-right">
-            <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
-            <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram"></a>
-            <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn"></a>
-            <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email"></a>
+            <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank">
+                <img th:src="@{/img/iconos-redes/whatsapp-blanco.svg}" alt="WhatsApp">
+            </a>
+            <a href="#" class="social-icon">
+                <img th:src="@{/img/iconos-redes/instagram-blanco.svg}" alt="Instagram">
+            </a>
+            <a href="#" class="social-icon">
+                <img th:src="@{/img/iconos-redes/linkedin-blanco.svg}" alt="LinkedIn">
+            </a>
+            <a href="#" class="social-icon">
+                <img th:src="@{/img/iconos-redes/mail-blanco.svg}" alt="Email">
+            </a>
         </div>
     </footer>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</div>
 
-  <script>
-    // Script de toggle de nosotros.html
+<!-- Theme toggle and WhatsApp float -->
+<button id="theme-toggle" onclick="toggleTheme()">🌙</button>
+<a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
+    <img th:src="@{/img/iconos-redes/whatsapp-blanco.svg}" alt="WhatsApp">
+</a>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"></script>
+
+<script>
+    // Theme toggle function
     function toggleTheme() {
-      const body = document.body;
-      const button = document.getElementById('theme-toggle');
-      body.classList.toggle('dark-theme');
-      button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        const body = document.body;
+        const button = document.getElementById('theme-toggle');
+        body.classList.toggle('dark-theme');
+        button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        
+        // Guardar preferencia en localStorage
+        const isDark = body.classList.contains('dark-theme');
+        localStorage.setItem('darkTheme', isDark);
     }
 
+    // Verificar preferencia de tema al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('darkTheme') === 'true';
+        if (savedTheme) {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-toggle').textContent = '☀️';
+        }
+    });
+
+    // Navigation toggle
     const navToggle = document.getElementById('navToggle');
     const navList = document.getElementById('navList');
 
     if (navToggle && navList) {
-      navToggle.addEventListener('click', () => {
-        navList.classList.toggle('active');
-        const isExpanded = navList.classList.contains('active');
-        navToggle.setAttribute('aria-expanded', isExpanded);
-      });
+        navToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            const isExpanded = navList.classList.contains('active');
+            navToggle.setAttribute('aria-expanded', isExpanded);
+        });
     }
-  </script>
-  
+</script>
 </body>
 </html>
