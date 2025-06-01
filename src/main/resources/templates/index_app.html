@@ -67,56 +67,7 @@
     <main class="content">
       <div class="container mt-4">
         
-        <section class="form-section">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="empresa-tab" data-bs-toggle="tab" data-bs-target="#empresa-tab-pane" type="button" role="tab" aria-controls="empresa-tab-pane" aria-selected="true">Crear Empresa</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente-tab-pane" type="button" role="tab" aria-controls="cliente-tab-pane" aria-selected="false">Crear Cliente</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="orden-tab" data-bs-toggle="tab" data-bs-target="#orden-tab-pane" type="button" role="tab" aria-controls="orden-tab-pane" aria-selected="false">Crear Orden</button>
-                </li>
-            </ul>
-            <div class="tab-content pt-4" id="myTabContent">
-                <div class="tab-pane fade show active" id="empresa-tab-pane" role="tabpanel" aria-labelledby="empresa-tab" tabindex="0">
-                    <h4>Nueva Empresa</h4>
-                    <form th:action="@{/usuario/actualizar-barra}" method="post">
-                        <div class="mb-3">
-                             <input type="hidden" name="id" th:value="${session.usuariosession.id}"/> <div class="form-input-group">
-                     
-                            <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
-                            <input type="text" class="form-control" id="nombreEmpresa" name="nombre" required>
-                        </div>
-                        <button type="submit" class="btn btn-light">Guardar Empresa</button>
-                    </form>
-                </div>
-
-                <div class="tab-pane fade" id="cliente-tab-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
-                    <h4>Nuevo Cliente</h4>
-                    <form th:action="@{/usuario/actualizar-proveedor}" method="post">
-                        <div class="mb-3">
-                            <label for="nombreCliente" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreCliente" name="nombre" required>
-                        </div>
-                          <input type="hidden" name="id" th:value="${session.usuariosession.id}"/> <div class="form-input-group">
-                     
-                        <div class="mb-3">
-                            <label for="apellidoCliente" class="form-label">telefono</label>
-                            <input type="text" class="form-control" id="apellidoCliente" name="contacto" required>
-                        </div>
-                           <div class="mb-3">
-                            <label for="link" class="form-label">link(opcional)</label>
-                            <input type="text" class="form-control" id="apellidoCliente" name="link" required>
-                        </div>
-                        <button type="submit" class="btn btn-light">Guardar Cliente</button>
-                    </form>
-                </div>
-
-              
-            </div>
-        </section>
+     
         <h2 class="text-center text-white mb-4">Lista de Empresas</h2>
         <div class="table-responsive">
           <table class="table table-dark table-striped table-bordered table-hover">
@@ -135,26 +86,7 @@
           </table>
         </div>
       </div>
-      
-    <h2 class="text-center text-white mb-4">Lista de Clientes</h2>
-        <div class="table-responsive">
-          <table class="table table-dark table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="cliente : ${clientes}">
-                <td th:text="${cliente.id}">ID del Usuario</td>
-                <td th:text="${cliente.nombre}">Nombre del Usuario</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  
     </main>
 
     <footer class="footer">
