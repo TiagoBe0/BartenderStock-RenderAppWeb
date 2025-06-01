@@ -48,8 +48,22 @@ public class Controlador {
     
     
     
+        
     
     
+        @GetMapping("/")
+    public String index(ModelMap modelo) {
+        return "index.html";
+    }
+    
+    
+        
+        @GetMapping("/clientes")
+    public String clientes(ModelMap modelo) {
+        
+        modelo.put("usuarios", usuarioServicio.todosLosUsuarios());
+        return "clientes.html";
+    }
     
     
         @GetMapping("/calificanos")
@@ -119,16 +133,7 @@ public class Controlador {
     
     
     
-    
-    
-    
-        @GetMapping("/")
-    public String index(ModelMap modelo) {
-        List<Usuario> usuariosActivos = usuarioServicio.todosLosUsuarios();
-        //Recordar que utilizo el modelo,para viajar con la llave usuarios al HTML la lista usuariosactivos
-        modelo.addAttribute("usuarios", usuariosActivos);
-        return "index.html";
-    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio-render")

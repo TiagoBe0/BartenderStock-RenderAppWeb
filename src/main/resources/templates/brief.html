@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
   <div class="wrapper">
     <header>
       <nav>
-        <a href="index.html" class="brand">
+        <a th:href="@{/}" class="brand">
           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
         </a>
         <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
