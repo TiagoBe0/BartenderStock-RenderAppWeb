@@ -68,16 +68,16 @@ public class UsuarioController {
     
         //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
-    @GetMapping("/panel-barra")
+    @GetMapping("/panel-rahip")
     public String panelBarra(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
         //barraServicio.registrar(nombre, id);
         
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
-        model.put("barras", login.getBarras());
+        model.put("empresas", login.getBarras());
         List<Cristaleria> cristalerias=login.getTodasLasCristalerias();
          model.put("ordenes",cristalerias );
-            model.addAttribute("clientes", cristalServicio.listarTodas());
+            model.addAttribute("clientes", proveedorServicio.listarTodas());
              model.addAttribute("perfil", login);
              usuarioServicio.actualizarCapitalTotal(id);
          

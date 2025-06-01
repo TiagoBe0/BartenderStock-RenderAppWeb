@@ -82,8 +82,10 @@
             <div class="tab-content pt-4" id="myTabContent">
                 <div class="tab-pane fade show active" id="empresa-tab-pane" role="tabpanel" aria-labelledby="empresa-tab" tabindex="0">
                     <h4>Nueva Empresa</h4>
-                    <form th:action="@{/empresas/crear}" method="post">
+                    <form th:action="@{/usuario/actualizar-barra}" method="post">
                         <div class="mb-3">
+                             <input type="hidden" name="id" th:value="${session.usuariosession.id}"/> <div class="form-input-group">
+                     
                             <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
                             <input type="text" class="form-control" id="nombreEmpresa" name="nombre" required>
                         </div>
@@ -93,14 +95,20 @@
 
                 <div class="tab-pane fade" id="cliente-tab-pane" role="tabpanel" aria-labelledby="cliente-tab" tabindex="0">
                     <h4>Nuevo Cliente</h4>
-                    <form th:action="@{/clientes/crear}" method="post">
+                    <form th:action="@{/usuario/actualizar-proveedor}" method="post">
                         <div class="mb-3">
                             <label for="nombreCliente" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombreCliente" name="nombre" required>
                         </div>
+                          <input type="hidden" name="id" th:value="${session.usuariosession.id}"/> <div class="form-input-group">
+                     
                         <div class="mb-3">
-                            <label for="apellidoCliente" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="apellidoCliente" name="apellido" required>
+                            <label for="apellidoCliente" class="form-label">telefono</label>
+                            <input type="text" class="form-control" id="apellidoCliente" name="contacto" required>
+                        </div>
+                           <div class="mb-3">
+                            <label for="link" class="form-label">link(opcional)</label>
+                            <input type="text" class="form-control" id="apellidoCliente" name="link" required>
                         </div>
                         <button type="submit" class="btn btn-light">Guardar Cliente</button>
                     </form>
@@ -142,34 +150,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="barra : ${barras}">
-                <td th:text="${barra.id}">ID del Usuario</td>
-                <td th:text="${barra.nombre}">Nombre del Usuario</td>
+              <tr th:each="empresa : ${empresas}">
+                <td th:text="${empresa.id}">ID del Usuario</td>
+                <td th:text="${empresa.nombre}">Nombre del Usuario</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-        <h2 class="text-center text-white mb-4">Lista de Ordenes</h2>
-        <div class="table-responsive">
-          <table class="table table-dark table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">telefono</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="orden : ${ordenes}">
-                <td th:text="${orden.id}">ID del Usuario</td>
-                <td th:text="${orden.descripcion}">Nombre del Usuario</td>
-                
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      
     <h2 class="text-center text-white mb-4">Lista de Clientes</h2>
         <div class="table-responsive">
           <table class="table table-dark table-striped table-bordered table-hover">
