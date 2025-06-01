@@ -214,75 +214,6 @@
 
 <div id="app-container">
 
-    <section id="sidebar">
-        <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}" class="brand">
-            <i class='bx bxs-drink'></i>
-            <span class="text">B&S</span>
-        </a>
-        <ul class="side-menu top">
-            <li> 
-                <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-chalkboard'></i>
-                    <span class="text">Dashboard Cristalería</span>
-                </a>
-            </li>
-             <li>
-                 <a th:href="@{/usuario/panel-insumos(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-flask'></i>
-                    <span class="text">Dashboard Insumos</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bx-slider-alt'></i>
-                    <span class="text">Administrar Barra</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}">
-                    <i class='bx bx-plus-circle'></i>
-                    <span class="text">Nueva Barra</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bx-plus-circle'></i>
-                    <span class="text">Crear Cristalería</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-ruptura(id=${session.usuariosession.id})}">
-                    <i class='bx bx-error-alt'></i>
-                    <span class="text">Nueva Ruptura</span>
-                </a>
-            </li>
-             <li>
-                <a th:href="@{/usuario/editar-proveedor(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-user-plus'></i>
-                    <span class="text">Nuevo Proveedor</span>
-                </a>
-            </li>
-            <li class="active"> <a th:href="@{/usuario/editar-cristal(id=${session.usuariosession.id})}">
-                    <i class='bx bx-image-add'></i>
-                    <span class="text">Subir Imagen Cristalería</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="side-menu">
-            <li>
-                <a th:href="@{/usuario/editar-perfil-nuevo(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-cog'></i>
-                    <span class="text">Settings</span>
-                </a>
-            </li>
-            <li class="logout">
-                <a th:href="@{/logout}" th:if="${session.usuariosession != null}">
-                    <i class='bx bxs-log-out-circle'></i>
-                    <span class="text">Logout</span>
-                </a>
-            </li>
-        </ul>
-    </section>
     <section id="content">
         <nav>
             <i class='bx bx-menu'></i>
@@ -309,32 +240,21 @@
             </a>
 
             <div class="form-container-card">
-                <h2>Registrar Nueva Imagen de Cristal</h2>
+                <h2>Registrar Nuevo Cliente</h2>
                 <div th:if="${error}" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom:15px;">
                     <p th:text="${error}"></p>
                 </div>
                 <div th:if="${param.success}" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom:15px;">
-                    <p>Imagen de cristal registrada con éxito.</p>
+                    <p>cliente creado con éxito.</p>
                 </div>
 
                <form action="/usuario/actualizar-cristal"  method="POST" enctype="multipart/form-data">
 
       <p th:if="${exito!=null}" th:text="${exito}" style="color:green">registro exitoso</p>
        <p th:if="${error!=null}" th:text="${exito}" style="color:red">falta algun campo obligatorio</p>
-      <div class="form-check">
-  <input class="form-check-input" type="radio" name="insumo" value="-1">
-  <label style="color: #000" for="flexRadioDefault1">
-    Cristal
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="insumo"  value="1" checked>
-  <label style="color: #000" for="flexRadioDefault2">
-    Insumo
-  </label>
-</div>
-
-      <input style="color: black" class="controls" type="file" name="archivo" id="nombre" >
+     
+       <input type="text" name="nombre" placeholder="nombre">
+       <input type="text" name="telefono" placeholder="telefono">
   <input type="hidden" name="id" th:value="${perfil.id}"/>
   <input class="botons" type="submit" value="enviar">
  </form>

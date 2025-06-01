@@ -27,7 +27,7 @@ public class CristalServicio {
      
      
     @Transactional
-    public void registrar(MultipartFile archivo , String nombre,int insumo) throws ErrorServicio{
+    public void registrar(MultipartFile archivo , String nombre,int insumo,String telefono) throws ErrorServicio{
         
         Cristal cristal = new Cristal();
       
@@ -39,6 +39,7 @@ public class CristalServicio {
             cristal.setInsumo(false);
         
         }
+        cristal.setTelefono(telefono);
         cristal.setFoto(foto);
         cristal.setNombre(nombre);
         

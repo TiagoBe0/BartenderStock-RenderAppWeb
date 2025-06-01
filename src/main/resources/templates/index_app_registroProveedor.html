@@ -181,75 +181,7 @@
 
 <div id="app-container">
 
-    <section id="sidebar">
-        <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}" class="brand">
-            <i class='bx bxs-drink'></i>
-            <span class="text">B&S</span>
-        </a>
-        <ul class="side-menu top">
-            <li> 
-                <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-chalkboard'></i>
-                    <span class="text">Dashboard Cristalería</span>
-                </a>
-            </li>
-             <li>
-                 <a th:href="@{/usuario/panel-insumos(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-flask'></i>
-                    <span class="text">Dashboard Insumos</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bx-slider-alt'></i>
-                    <span class="text">Administrar Barra</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-perfil(id=${session.usuariosession.id})}">
-                    <i class='bx bx-plus-circle'></i>
-                    <span class="text">Nueva Barra</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-barra(id=${session.usuariosession.id})}">
-                    <i class='bx bx-plus-circle'></i>
-                    <span class="text">Crear Cristalería</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-ruptura(id=${session.usuariosession.id})}">
-                    <i class='bx bx-error-alt'></i>
-                    <span class="text">Nueva Ruptura</span>
-                </a>
-            </li>
-             <li class="active"> <a th:href="@{/usuario/editar-proveedor(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-user-plus'></i>
-                    <span class="text">Nuevo Proveedor</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/usuario/editar-cristal(id=${session.usuariosession.id})}">
-                    <i class='bx bx-image-add'></i>
-                    <span class="text">Subir Imagen Cristalería</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="side-menu">
-            <li>
-                <a th:href="@{/usuario/editar-perfil-nuevo(id=${session.usuariosession.id})}">
-                    <i class='bx bxs-cog'></i>
-                    <span class="text">Settings</span>
-                </a>
-            </li>
-            <li class="logout">
-                <a th:href="@{/logout}" th:if="${session.usuariosession != null}">
-                    <i class='bx bxs-log-out-circle'></i>
-                    <span class="text">Logout</span>
-                </a>
-            </li>
-        </ul>
-    </section>
+    
     <section id="content">
         <nav>
             <i class='bx bx-menu'></i>
@@ -276,7 +208,7 @@
             </a>
 
             <div class="form-container-card">
-                <h2>Registrar Nuevo Proveedor</h2>
+                <h2>Nuevo Cliente</h2>
                 <div th:if="${error}" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom:15px;">
                     <p th:text="${error}"></p>
                 </div>
@@ -288,7 +220,7 @@
                     <input type="hidden" name="id" th:value="${perfil?.id}"/>
 
                     <div class="form-input-group">
-                        <label for="nombreProveedor">Nombre del Proveedor</label>
+                        <label for="nombreProveedor">Nombre</label>
                         <input class="form-control" type="text" name="nombre" id="nombreProveedor" placeholder="Ej: Distribuidora ABC" required>
                     </div>
 
@@ -301,11 +233,11 @@
 
                     <div class="form-input-group">
                         <label for="linkWhatsApp">Link de WhatsApp (Opcional)</label>
-                        <input class="form-control" type="url" name="link" id="linkWhatsApp" placeholder="Ej: https://wa.me/5492611234567">
+                        <input class="form-control" type="text" name="link" id="linkWhatsApp" placeholder="Ej: https://wa.me/5492611234567">
                         <small style="font-size: 0.8em; color: #666;">Si se deja en blanco, se puede generar desde el número de contacto.</small>
                     </div>
                     
-                    <button class="btn-submit-form" type="submit">Registrar Proveedor</button>
+                    <button class="btn-submit-form" type="submit">Registrar</button>
                 </form>
             </div>
         </main>

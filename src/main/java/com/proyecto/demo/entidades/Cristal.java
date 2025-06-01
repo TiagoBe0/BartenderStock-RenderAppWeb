@@ -21,7 +21,8 @@ public class Cristal {
     private String id;
      
     
-
+     private String telefono;
+     
     private String nombre;
     @OneToMany
       List<Cristaleria> listaCristalerias;
@@ -36,6 +37,14 @@ public class Cristal {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 
