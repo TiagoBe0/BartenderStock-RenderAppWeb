@@ -3,96 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rahip - Nosotros</title>
 
-  <title>rahip</title>
-  <link rel="stylesheet" href="indexestilos.css">
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="index.css">
+<link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
+  
 </head>
 <body>
   <div class="wrapper">
-    <!-- Cabecera -->
-         <header>
-    <nav>
-      <ul class="nav-list">
-        <li class="brand">
-          <a th:href="@{/index}">
-            <img src="layaout-web/archivos/rahip-logo-blanco.svg"
-                 alt="Marca" width="100px" class="brand-icon">
-          </a>
-        </li>
-        <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
-        <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
-        <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
-        <li class="nav-item"><a th:href="@{/calificanos}">CALIFICÁNOS</a></li>
-        <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
-      <li class="nav-item"><a th:href="@{/registro}">REGISTRO</a></li>
-      <li class="nav-item"><a th:href="@{/login-render}">INGRESAR</a></li>
-   
-        </li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+      <nav>
+        <a href="index.html" class="brand">
+          <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
+          <span class="hamburger-icon"></span>
+          <span class="sr-only">Menú</span>
+        </button>
+        <ul class="nav-list" id="navList">
+          <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
+          <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
+          <li class="nav-item"><a href="brief.html">BRIEF</a></li>
+          <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
+          <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
+        
+        </ul>
+      </nav>
+    </header>
+
     <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
-    <!-- Contenido principal -->
-     <!-- Botón flotante de WhatsApp -->
-<a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
-  <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
-</a>
+    <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
+      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
+    </a>
 
     <main class="content">
-      <section class="banner">
+      <section class="nosotros">
         <h1 class="lilita-one-regular">IMPULSANDO</h1>
         <p class="montserrat">LA CREATIVIDAD DE GRANDES MARCAS</p>
+     
       </section>
-
-      <section class="logos-section">
-        <div class="logos-wrapper">
-          <div class="logo-item"><img src="layaout-web/archivos/marcas-carrusel/yacopini.svg" alt="Yacopini" width="275px"></div>
-          <div class="logo-item"><img src="layaout-web/archivos/marcas-carrusel/trivento.svg" alt="Trivento" width="275px"></div>
-          <div class="logo-item"><img src="layaout-web/archivos/marcas-carrusel/fecovita.svg" alt="Fecovita" width="275px"></div>
-          <div class="logo-item"><img src="layaout-web/archivos/marcas-carrusel/chandon.svg" alt="Chandon" width="275px"></div>
-          <div class="logo-item"><img src="layaout-web/archivos/marcas-carrusel/hilton.svg" alt="Hilton" width="275px"></div>
-        </div>
-      </section>
-
-      <section>
-        <div class="gallery-container">
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/malibu.jpg" alt="Imagen 1"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/david-castro.jpg" alt="Imagen 2"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/helena.jpg" alt="Imagen 3"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/la-seleccion.jpg" alt="Imagen 4"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/laboratorio-aguero.jpg" alt="Imagen 5"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/mariano-werner.jpg" alt="Imagen 6"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/wernismo.jpg" alt="Imagen 7"></div>
-          <div class="gallery-item"><img src="layaout-web/archivos/home-img/mubarak.jpg" alt="Imagen 8"></div>
-        </div>
-      </section>
+      <section class="dual-carousel">
+  <div class="carousel-container">
+    <div id="carouselMarcas" class="carousel slide">
+      <div class="carousel-inner">
+        <!-- Contenido del primer carrusel (marcas) -->
+         <div class="carousel-item active">
+                <img src="layaout-web/archivos/marcas-carrusel/susana-balbo.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/terrazas-de-los-andes.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/cheval-des-andes.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/yacopini.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/hilton.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/chandon.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/brutal.svg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/marcas-carrusel/bodega-sottano.svg" class="d-block w-100" alt="...">
+              </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselMarcas" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselMarcas" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="carousel-container">
+    <div id="carouselFotos" class="carousel slide">
+      <div class="carousel-inner">
+        <!-- Contenido del segundo carrusel (fotos) -->
+          <div class="carousel-item active">
+                <img src="layaout-web/archivos/home-img/david-castro.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/helena.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/la-seleccion.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/laboratorio-aguero.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/malibu.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/mariano-werner.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/mubarak.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="layaout-web/archivos/home-img/wernismo.jpg" class="d-block w-100" alt="...">
+              </div>         
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselFotos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselFotos" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+       
+       
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-left">
-        <p>RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
+        <p style="font-size: 10px;">RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
       </div>
       <div class="footer-right">
-        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
+        <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
         <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram"></a>
         <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn"></a>
         <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email"></a>
       </div>
     </footer>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 
   <script>
+    // Theme toggle function
     function toggleTheme() {
       const body = document.body;
       const button = document.getElementById('theme-toggle');
       body.classList.toggle('dark-theme');
       button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+    }
+
+    // Navigation toggle
+    const navToggle = document.getElementById('navToggle');
+    const navList = document.getElementById('navList');
+
+    if (navToggle && navList) {
+      navToggle.addEventListener('click', () => {
+        navList.classList.toggle('active');
+        const isExpanded = navList.classList.contains('active');
+        navToggle.setAttribute('aria-expanded', isExpanded);
+      });
     }
   </script>
   

@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>rahip - Nosotros</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-  
-  <link rel="stylesheet" href="contacto.css">
-<link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>rahip – Contacto</title>
+  <link rel="stylesheet" href="contacto.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+    crossorigin="anonymous"
+  />
 </head>
 <body>
   <div class="wrapper">
+    <!-- Header -->
     <header>
       <nav>
-        <a href="index.html" class="brand">
-          <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
-        </a>
-        <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
-          <span class="hamburger-icon"></span>
-          <span class="sr-only">Menú</span>
-        </button>
-        <ul class="nav-list" id="navList">
+        <ul class="nav-list">
+          <li class="brand">
+            <a href="index.html">
+              <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="rahip" class="brand-icon" />
+            </a>
+          </li>
           <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
           <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
           <li class="nav-item"><a href="brief.html">BRIEF</a></li>
           <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
           <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
-        
+          <li class="user">
+            <a href="login.html">
+              <img src="layaout-web/archivos/base-datos-icono.svg" alt="Usuario" class="user-icon" />
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
 
+    <!-- Toggle de tema -->
     <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
-    <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
-      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
+
+    <!-- WhatsApp flotante -->
+    <a href="https://wa.me/+5492617501005" class="whatsapp-float" target="_blank">
+      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp" />
     </a>
 
     <!-- Contenido principal -->
@@ -117,41 +125,50 @@
       </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
       <div class="footer-left">
-        <p style="font-size: 10px;">RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
+        <p>RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
       </div>
       <div class="footer-right">
-        <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
-        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram"></a>
-        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn"></a>
-        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp" /></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram" /></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn" /></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email" /></a>
       </div>
     </footer>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  </div><!-- /.wrapper -->
 
+  <!-- Scripts -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+    crossorigin="anonymous"
+  ></script>
   <script>
-    // Theme toggle function
+    // Cambio de tema
     function toggleTheme() {
       const body = document.body;
-      const button = document.getElementById('theme-toggle');
-      body.classList.toggle('dark-theme');
-      button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+      const btn  = document.getElementById("theme-toggle");
+      body.classList.toggle("dark-theme");
+      btn.textContent = body.classList.contains("dark-theme") ? "☀️" : "🌙";
     }
 
-    // Navigation toggle
-    const navToggle = document.getElementById('navToggle');
-    const navList = document.getElementById('navList');
+    // Animación + redirección en el formulario de contacto
+    const contactForm = document.querySelector(".contact-form form");
+    const successMsg  = document.getElementById("success-message");
 
-    if (navToggle && navList) {
-      navToggle.addEventListener('click', () => {
-        navList.classList.toggle('active');
-        const isExpanded = navList.classList.contains('active');
-        navToggle.setAttribute('aria-expanded', isExpanded);
-      });
-    }
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();                // Evita recarga inmediata
+      successMsg.style.display = "block"; // Muestra el mensaje
+      contactForm.querySelector("button").disabled = true; // Deshabilita botón
+
+      // Tras 2 s, redirige al inicio
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+    });
   </script>
-  
 </body>
 </html>

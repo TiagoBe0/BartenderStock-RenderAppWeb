@@ -3,6 +3,514 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    position: relative; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+  
+.content {
+    position: relative; 
+    flex: 1;          
+}
+
+/* Tipografías */
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 3rem;
+    font-style: normal;
+}
+  
+.lilita-one-regular {
+    font-family: "Lilita One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 6rem;
+}
+  
+.lilita-one-regular2 {
+    font-family: "open-sans", sans-serif;
+    font-weight: 20;
+    font-style: normal;
+    font-size: 4rem;
+}
+
+.hero { /* General helper class */
+    color: #fff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;      
+}
+  
+/* Body */
+body {
+    background-color: var(--bg-color);
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    font-weight: 300;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+  
+:root {
+    --bg-color: #4a1580;
+    --text-color: black; 
+    --link-color: black; 
+    --nav-bg: #1a1725;
+    --footer-bg: rgba(77, 15, 139, 0.89);
+}
+  
+body.dark-theme {
+    --bg-color: #111;
+    --bg-color-nav:#2c292d;
+    /* IMPORTANT: Update these for dark mode visibility! */
+    --text-color: #e0e0e0; /* Light gray for text on dark background */
+    --link-color: #7cc5f8; /* Light blue for links on dark background */
+    --nav-bg: #2b2a2a;
+    --footer-bg: #111;
+}
+  
+/* ==== RESPONSIVE NAVIGATION STYLES ==== */
+header nav {
+  background-color: rgb(67, 4, 101); 
+  transition: background-color 0.6s ease;
+  padding: 0.5rem 1rem; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  position: relative; 
+}
+
+.brand-icon {
+  height: 50px; 
+  width: auto;
+  display: block; 
+}
+
+/* Nav List (Desktop) */
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center; 
+}
+
+.nav-item { 
+  padding: 0 1rem; 
+  position: relative;
+}
+
+.nav-item:not(:last-of-type) {
+  border-right: 1px solid #fff;
+}
+
+.nav-list li a { 
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  height: 100%;
+  padding: 0.5rem; 
+}
+
+.user { 
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid #fff;
+  display: flex; 
+  align-items: center;
+}
+
+.user-icon {
+  height: 30px;
+  width: auto;
+}
+
+/* Hamburger Toggle Button */
+.nav-toggle {
+  display: none; 
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem; 
+  z-index: 1001; 
+}
+
+.hamburger-icon {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  position: relative;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.hamburger-icon::before { top: -8px; }
+.hamburger-icon::after { bottom: -8px; }
+
+.nav-toggle[aria-expanded="true"] .hamburger-icon { background-color: transparent; }
+.nav-toggle[aria-expanded="true"] .hamburger-icon::before { transform: translateY(8px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .hamburger-icon::after { transform: translateY(-8px) rotate(-45deg); }
+
+.sr-only { 
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; 
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Dark Theme Adjustments for Nav */
+body.dark-theme header nav { 
+  background-color: #333; 
+  color: #fff; 
+}
+body.dark-theme .nav-list li a, 
+body.dark-theme .user a { 
+    color: #fff; 
+}
+body.dark-theme .nav-toggle .hamburger-icon,
+body.dark-theme .nav-toggle .hamburger-icon::before,
+body.dark-theme .nav-toggle .hamburger-icon::after {
+  background-color: #fff; 
+}
+/* ==== END OF RESPONSIVE NAVIGATION STYLES ==== */
+
+/* Estilos para el banner de servicios */
+.banner-servicios {
+  position: relative;
+  width: 100%;
+  height: 300px; 
+  display: flex;
+  justify-content: flex-end; /* Use flex-end for alignment */
+  align-items: center;
+  /* background: url('ruta-del-banner.jpg') center/cover no-repeat; */ 
+}
+
+.banner-servicios .banner-text {
+  font-family: 'Lilita One', cursive;
+  font-size: 9rem; 
+  color: rgba(139, 26, 245, 0); /* Text is transparent */
+  text-shadow: 2px 2px 4px rgba(133, 130, 134, 0.212); /* Shadow creates visible effect */
+  margin-right: 2rem; 
+}
+  
+/* Styles for .nosotros class used as a wrapper on servicios.html */
+.nosotros {
+  position: relative;
+  z-index: 1;
+  text-align: center; 
+  color: white; 
+  padding: 0rem 1rem; /* Reduced top/bottom padding as gallery has its own */
+}
+
+/* Gallery styles for servicios.html */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem; 
+  position: relative;
+  z-index: 1; 
+}
+
+.gallery-item {
+  position: relative;
+  width: 180px; 
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.gallery-text {
+  position: absolute;
+  bottom: 0;
+  left:0; 
+  width: 100%;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.gallery-text span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: normal;
+  margin-top: 0.5rem;
+}
+
+/* Rahip Info Section (if used on this page) */
+.rahip-info {
+  text-align: center;
+  padding: 4rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2; 
+  color: white; /* Ensure text is visible */
+}
+.rahip-info h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  /* color: white; */ /* Inherits from .rahip-info */
+  margin-bottom: 1rem;
+}
+.rahip-info p {
+  font-size: 1.2rem;
+  /* color: white; */ /* Inherits from .rahip-info */
+  line-height: 1.6;
+}
+
+/* General Background Text Style */
+.bg-text { 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Lilita One', cursive; 
+  font-size: 10rem; 
+  color: rgba(255, 255, 255, 0.05); 
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0; 
+}
+
+/* Styles for servicios-section which might contain a background text element. */
+.section-servicios { /* Renamed from .servicios-section to avoid conflict if it's different */
+  position: relative;
+  padding: 4rem 2rem;
+  text-align: center;
+  overflow: hidden; 
+}
+
+.section-servicios .background-text { 
+  font-size: 10rem; 
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.05); 
+}
+
+body.dark-theme .section-servicios .background-text {
+    color: rgba(255, 255, 255, 0.05); 
+}
+
+/* Footer */
+.footer {
+  background-color: var(--footer-bg, rgba(50, 7, 90, 0.983));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem; 
+}
+
+.footer-left p {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem; 
+  font-weight: 300; 
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.social-icon {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.social-icon img {
+  width: 24px; 
+  height: auto;
+}
+
+/* Dark Theme for Footer */
+body.dark-theme .footer {
+  background-color: var(--footer-bg, #111);
+}
+body.dark-theme .footer-left p {
+  color: #fff; 
+}
+
+/* Theme Toggle & WhatsApp float (Shared components) */
+#theme-toggle {
+  position: fixed; bottom: 1rem; right: 1rem;
+  background-color: var(--boton-fondo, #720599cc);
+  color: var(--boton-icono, #0a0303);
+  border: none; border-radius: 50%; padding: 0.8rem; font-size: 1.2rem;
+  cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+#theme-toggle:hover {
+  background-color: var(--boton-hover, #42097c9a);
+  transform: scale(1.05);
+}
+body.dark-theme #theme-toggle {
+  --boton-fondo: #222222cc;
+  --boton-icono: #5a0280;
+  --boton-hover: #333;
+}
+
+.whatsapp-float {
+  position: fixed; bottom: 20px; right: 20px; z-index: 600;
+  width: 60px; height: 60px; margin-bottom: 70px;
+  background-color: #25d3658a;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float img { width: 30px; height: 30px; }
+
+/* Logos Section (if used on this page) */
+.logos-section { text-align: center; padding: 1rem 0; }
+.logos-wrapper {
+    display: flex; justify-content: center; align-items: center;
+    gap: 30px; flex-wrap: wrap; margin: 0 auto;
+}
+.logo-item img { max-width: 100%; height: auto; }
+
+/* Other general .banner class if used (distinct from .banner-servicios) */
+.banner {
+    text-align: center; padding: 2rem 1rem; max-width: 100%;
+    color: #fff; overflow-wrap: break-word; word-wrap: break-word;
+}
+.banner h1, .banner p {
+    max-width: 100%; text-align: center;
+    overflow-wrap: break-word; word-wrap: break-word;
+    padding: 0 1rem; transition: font-size 0.3s ease;
+}
+
+
+/* ==== MEDIA QUERIES ==== */
+@media (max-width: 768px) {
+  /* MOBILE NAVIGATION STYLES */
+  .brand { margin-right: 0; }
+  .nav-toggle { display: block; }
+  .nav-list {
+    display: none; flex-direction: column; position: absolute;
+    top: 100%; left: 0; right: 0;
+    background-color: rgb(50, 7, 90); 
+    padding: 0; z-index: 1000; 
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .nav-list.active { display: flex; }
+  .nav-item { 
+    border-right: none; width: 100%; margin: 0; padding: 0; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .nav-list > li:last-child { border-bottom: none; }
+  .nav-list li a { 
+    padding: 1rem 1.5rem; justify-content: flex-start; 
+    width: 100%; box-sizing: border-box;
+  }
+  .user { 
+    border-left: none; margin-left: 0; padding-left: 0; margin-top: 0; 
+    width: 100%; border-bottom: none; 
+  }
+  .nav-list > .user:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  body.dark-theme .nav-list.active {
+    background-color: #2c2c2c; 
+    border-top-color: rgba(255,255,255,0.1);
+  }
+  body.dark-theme .nav-list .nav-item,
+  body.dark-theme .nav-list > .user:not(:last-child) { 
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Other 768px styles for servicios.html content */
+  .lilita-one-regular { font-size: 4rem; }
+  .lilita-one-regular2 { font-size: 2.5rem; }
+  .montserrat { font-size: 2rem; }
+  
+  .banner-servicios .banner-text { font-size: 6rem; margin-right: 1rem; }
+  .gallery { padding: 1rem; } /* Adjust gallery padding */
+  .gallery-item { width: calc(50% - 0.75rem); height: 250px; } /* Adjust for 2 items, considering gap */
+
+  .footer-left p { font-size: 1rem; }
+  .logos-wrapper { gap: 10px; }
+  .logo-item img { width: 120px; }
+  
+  .footer { flex-direction: column; text-align: center; padding: 1rem 0.5rem; }
+  .footer-left p { margin-bottom: 0.5rem; }
+  .footer-right { justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .social-icon { margin: 0; }
+  .social-icon img { width: 30px; }
+
+  /* Bootstrap carousel image height if #carouselExample is used */
+  .carousel-inner img { height: 250px; } 
+}
+
+@media (max-width: 480px) {
+  .lilita-one-regular { font-size: 3rem; }
+  .lilita-one-regular2 { font-size: 2rem; }
+  .montserrat { font-size: 1.5rem; }
+  
+  .banner-servicios .banner-text { font-size: 4rem; margin-right: 0.5rem; }
+  .gallery-item { width: calc(100% - 1rem); height: 280px; } /* Single item per row, taller */
+
+  .footer-left p { font-size: 0.9rem; }
+  /* .footer alignment already handled by 768px block */
+  .social-icon { margin: 0 0.5rem; }
+}
+
+/* Ultra small screens - review if needed */
+@media (max-width: 320px) { /* More common small breakpoint than 180/168 */
+    .banner-servicios .banner-text { font-size: 3rem; }
+    .gallery-item { height: 250px; }
+    .logos-wrapper { gap: 5px; }
+    .logo-item img { width: 80px; }
+}
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   html {
     height: 100%;
@@ -11,39 +519,14 @@
   }
   
   .wrapper {
-    position: relative; 
-    min-height: 100vh; /* Para que crezca a la altura completa de la ventana si quieres */
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
   }
   
-  /* Estilos para el banner de servicios */
-.banner-servicios {
-  position: relative;
-  width: 100%;
-  height: 300px; /* Ajusta este valor según la altura deseada */
-  
-  /* Si deseas usar una imagen de fondo, descomenta la línea siguiente y coloca la ruta correcta */
-  /* background: url('ruta-del-banner.jpg') center/cover no-repeat; */
-  
-  
-  display: flex;
-  justify-content: right;
-  align-items: center;
-}
-
-.banner-servicios .banner-text {
-  font-family: 'Lilita One', cursive;
-  font-size: 9rem; /* Puedes ajustar el tamaño de la fuente */
-  color: rgba(139, 26, 245, 0);
-  text-shadow: 2px 2px 4px rgba(133, 130, 134, 0.212);
-}
-
-.content {
-  position: relative; /* Importante para que absolutely-positioned children se ubiquen respecto a .content */
-  flex: 1;           /* Como antes, para empujar el footer abajo */
-}
-
+  .content {
+    flex: 1; /* Ocupa el espacio restante para empujar el footer hacia abajo */
+  }
   
   .logo-item img {
     max-width: 100%;
@@ -84,8 +567,7 @@
   body {
         background-color: var(--bg-color)!important;
     background-color: var(--bg-color);
-    background-image: url('layaout-web/archivos/textura-fondo.svg');
-    background-repeat: repeat;
+   background-repeat: repeat;
     /* Resto de propiedades... */
     background-repeat: repeat;
     background-size: cover;
@@ -104,7 +586,7 @@
     --text-color: black;
     --link-color: black;
     --nav-bg: #1a1725;
-    --footer-bg: rgba(30, 27, 33, 0.89);
+    --footer-bg: rgba(44, 13, 75, 0.89);
   }
   
   body.dark-theme {
@@ -134,77 +616,23 @@ body.dark-theme header .nav {
 }
 
 /* Agrega estilos para cambiar el color del texto en el footer y el navbar cuando se aplica el tema oscuro */
-body.dark-theme .footer-left p {
+body.dark-theme.footer-left p {
+  margin: 0;
   color: #fff;
+  font-size: 1rem; /* */
+  font-weight: 100; /* Or any other value like 200, 100, or 'lighter' */
 }
 
 body.dark-theme .nav-list a {
   color: #fff;
 }
-.nosotros {
-  position: relative;
-  z-index: 1;
-}
-
-.bg-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12rem;
-  font-family: 'Lilita One', cursive;
-  color: rgba(255, 255, 255, 0.04); /* efecto watermark */
-  text-transform: uppercase;
-  letter-spacing: 2rem;
-  z-index: 0;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 4rem 1rem;
-  position: relative;
-  z-index: 1;
-}
-
-.gallery-item {
-  position: relative;
-  width: 180px;
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  transition: transform 0.3s;
-}
-
-.gallery-item:hover {
-  transform: scale(1.05);
-}
-
-.gallery-text {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  color: white;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 1rem;
+.rahip-info {
   text-align: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.gallery-text span {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: normal;
-  margin-top: 0.5rem;
+  padding: 4rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .rahip-info h2 {
@@ -250,175 +678,16 @@ body.dark-theme .nav-list a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 10rem;
+  font-size: 12rem;
   color: rgba(255, 255, 255, 0.05); /* Súper suave, estilo marca de agua */
   font-weight: 900;
   text-transform: uppercase;
   white-space: nowrap;
   pointer-events: none;
-  margin-top: 11.5rem;
   user-select: none;
+  z-index: 1;
 }
 
-  .brand {
-    margin-right: auto;
-  }
-  
-  .brand-icon {
-    height: 70px;
-    width: auto;
-    max-width: 100%;
-  }
-  
-  .nav-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-list {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav-item {
-    padding: 0 1rem;
-    position: relative;
-  }
-  
-  .nav-item:not(:last-of-type) {
-    border-right: 1px solid #fff;
-  }
-  
-  .nav-list li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    height: 100%;
-    padding: 0 0.5rem;
-  }
-  .nosotros {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 3rem 1rem;
-    color: #fff;
-  }
-  
-  .nosotros p {
-    max-width: 800px;
-    font-size: 1.5rem;
-    line-height: 1.6;
-  }
-  
-  .user {
-    margin-left: 1rem;
-    padding-left: 1rem;
-    border-left: 1px solid #fff;
-  }
-  
-  .user-icon {
-    height: 30px;
-    width: auto;
-  }
-  
-  /* Sección de logos */
-  .logos-section {
-    text-align: center;
-    padding: 1rem 0;
-  }
-  
-  .logos-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin: 0 auto;
-  }
-
-  header {
-    padding: 0;
-  }
-  header nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: right;
-    background-color: var(--bg-color-nav); /* ← ahora depende del tema */
-    padding: 1rem 0;
-  }
-  
-  
-  header nav ul li {
-    margin: 0 1rem;
-  }
-  
-  header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  /* Contenedor de la galería */
-  .gallery-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  
-  /* Cada item de la galería */
-  .gallery-item {
-    background-color: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Imágenes de la galería */
-  .gallery-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 30px;
-  }
-  
-  /* Footer */
-  .footer {
-    background-color: rgba(50, 7, 90, 0.983);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-  }
-  
-  .footer-left p {
-    margin: 0;
-    color: #fff;
-    font-size: 1.5rem;
-  }
-  
-  .footer-right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .social-icon {
-    display: inline-block;
-    margin-left: 3rem;
-  }
-  
-  .social-icon img {
-    width: 44px;
-    height: auto;
-  }
-  
   /* Media Queries para Footer */
   @media (max-width: 480px) {
     .footer {
@@ -431,33 +700,11 @@ body.dark-theme .nav-list a {
     .social-icon {
       margin: 0 0.5rem;
     }
+
+
   }
   
-  /* Media Queries para Navegación */
-  @media (max-width: 768px) {
-    .nav-list {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-      padding: 1rem;
-    }
-    .nav-item {
-      border-right: none;
-      border-bottom: 1px solid #fff;
-      width: 100%;
-    }
-    .user {
-      border-left: none;
-      margin-left: 0;
-      padding-left: 0;
-      margin-top: 1rem;
-    }
-    .nav {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  }
-  
+
   /* Ajustes tipográficos en móviles */
   @media (max-width: 768px) {
     .lilita-one-regular {
@@ -489,137 +736,168 @@ body.dark-theme .nav-list a {
       font-size: 0.9rem;
     }
   }
-  
-  /* Media Queries para la Galería */
-  @media (max-width: 768px) {
-    .gallery-container {
-      grid-template-columns: repeat(2, 1fr);
-      max-width: 100%; /* Limita el ancho en tabletas */
-    }
-    .gallery-item img {
-      width: 80%;
-      margin: 0 auto;
-    }
-  }
-  @media (max-width: 480px) {
-    .gallery-container {
-      grid-template-columns: 1fr;
-      max-width: 100%; /* Limita el ancho en celulares */
-      padding: 0.5rem;
-    }
-    .gallery-item img {
-      width: 70%;
-      margin: 0 auto;
-    }
-  }
-  
-  /* Banner */
-  /* Banner general */
-  .banner {
-    text-align: center;
-    padding: 2rem 1rem;
-    max-width: 100%;
-    color: #fff;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  }
-  .gallery-contaisner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-  
-  #carouselExample {
-    max-height: 400px;
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  }
-  
-  .carousel-inner img {
-    object-fit: cover;
-    height: 400px;
-    width: 100%;
-  }
-  @media screen and (max-width: 768px) {
-    .carousel-inner img {
-      height: 250px;
-    }
-  }
-  
-  .banner h1,
-  .banner p {
-    max-width: 100%;
-    text-align: center;
-    font-size: 20px;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    padding: 0 1rem;
-    transition: font-size 0.3s ease;
-  }
-  
-  /* Banner en tablets */
-  @media (max-width: 168px) {
-    .banner {
-      padding: 1rem;
-    }
-    .banner h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .banner p {
-      font-size: 1.2rem;
-    }
-  }
-  
-  /* Banner en celulares */
-  @media (max-width: 180px) {
-    .banner {
-      padding: 0.5rem;
-    }
-    .banner h1 {
-      font-size: 2rem;
-    }
-    .banner p {
-      font-size: 1rem;
-    }
-  }
-  /* Estilo por defecto (tema claro) */
-nav {
-  background-color: rgb(67, 4, 101); /* o el color claro que estás usando */
-  transition: background-color 0.6s ease;
+/* === ESTILOS PARA LA GALERÍA DE SERVICIOS EN DOS COLUMNAS === */
+
+.services-list-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+  gap: 2rem;                            /* Espacio entre las tarjetas */
+  padding: 2rem;                        /* Espacio alrededor de la cuadrícula */
+  max-width: 1200px;                    /* Ancho máximo para la cuadrícula general */
+  margin: 2rem auto;                    /* Centra la cuadrícula en la página y añade margen superior/inferior */
+  width: 100%;                          /* Asegura que ocupa el espacio disponible hasta el max-width */
+
 }
 
-.servicios-section {
-  position: relative;
-  padding: 4rem 2rem;
-  text-align: center;
+/* Modifica o asegura que .service-card tenga estas propiedades: */
+.service-card {
+  position: relative; /* Necesario para posicionar el pseudo-elemento y el texto */
+  /* ... tus otros estilos para .service-card (max-width, margin, height, etc.) ... */
+  overflow: hidden;   /* Importante para que el gradiente respete el border-radius */
+  border-radius: 1rem; /* Si ya lo tenías, mantenlo */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Si ya lo tenías */
 }
 
-.background-text {
-  font-size: 10rem;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.05); /* texto como marca de agua */
+/* NUEVO: Pseudo-elemento para la superposición de gradiente */
+.service-card::after {
+  content: ''; /* Necesario para que el pseudo-elemento se genere */
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 0;
-  white-space: nowrap;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Tu gradiente: */
+  background: linear-gradient(0deg, rgba(209, 155, 6, 0.329) 0%, rgba(137, 6, 141, 0.315) 100%);
+  /* Fallback por si el gradiente no es soportado (opcional): */
+  /* background-color: #2a0433; */
+  z-index: 1; /* Se colocará encima de la imagen (z-index 0 o auto) y debajo del texto */
+  /* El border-radius se hereda/aplica por el overflow:hidden del .service-card */
 }
 
-.servicios-gallery {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+/* Imagen dentro de la tarjeta de servicio */
+.service-card .service-image { 
+  display: block; 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative; /* Para asegurar que el pseudo-elemento ::after se superponga correctamente */
+  z-index: 0; /* Detrás del gradiente y el texto */
+}
+
+/* Modifica .gallery-text para asegurar que está encima del gradiente */
+.gallery-text { 
+  position: absolute; 
+  bottom: 0;
+  left:0; 
+  width: 100%;
+  color: white;
+  /* El background del gallery-text se puede eliminar o reducir si el gradiente ya oscurece suficiente */
+  /* background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0) 100%); */
+  /* Opcional: dejar un fondo muy sutil en el texto si es necesario para contraste adicional */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 80%);
+  padding: 2rem 1.5rem; 
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.6rem; 
+  z-index: 2; /* Asegura que el texto esté encima del gradiente (que tiene z-index: 1) */
+  box-sizing: border-box;
+}
+
+.gallery-text span {
+  display: block;
+  font-size: 1rem; 
+  font-weight: normal;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+  opacity: 0.95; /* Ajusta la opacidad si es necesario */
 }
 
 
+.gallery-text { 
+  position: absolute; 
+  bottom: 0;
+  left:0; 
+  width: 100%;
+  color: white;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0) 100%); 
+  padding: 1.5rem 1rem; /* Ajusta el padding para el nuevo tamaño */
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.4rem; /* Ajusta el tamaño del título */
+  z-index: 1; 
+  box-sizing: border-box;
+}
 
+.gallery-text span {
+  display: block;
+  font-size: 0.9rem; /* Ajusta el tamaño de la descripción */
+  font-weight: normal;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  opacity: 0.9; 
+}
+
+/* ==== MEDIA QUERIES (Ajustes para la galería de servicios) ==== */
+
+@media (max-width: 1024px) { /* Tablets y pantallas medianas */
+  .services-list-container {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  .service-card {
+    height: 400px; /* Ajustar altura para tablets */
+  }
+  .gallery-text { font-size: 1.3rem; padding: 1.2rem 0.8rem;}
+  .gallery-text span { font-size: 0.85rem; }
+}
+
+@media (max-width: 768px) { /* Pantallas más pequeñas como móviles grandes en vertical y tablets en vertical */
+  /* ... (tus estilos de navegación móvil existentes deben permanecer aquí arriba) ... */
+  
+  .services-list-container {
+    grid-template-columns: 1fr; /* Una sola columna */
+    padding: 1rem;
+    gap: 2rem; /* Espacio entre tarjetas en una sola columna */
+  }
+  
+  .service-card { 
+    height: 380px; /* Altura para tarjetas en una sola columna */
+    /* max-width: 90%; */ /* Opcional: si quieres que no ocupe todo el ancho en móvil */
+    /* margin-left: auto; */   /* Si usas max-width arriba */
+    /* margin-right: auto; */  /* Si usas max-width arriba */
+  }
+  .gallery-text { 
+    font-size: 1.3rem; 
+  }
+  .gallery-text span { 
+    font-size: 0.9rem; 
+  }
+  /* ... (Mantén tus otros estilos de footer, logos etc. para 768px) ... */
+}
+
+@media (max-width: 480px) { /* Móviles */
+  /* ... (tus estilos de navegación móvil y otros existentes) ... */
+  
+  .services-list-container {
+    padding: 1rem 0.8rem; /* Menos padding en los lados */
+    gap: 1.5rem;
+  }
+
+  .service-card { 
+    height: 350px; /* Altura para teléfonos */
+  }
+  .gallery-text { 
+    padding: 1rem 0.8rem; 
+    font-size: 1.2rem; 
+  }
+  .gallery-text span { 
+    font-size: 0.8rem; 
+  }
+  /* ... (Mantén tus otros estilos de footer, etc. para 480px) ... */
+}
+
+/* Mantén tus otras reglas de CSS (Reset, Wrapper, Content, Tipografías, Body, :root, Navegación, Banner de Servicios, Footer, Theme Toggle, WhatsApp, etc.) como estaban. */
+/* Solo necesitas reemplazar o añadir las reglas para .services-list-container, .service-card y sus media queries relacionadas con la galería. */
 
 /* Estilo para tema oscuro */
 body.dark-theme nav {
@@ -672,6 +950,37 @@ body.dark-theme #theme-toggle {
   transition: transform 0.3s ease;
 }
 
+.servicios-section {
+  position: relative;
+  padding: 8rem 4rem; /* Más espacio para el fondo */
+  text-align: center;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.background-text {
+  font-size: 12rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.04); /* Marca de agua blanca muy sutil */
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+.servicios-gallery {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+
 .whatsapp-float:hover {
   transform: scale(1.1);
 }
@@ -714,10 +1023,9 @@ body.dark-theme #theme-toggle {
     width: 120px; /* tamaño reducido para móviles */
   }
 }
-@media screen and (max-width: 68px) {
+@media screen and (max-width: 768px) {
 
   /* ==== LOGOS ==== */
-
   .logos-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -731,80 +1039,14 @@ body.dark-theme #theme-toggle {
 
   /* ==== GALERÍA ==== */
   .gallery-container {
-    grid-template-columns: repeat(1, .5fr);
+    grid-template-columns: repeat(2, 1fr);
     padding: 0.5rem;
     gap: 0.5rem;
-    max-width: 250px;
   }
 
   .gallery-item img {
-    width: 50%;
+    width: 90%;
     margin: 0 auto;
     border-radius: 20px;
   }
-
-  /* ==== NAVBAR ==== */
-  nav {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0.5rem;
-  }
-
-  .nav-list {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0;
-    gap: 0.5rem;
-  }
-
-  .nav-item {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #fff;
-    padding: 0.5rem 0;
-  }
-
-  .user {
-    border-left: none;
-    margin-left: 0;
-    padding-left: 0;
-  }
-
-  /* ==== FOOTER ==== */
-  .footer {
-    flex-direction: column;
-    text-align: center;
-    padding: 0.5rem 1rem;
-    position: relative;
-    z-index: 2;
-  }
-  .footer {
-    padding: 0.5rem 1rem;
-  }
-  .footer-left p {
-    font-size: 1rem;
-  }
-  .social-icon img {
-    width: 28px;
-  }
-  
-  .footer-left p {
-    font-size: 10px;
-    margin-bottom: 0.5rem;
-  }
-
-  .footer-right {
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .social-icon {
-    margin: 0;
-  }
-
-  .social-icon img {
-    width: 30px;
-  }
-}
 

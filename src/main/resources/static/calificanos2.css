@@ -1053,3 +1053,37 @@ body.dark-theme #theme-toggle {
     width: 30px;
   }
 }
+.star-rating {
+  direction: rtl;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.star-rating input {
+  display: none;
+}
+/* base empty star */
+.star-rating label {
+  font-size: 2.5rem;
+  color: var(--star-empty-color);
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+/* draw empty star */
+.star-rating label::before {
+  content: '☆';
+}
+/* fill & pop on hover or checked */
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: var(--star-filled-color);
+}
+.star-rating label:hover::before,
+.star-rating label:hover ~ label::before,
+.star-rating input:checked ~ label::before {
+  content: '★';
+}
+.star-rating label:hover {
+  transform: scale(1.2);
+}
