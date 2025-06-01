@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.proyecto.demo.enums.Rol;
 import java.util.List;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -44,16 +45,16 @@ public class Usuario {
     private float costeMensualInsumos;
     @ManyToOne
     private Zona zona;
-        @OneToMany
+      @OneToMany(fetch = FetchType.EAGER)
     private List<Cliente> clientes;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Barra> barras;
-        @OneToMany
+       @OneToMany(fetch = FetchType.EAGER)
     private List<Pedido> pedidos;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Proveedor> proveedores;
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Cristaleria> todasLasCristalerias;
      
     @OneToMany

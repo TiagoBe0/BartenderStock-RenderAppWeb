@@ -93,7 +93,7 @@ public class UsuarioController {
         
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
-        model.put("empresas", login.getBarras());
+        model.put("empresas", usuarioServicio.todasLasBarras(id));
       
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
