@@ -276,7 +276,7 @@
                 <form th:action="@{/usuario/actualizar-barra}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" th:value="${perfil?.id}"/> <div class="form-input-group">
                         <label for="nombreBarra">Nombre</label>
-                        <input class="form-control" type="text" name="nombre" id="nombreBarra" placeholder="Ej: Barra Principal, Barra Terraza" required>
+                        <input class="form-control" type="text" name="nombre" id="nombreBarra" placeholder="nombre de empresa o proyecto" required>
                         </div>
                     
                     <button class="btn-submit-form" type="submit">Guardar</button>

@@ -59,10 +59,6 @@ public class UsuarioController {
    
        @GetMapping("/inicioUsuario")
     public String inicioUsuario(ModelMap modelo) {
-        
-        
-        
-        
         return  "render-inicioUsuario.html";
     }
     
@@ -79,7 +75,6 @@ public class UsuarioController {
          model.put("ordenes",cristalerias );
             model.addAttribute("clientes", proveedorServicio.listarTodas());
              model.addAttribute("perfil", login);
-             usuarioServicio.actualizarCapitalTotal(id);
          
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
@@ -90,7 +85,24 @@ public class UsuarioController {
     }
    
     
-    
+         //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/panel-empresas")
+    public String panelEmpresas(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
+        //barraServicio.registrar(nombre, id);
+        
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        
+        model.put("empresas", login.getBarras());
+      
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        
+        return "empresas.html";
+    }
+   
     
         //Este es el que llega a crear barra
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
