@@ -82,7 +82,6 @@ public class Controlador {
     public String brief(){
         return "brief.html";
     }
-    
       @GetMapping("/contacto")
     public String contacto(){
         return "contacto.html";
@@ -94,7 +93,10 @@ public class Controlador {
         return "render-registro.html";
     }
     
-    
+    @GetMapping("/panel-rahip")
+    public String panel(){
+        return "panel-rahip.html";
+    }
     
        
      @GetMapping("/tablaUsuario")

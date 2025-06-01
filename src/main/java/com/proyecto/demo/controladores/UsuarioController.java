@@ -8,6 +8,7 @@ import com.proyecto.demo.entidades.Zona;
 import com.proyecto.demo.errores.ErrorServicio;
 import com.proyecto.demo.repositorios.ZonaRepositorio;
 import com.proyecto.demo.servicios.BarraServicio;
+import com.proyecto.demo.servicios.ClienteServicio;
 import com.proyecto.demo.servicios.CristalServicio;
 import com.proyecto.demo.servicios.CristaleriaServicio;
 import com.proyecto.demo.servicios.PedidoServicio;
@@ -48,6 +49,67 @@ public class UsuarioController {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private CristalServicio cristalServicio;
+    @Autowired
+    private ClienteServicio clienteServicio;
+    
+    
+    
+    //CONTROLADORES RAHIP WEB
+    
+   
+       @GetMapping("/inicioUsuario")
+    public String inicioUsuario(ModelMap modelo) {
+        
+        
+        
+        
+        return  "render-inicioUsuario.html";
+    }
+    
+    
+   
+    ///FIN COPNTROLADORES RAHIP WEB 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     //COPIA DE HTML FORMULARIO USUARIO
@@ -492,14 +554,7 @@ System.out.println("NOMBRE E ID DE USUARIO BARRA _"+id+";"+nombre);
        modelo.put("barras", barras);
         return "registroBarra.html";
     }
-     @GetMapping("/inicioUsuario")
-    public String inicioUsuario(ModelMap modelo) {
-        
-        
-        
-        
-        return  "render-inicioUsuario.html";
-    }
+  
     
      @PostMapping("/registrar")
     public String registrar( ModelMap modelo,MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2) {

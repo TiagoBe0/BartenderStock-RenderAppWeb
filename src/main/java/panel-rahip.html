@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>rahip - Login</title>
+  <title>rahip - Órdenes de Trabajo</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,26 +15,12 @@
   <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
 
   <style>
-    /* Contenedor principal para centrar el contenido del login */
-    main.login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 1; /* Ocupa el espacio disponible para centrar verticalmente */
-    }
-
-    .login-box {
-      max-width: 400px;
-      width: 100%;
-      padding: 2rem;
-    }
-
-    /* Estilo para los campos del formulario */
+    /* Estilo para que los campos del formulario coincidan con la imagen */
     .form-transparente {
       background-color: transparent !important;
       border: 1px solid rgba(255, 255, 255, 0.8) !important;
       color: white !important;
-      border-radius: 15px;
+      border-radius: 15px; /* Bordes redondeados como en la imagen */
     }
     .form-transparente::placeholder {
       color: rgba(255, 255, 255, 0.7) !important;
@@ -42,11 +28,19 @@
     .form-transparente:focus {
       box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25) !important;
     }
+    .form-select.form-transparente option {
+      background-color: #4a1580; /* Color de fondo del desplegable */
+    }
 
     /* Estilo para los botones */
     .btn-rounded {
       border-radius: 25px;
       padding: 0.5rem 1.5rem;
+    }
+    
+    /* Para la tabla de la derecha */
+    .table-ordenes th, .table-ordenes td {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Línea divisoria sutil */
     }
   </style>
   
@@ -77,32 +71,79 @@
       <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
     </a>
 
-    <main class="content login-container">
-        <div class="login-box text-white text-center">
-            <h2 class="mb-4">Iniciar Sesión</h2>
+    <main class="content text-white py-4 px-md-5">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="d-grid gap-3">
+              <button class="btn btn-light btn-rounded fw-bold">Nueva orden trabajo</button>
+              <button class="btn btn-outline-light btn-rounded">Nuevo cliente</button>
+            </div>
 
-            <div th:if="${param.error}" class="alert alert-danger" role="alert">
-                Usuario o contraseña inválidos.
-            </div>
-  
-            <form action="/logincheck" method="post">
-                <div class="mb-3">
-                    <input type="email" name="username" id="username" class="form-control form-transparente text-center" placeholder="Email" required autofocus>
-                </div>
-                <div class="mb-4">
-                    <input type="password" name="password" id="password" class="form-control form-transparente text-center" placeholder="Contraseña" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-outline-light btn-rounded">Ingresar</button>
-                </div>
+            <form th:action="@{/guardar-orden}" th:object="${orden}" method="post" class="mt-4">
+              <p class="fw-bold">OT #00000</p>
+              <div class="mb-3">
+                <select class="form-select form-transparente" th:field="*{empresaId}">
+                  <option value="">Empresa</option>
+                  <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombre}"></option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <select class="form-select form-transparente" th:field="*{clienteId}">
+                    <option value="">Cliente</option>
+                    <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control form-transparente" rows="4" placeholder="Descripción..." th:field="*{descripcion}"></textarea>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control form-transparente" placeholder="$0.00" th:field="*{monto}">
+              </div>
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-outline-light btn-rounded">Generar OT</button>
+              </div>
+              <div class="text-center mt-3">
+                <span class="me-2">●</span><span>●</span>
+              </div>
             </form>
-            <div class="mt-4">
-                <a href="#" class="text-white-50 small">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <div class="col-lg-7 mt-4 mt-lg-0">
+            <form class="d-flex gap-2 mb-4">
+              <input class="form-control form-transparente flex-grow-1" type="search" placeholder="">
+              <button class="btn btn-outline-light btn-rounded" type="submit">Buscar</button>
+              <button class="btn btn-outline-light btn-rounded" type="reset">Limpiar búsqueda</button>
+            </form>
+
+            <div class="table-responsive">
+              <table class="table table-borderless text-white table-ordenes">
+                <thead>
+                  <tr>
+                    <th scope="col">N° ORDEN</th>
+                    <th scope="col">EMPRESA</th>
+                    <th scope="col">CLIENTE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="orden : ${ordenes}">
+                    <td th:text="${orden.numero}">#00001</td>
+                    <td th:text="${orden.empresaNombre}">Nombre Empresa</td>
+                    <td th:text="${orden.clienteNombre}">Nombre Cliente</td>
+                  </tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                  <tr><td>&nbsp;</td><td></td><td></td></tr>
+                </tbody>
+              </table>
             </div>
-            <div class="mt-3">
-                <p class="mb-0 text-white-50">¿No tienes una cuenta? <a href="/registro" class="text-white fw-bold">Regístrate</a></p>
-            </div>
+          </div>
         </div>
+      </div>
     </main>
     <footer class="footer">
         <div class="footer-left">
