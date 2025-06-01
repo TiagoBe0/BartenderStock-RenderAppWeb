@@ -114,7 +114,30 @@
                     </form>
                 </div>
 
-              
+                <div class="tab-pane fade" id="orden-tab-pane" role="tabpanel" aria-labelledby="orden-tab" tabindex="0">
+                    <h4>Nueva Orden de Trabajo</h4>
+                    <form th:action="@{/ordenes/crear}" th:object="${orden}" method="post">
+                        <div class="mb-3">
+                            <label for="empresaSelect" class="form-label">Seleccionar Empresa</label>
+                            <select class="form-select" id="empresaSelect" th:field="*{empresaId}" required>
+                                <option value="">-- Elige una empresa --</option>
+                                <option th:each="emp : ${empresas}" th:value="${emp.id}" th:text="${emp.nombre}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clienteSelect" class="form-label">Seleccionar Cliente</label>
+                            <select class="form-select" id="clienteSelect" th:field="*{clienteId}" required>
+                                <option value="">-- Elige un cliente --</option>
+                                <option th:each="cli : ${clientes}" th:value="${cli.id}" th:text="${cli.nombre + ' ' + cli.apellido}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionOrden" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcionOrden" rows="3" th:field="*{descripcion}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-light">Generar Orden</button>
+                    </form>
+                </div>
             </div>
         </section>
         <h2 class="text-center text-white mb-4">Lista de Empresas</h2>

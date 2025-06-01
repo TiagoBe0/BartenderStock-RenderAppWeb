@@ -263,32 +263,6 @@
 </head>
 <body>
 
-<div id="app-container">
-
-    <section id="content">
-        <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Formularios</a> 
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Buscar...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
-            <a href="#" class="notification">
-                <i class='bx bxs-bell'></i>
-                <span class="num" th:if="${notificaciones != null && notificaciones > 0}" th:text="${notificaciones}">0</span>
-            </a>
-            <a href="#" class="profile" th:if="${perfil != null && perfil.id != null}">
-                <img th:src="@{'/foto/usuario/' + ${perfil.id}}" alt="Foto de perfil">
-            </a>
-        </nav>
-        <main>
-            <a class="btn-dashboard-link" th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
-                <i class='bx bx-arrow-back'></i> Volver al Dashboard
-            </a>
 
             <div class="form-container-card">
                 <h2>Nueva Empresa</h2>
