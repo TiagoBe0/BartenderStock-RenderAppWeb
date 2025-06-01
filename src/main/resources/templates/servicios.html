@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
   
@@ -18,7 +18,7 @@
   <div class="wrapper">
     <header>
       <nav>
-        <a href="index.html" class="brand">
+        <a href="@{/}" class="brand">
           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon"> </a>
         <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
           <span class="hamburger-icon"></span>
@@ -30,7 +30,6 @@
           <li class="nav-item"><a href="brief.html">BRIEF</a></li>
           <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
           <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
-       
         </ul>
       </nav>
     </header>

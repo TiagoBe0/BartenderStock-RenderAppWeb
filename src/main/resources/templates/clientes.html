@@ -26,12 +26,13 @@
           <span class="hamburger-icon"></span>
           <span class="sr-only">Menú</span>
         </button>
-        <ul class="nav-list" id="navList">
-          <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
-          <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
-          <li class="nav-item"><a href="brief.html">BRIEF</a></li>
-          <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
-          <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
+         <ul class="nav-list" id="navList">
+          <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
+          <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
+          <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
+          <li class="nav-item"><a th:href="@{/calificanos}">CALIFICANOS</a></li>
+          <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
+        
         </ul>
       </nav>
     </header>
@@ -51,8 +52,6 @@
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
-                <th scope="col">Email</th>
-                <th scope="col">Rol</th>
               </tr>
             </thead>
             <tbody>
@@ -60,8 +59,6 @@
                 <td th:text="${usuario.id}">ID del Usuario</td>
                 <td th:text="${usuario.nombre}">Nombre del Usuario</td>
                 <td th:text="${usuario.apellido}">Apellido del Usuario</td>
-                <td th:text="${usuario.mail}">email@ejemplo.com</td>
-                <td th:text="${usuario.rol}">Rol del Usuario</td>
               </tr>
             </tbody>
           </table>
