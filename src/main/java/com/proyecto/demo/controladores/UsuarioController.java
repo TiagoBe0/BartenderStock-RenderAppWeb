@@ -73,7 +73,7 @@ public class UsuarioController {
         model.put("empresas", login.getBarras());
         List<Cristaleria> cristalerias=login.getTodasLasCristalerias();
          model.put("ordenes",cristalerias );
-            model.addAttribute("clientes", proveedorServicio.listarTodas());
+            model.addAttribute("clientes", usuarioServicio.listarProveedores(id));
              model.addAttribute("perfil", login);
          
         if (login == null || !login.getId().equals(id)) {
@@ -231,7 +231,7 @@ public class UsuarioController {
     //POST ACTUALIZAR PROVEEDOR
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @PostMapping("/actualizar-cliente")
-    public String actualizarProveedor(ModelMap modelo, HttpSession session,   String id,  String nombre ,long contacto,String link ) throws ErrorServicio {
+    public String actualizarProveedor(ModelMap modelo, HttpSession session,   String id,  String nombre ,long contacto,String link ,String direccion) throws ErrorServicio {
        
         //Aqui me comunico con MODIFICARBARRA
          usuarioServicio.modificarProveedor(id, nombre,contacto,link);

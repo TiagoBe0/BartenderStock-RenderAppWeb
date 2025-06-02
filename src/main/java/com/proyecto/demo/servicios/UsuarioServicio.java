@@ -129,6 +129,12 @@ public Barra registrarBarra(String idUsuario, String nombreBarra) throws ErrorSe
         usuarioRepositorio.save(usuario);
 
     }
+    @Transactional
+    public List<Proveedor> listarProveedores(String idUsuario) throws ErrorServicio{
+            
+    return buscarPorId(idUsuario).getProveedores();
+    }
+    
         @Transactional
     public void registrarAdmin(MultipartFile archivo, String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
         System.out.println("LLEGARON DATOS A LOS SERVICIOOOOOOOOOOOOOOS");
