@@ -94,6 +94,7 @@ public class UsuarioController {
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         
         model.put("empresas", usuarioServicio.todasLasBarras(id));
+       model.put("clientes", usuarioServicio.buscarPorId(id).getProveedores());
       
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
@@ -227,6 +228,34 @@ public class UsuarioController {
 
     }
     
+    //POST ACTUALIZAR PROVEEDOR
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @PostMapping("/actualizar-cliente")
+    public String actualizarProveedor(ModelMap modelo, HttpSession session,   String id,  String nombre ,long contacto,String link ) throws ErrorServicio {
+       
+        //Aqui me comunico con MODIFICARBARRA
+         usuarioServicio.modificarProveedor(id, nombre,contacto,link);
+        Usuario usuario = null;
+        try {
+
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+            if (login == null || !login.getId().equals(id)) {
+                return "redirect:/inicio";
+            }
+
+            usuario = usuarioServicio.buscarPorId(id);
+            //usuarioServicio.modificarBarra(id,nombre);
+           
+            session.setAttribute("usuariosession", usuario);
+
+            return "redirect:/inicio";
+        } catch (ErrorServicio ex) {
+           
+
+            return "perfil.html";
+        }
+
+    }
     
     
     
@@ -526,34 +555,6 @@ public class UsuarioController {
         System.out.println("ACTUALIZAR BARRA"+nombre+id);
         //Aqui me comunico con MODIFICARBARRA
          usuarioServicio.modificarBarra(id, nombre);
-        Usuario usuario = null;
-        try {
-
-            Usuario login = (Usuario) session.getAttribute("usuariosession");
-            if (login == null || !login.getId().equals(id)) {
-                return "redirect:/inicio";
-            }
-
-            usuario = usuarioServicio.buscarPorId(id);
-            //usuarioServicio.modificarBarra(id,nombre);
-           
-            session.setAttribute("usuariosession", usuario);
-
-            return "redirect:/inicio";
-        } catch (ErrorServicio ex) {
-           
-
-            return "perfil.html";
-        }
-
-    }
-    //POST ACTUALIZAR PROVEEDOR
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
-    @PostMapping("/actualizar-proveedor")
-    public String actualizarProveedor(ModelMap modelo, HttpSession session,   String id,  String nombre ,long contacto,String link ) throws ErrorServicio {
-       
-        //Aqui me comunico con MODIFICARBARRA
-         usuarioServicio.modificarProveedor(id, nombre,contacto,link);
         Usuario usuario = null;
         try {
 

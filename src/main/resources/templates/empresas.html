@@ -243,6 +243,54 @@
     </a>
 
     <main class="content">
+        <section class="formulario-orden">
+            
+            <form th:action="@{/usuario/registrar-orden}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${perfil.id}"/>
+
+                    <div class="form-input-group">
+                        <label for="tipoCristaleria">titulo</label>
+                        <input class="form-control" type="text" name="tipo" id="tipoCristaleria" placeholder="Ej: Evento cultura mendoza" required>
+                    </div>
+
+                    <div class="form-input-group">
+                        <label for="descripcionCristaleria">Descripción (Opcional)</label>
+                        <input class="form-control" type="text" name="descripcion" id="descripcionCristaleria" placeholder="Ej: Entregar presupuesto antes de mayo">
+                    </div>
+
+                    <div class="form-input-group">
+                        <label for="cantidadStock">numero de cuotas</label>
+                        <input class="form-control" type="number" name="enStock" id="cantidadStock" placeholder="0" required min="0">
+                    </div>
+
+                    <div class="form-input-group">
+                        <label for="precioUnidad">precio por cuota</label>
+                        <input class="form-control" type="number" name="precio" id="precioUnidad" placeholder="0.00" required step="0.01" min="0">
+                    </div>
+
+                    <div class="form-input-group">
+                        <label for="idBarraSelect">Empresa</label>
+                        <select class="form-select" name="idEmpresa" id="idBarraSelect" required>
+                            <option value="" disabled selected>Selecciona una empresa...</option>
+                            <option th:each="empresa: ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombre}">Nombre de Empresa</option>
+                        </select>
+                    </div>
+  <div class="form-input-group">
+                        <label for="idBarraSelect">Cliente</label>
+                        <select class="form-select" name="idCliente" id="idBarraSelect" required>
+                            <option value="" disabled selected>Selecciona un cliente...</option>
+                            <option th:each="cliente: ${clientes}" th:value="${cliente.id}" th:text="${barra.nombre}">Nombre de Cliente</option>
+                        </select>
+                    </div>
+                  
+                    
+                   
+
+                    <button class="btn-submit-form" type="submit">Registrar Cristalería</button>
+                </form>
+        </section>
+        
+        
       <div class="container mt-4">
         <h2 class="text-center mb-4 table-title">Lista de Empresas</h2>
         <div class="table-responsive">
@@ -259,6 +307,27 @@
                 <td th:text="${empresa.nombre}">Empresa</td>
                 <td th:text="${empresa.precioTotal}">Capital</td>
                 <td th:text="${empresa.totalUnidades}">Trabajos</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+         <div class="container mt-4">
+        <h2 class="text-center mb-4 table-title">Lista de Empresas</h2>
+        <div class="table-responsive">
+           <table class="table-empresas-custom">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">link</th>
+                <th scope="col">celular</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.nombre}">cliente</td>
+                <td th:text="${cliente.link}">link</td>
+                <td th:text="${cliente.celular}">celular</td>
               </tr>
             </tbody>
           </table>
