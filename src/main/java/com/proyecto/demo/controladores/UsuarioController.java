@@ -240,7 +240,7 @@ public class UsuarioController {
 
             Usuario login = (Usuario) session.getAttribute("usuariosession");
             if (login == null || !login.getId().equals(id)) {
-                return "redirect:/inicio";
+                return "redirect:/usuario/inicioUsuario";
             }
 
             usuario = usuarioServicio.buscarPorId(id);
@@ -248,7 +248,7 @@ public class UsuarioController {
            
             session.setAttribute("usuariosession", usuario);
 
-            return "redirect:/inicio";
+            return "redirect:/usuario/inicioUsuario";
         } catch (ErrorServicio ex) {
            
 
@@ -552,15 +552,15 @@ public class UsuarioController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @PostMapping("/actualizar-barra")
     public String actualizarBarra(ModelMap modelo, HttpSession session,   String id,  String nombre ) throws ErrorServicio {
-        System.out.println("ACTUALIZAR BARRA"+nombre+id);
-        //Aqui me comunico con MODIFICARBARRA
+        
          usuarioServicio.modificarBarra(id, nombre);
         Usuario usuario = null;
         try {
 
             Usuario login = (Usuario) session.getAttribute("usuariosession");
             if (login == null || !login.getId().equals(id)) {
-                return "redirect:/inicio";
+                
+            return "redirect:/usuario/registro-empresa(id="+id+")";
             }
 
             usuario = usuarioServicio.buscarPorId(id);
@@ -568,7 +568,7 @@ public class UsuarioController {
            
             session.setAttribute("usuariosession", usuario);
 
-            return "redirect:/inicio";
+            return "redirect:/usuario/registro-empresa(id="+id+")";
         } catch (ErrorServicio ex) {
            
 

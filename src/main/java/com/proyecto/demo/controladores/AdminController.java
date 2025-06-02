@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.proyecto.demo.entidades.Usuario;
 import com.proyecto.demo.servicios.BarraServicio;
 import com.proyecto.demo.servicios.CristaleriaServicio;
+import com.proyecto.demo.servicios.ProveedorServicio;
 import com.proyecto.demo.servicios.UsuarioServicio;
 
 @Controller
@@ -28,6 +29,9 @@ public class AdminController {
         BarraServicio barraServicio;
 	@Autowired 
         CristaleriaServicio cristaleriaServicio;
+        
+	@Autowired 
+        ProveedorServicio proveedorServicio;
 	@GetMapping("/dashboard")
 	public String inicioAdmin(ModelMap modelo) {
 		
@@ -77,7 +81,7 @@ public class AdminController {
 	@GetMapping("/deshabilitar-cliente/{id}")
 	public String deshabilitarCliente(ModelMap modelo, @PathVariable String id) {
 		try {
-			cr.deshabilitar(id);
+			proveedorServicio.deshabilitar(id);
 			return "redirect:/admin/dashboard";
 		}catch(Exception e) {
 			modelo.put("error", "No fue posible deshabilitar");

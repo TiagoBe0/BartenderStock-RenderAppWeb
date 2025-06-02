@@ -116,7 +116,7 @@ public class ProveedorServicio {
     }
     
     
-    
+    @Transactional
      public Proveedor buscarPorId(String id) throws ErrorServicio {
 
         Optional<Proveedor> respuesta = barraRepositorio.findById(id);
@@ -131,9 +131,12 @@ public class ProveedorServicio {
 
     }
      
+    @Transactional
      public void deshabilitar(String id) throws ErrorServicio{
      
           Proveedor barra = buscarPorId(id);
+          barra.setActiva(false);
+          barraRepositorio.save(barra);
           barraRepositorio.delete(barra);
           barraRepositorio.deleteById(id);
      
