@@ -249,7 +249,7 @@
 <body>
 
         <main>
-            <a class="btn-dashboard-link" th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
+            <a class="btn-dashboard-link" th:href="@{/usuario/panel-rahip(id=${session.usuariosession.id})}">
                 <i class='bx bx-arrow-back'></i> Volver al Dashboard
             </a>
 
@@ -266,21 +266,21 @@
 
                     <div class="form-input-group">
                         <label for="tipoCristaleria">titulo</label>
-                        <input class="form-control" type="text" name="tipo" id="tipoCristaleria" placeholder="Ej: Copa de Vino, Vaso Highball" required>
+                        <input class="form-control" type="text" name="tipo" id="tipoCristaleria" placeholder="Ej: Evento cultura mendoza" required>
                     </div>
 
                     <div class="form-input-group">
                         <label for="descripcionCristaleria">Descripción (Opcional)</label>
-                        <input class="form-control" type="text" name="descripcion" id="descripcionCristaleria" placeholder="Ej: Resistente, Tallada, etc.">
+                        <input class="form-control" type="text" name="descripcion" id="descripcionCristaleria" placeholder="Ej: Entregar presupuesto antes de mayo">
                     </div>
 
                     <div class="form-input-group">
-                        <label for="cantidadStock">numero de trabajos</label>
+                        <label for="cantidadStock">numero de cuotas</label>
                         <input class="form-control" type="number" name="enStock" id="cantidadStock" placeholder="0" required min="0">
                     </div>
 
                     <div class="form-input-group">
-                        <label for="precioUnidad">precio por Unidad</label>
+                        <label for="precioUnidad">precio por cuota</label>
                         <input class="form-control" type="number" name="precio" id="precioUnidad" placeholder="0.00" required step="0.01" min="0">
                     </div>
 

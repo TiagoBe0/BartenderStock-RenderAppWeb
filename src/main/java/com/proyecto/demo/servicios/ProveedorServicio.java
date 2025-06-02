@@ -84,7 +84,7 @@ public class ProveedorServicio {
             
     
     }
-   
+   @Transactional
     public List<Proveedor> listarTodas(){
         return barraRepositorio.findAll();
     }

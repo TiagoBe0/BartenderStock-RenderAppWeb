@@ -188,7 +188,7 @@ public class UsuarioController {
             Usuario usuario = usuarioServicio.buscarPorId(id);
             
              model.addAttribute("empresas", usuarioServicio.todasLasBarras(id));
-              model.addAttribute("clientes",usuario.getProveedores());
+              model.addAttribute("clientes",proveedorServicio.listarTodas());
             model.addAttribute("perfil", usuario);
         } catch (ErrorServicio e) {
             model.addAttribute("error", e.getMessage());
