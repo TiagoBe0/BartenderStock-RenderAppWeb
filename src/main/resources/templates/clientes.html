@@ -252,13 +252,17 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">link</th>
                 <th scope="col">celular</th>
+                
+                <th scope="col">acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr th:each="cliente : ${clientes}">
+              <tr th:each="cliente : ${clientes}" th:if="${clientes.activo}">
                 <td th:text="${cliente.nombre}">cliente</td>
                 <td th:text="${cliente.link}">link</td>
                 <td th:text="${cliente.celular}">celular</td>
+                
+                            <td ><a th:href="@{/admin/deshabilitar-cliente/__${cliente.id}__}"><i class="fa fa-ban"></i></a></td>
               </tr>
             </tbody>
           </table>

@@ -349,13 +349,6 @@
                                     <option th:each="empresa: ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombre}">Nombre de Empresa</option>
                                 </select>
                             </div>
-                            <div class="form-input-group">
-                                <label for="clienteSelect">Cliente</label>
-                                <select class="form-select" name="idCliente" id="clienteSelect" required>
-                                    <option value="" disabled selected>Selecciona un cliente...</option>
-                                    <option th:each="cliente: ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre + (cliente.apellido != null ? ' ' + cliente.apellido : '')}">Nombre de Cliente</option>
-                                </select>
-                            </div>
                             <button class="btn-submit-form mt-3" type="submit">Registrar Orden</button>
                         </form>
                     </section>
@@ -370,40 +363,24 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Capital Total ($)</th>
                             <th scope="col">Total de trabajos</th>
+                            <th scope="col">acciones</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr th:each="empresa : ${empresas}">
+                          <tr th:each="empresa : ${empresas}" th:if="${empresa.activa}">
                             <td th:text="${empresa.nombre}">Empresa</td>
                             <td th:text="${empresa.precioTotal}">Capital</td>
                             <td th:text="${empresa.totalUnidades}">Trabajos</td>
+                            
+                            <td ><a th:href="@{/admin/deshabilitar-empresa/__${empresa.id}__}">eliminar</a></td>
+                                                        
+
                           </tr>
                         </tbody>
                       </table>
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="clientes-pane" role="tabpanel" aria-labelledby="clientes-tab" tabindex="0">
-                    <h4 class="text-center mb-3 mt-3 table-title">Lista de Clientes</h4>
-                    <div class="table-responsive">
-                       <table class="table-empresas-custom">
-                        <thead>
-                          <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Link</th>
-                            <th scope="col">Celular</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr th:each="cliente : ${clientes}">
-                            <td th:text="${cliente.nombre + (cliente.apellido != null ? ' ' + cliente.apellido : '')}">Cliente</td>
-                            <td th:text="${cliente.link}">link</td>
-                            <td th:text="${cliente.celular}">celular</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                </div>
             </div>
         </section>
         </div> </main>

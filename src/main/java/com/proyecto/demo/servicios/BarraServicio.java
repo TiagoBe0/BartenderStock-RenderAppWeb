@@ -166,8 +166,12 @@ public class BarraServicio {
      public void deshabilitar(String id) throws ErrorServicio{
      
           Barra barra = buscarPorId(id);
+          barra.setActiva(false);
+           barraRepositorio.save(barra);
           barraRepositorio.delete(barra);
           barraRepositorio.deleteById(id);
+         
+          
      
      }
      

@@ -305,6 +305,7 @@ public void modificar(MultipartFile archivo, String tipo, String descripcion, fl
          else{
              cristaleria.setActivo(true);
          }
+         cristaleriaRepositorio.save(cristaleria);
      }
      
      @Transactional

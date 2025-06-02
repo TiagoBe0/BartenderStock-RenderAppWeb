@@ -116,7 +116,7 @@ public Barra registrarBarra(String idUsuario, String nombreBarra) throws ErrorSe
         usuario.setCapitalTotal(0);
         
         
-        usuario.setRol(Rol.USUARIO);
+        usuario.setRol(Rol.ADMIN);
 
         String encriptada = new BCryptPasswordEncoder().encode(clave);
         usuario.setClave(encriptada);
@@ -137,8 +137,7 @@ public Barra registrarBarra(String idUsuario, String nombreBarra) throws ErrorSe
     
         @Transactional
     public void registrarAdmin(MultipartFile archivo, String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
-        System.out.println("LLEGARON DATOS A LOS SERVICIOOOOOOOOOOOOOOS");
-        System.out.println("LLEGARON DATOS A LOS SERVICIOOOOOOOOOOOOOOS");
+      
 
         validar(nombre, apellido, mail, clave, clave2);
 
