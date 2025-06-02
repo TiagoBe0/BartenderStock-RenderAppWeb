@@ -66,14 +66,22 @@
           <table class="table-empresas-custom">
             <thead>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">nombre</th>
+                <th scope="col">link</th>
+                
+                <th scope="col">telefono</th>
+                
+                <th scope="col">deuda($)</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="cliente: ${clientes}">
-                <td th:text="${cliente.id}">ID de la Empresa</td>
-                <td th:text="${cliente.nombre}">Nombre de la Empresa</td>
+                <td th:text="${cliente.nombre}">nombre</td>
+                <td th:text="${cliente.link}">link</td>
+                <td th:text="${cliente.celular}">261200333</td>
+                
+                <td th:text="${cliente.precioTotal}">0$</td>
+              
               </tr>
               </tbody>
           </table>
