@@ -103,7 +103,23 @@ public class UsuarioController {
         return "empresas.html";
     }
    
-    
+             //ESTE ES PARA ENTRAR AL PANEL BARRA  ------------------cerebro
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/panel-clientes")
+    public String panelClientes(HttpSession session, @RequestParam String id, String nombre,ModelMap model) throws ErrorServicio {
+        //barraServicio.registrar(nombre, id);
+        
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        
+        model.put("clientes", usuarioServicio.buscarPorId(id).getProveedores());
+      
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        
+        return "clientes.html";
+    }
         //Este es el que llega a crear barra
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @GetMapping("/registro-empresa")

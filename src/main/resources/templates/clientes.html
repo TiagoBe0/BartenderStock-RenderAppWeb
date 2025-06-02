@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>rahip - Lista de Usuarios</title>
+  <title>rahip - Lista de Empresas</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,30 +13,47 @@
   
   <link rel="stylesheet" href="nosotros.css">
   <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
+
+  <style>
+    .table-empresas-custom {
+      width: 100%;
+      margin-bottom: 1rem;
+      color: white; /* Color de texto general para la tabla */
+      border-collapse: collapse; /* Bordes más limpios */
+    }
+
+    .table-empresas-custom th,
+    .table-empresas-custom td {
+      padding: 0.9rem; /* Espaciado interno más generoso */
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Bordes sutiles */
+    }
+
+    .table-empresas-custom thead th {
+      background-color: rgb(67, 4, 101); /* Color de fondo del header de tu nav en nosotros.css */
+      color: white;
+      font-weight: bold;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .table-empresas-custom tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05); /* Rayado sutil para filas pares */
+    }
+
+    .table-empresas-custom tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Efecto hover */
+      cursor: pointer;
+    }
+
+    /* Ajuste para el título de la sección de la tabla */
+    .table-title {
+        color: white; /* Asegurar que el título sea blanco */
+    }
+  </style>
   
 </head>
 <body>
   <div class="wrapper">
-    <header>
-      <nav>
-        <a href="index.html" class="brand">
-          <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
-        </a>
-        <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
-          <span class="hamburger-icon"></span>
-          <span class="sr-only">Menú</span>
-        </button>
-         <ul class="nav-list" id="navList">
-          <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
-          <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
-          <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
-          <li class="nav-item"><a th:href="@{/calificanos}">CALIFICANOS</a></li>
-          <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
-        
-        </ul>
-      </nav>
-    </header>
-
     <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
     <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
       <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
@@ -44,23 +61,21 @@
 
     <main class="content">
       <div class="container mt-4">
-        <h2 class="text-center text-white mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4 table-title">Lista de Empresas</h2>
         <div class="table-responsive">
-          <table class="table table-dark table-striped table-bordered table-hover">
+          <table class="table-empresas-custom">
             <thead>
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
               </tr>
             </thead>
             <tbody>
-              <tr th:each="usuario : ${usuarios}">
-                <td th:text="${usuario.id}">ID del Usuario</td>
-                <td th:text="${usuario.nombre}">Nombre del Usuario</td>
-                <td th:text="${usuario.apellido}">Apellido del Usuario</td>
+              <tr th:each="cliente: ${clientes}">
+                <td th:text="${cliente.id}">ID de la Empresa</td>
+                <td th:text="${cliente.nombre}">Nombre de la Empresa</td>
               </tr>
-            </tbody>
+              </tbody>
           </table>
         </div>
       </div>
@@ -79,7 +94,7 @@
     </footer>
   </div>
   
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"></script>
 
   <script>
     // Theme toggle function
@@ -90,17 +105,17 @@
       button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
     }
 
-    // Navigation toggle
-    const navToggle = document.getElementById('navToggle');
-    const navList = document.getElementById('navList');
+    // Navigation toggle (si decides agregar el nav header después)
+    // const navToggle = document.getElementById('navToggle');
+    // const navList = document.getElementById('navList');
 
-    if (navToggle && navList) {
-      navToggle.addEventListener('click', () => {
-        navList.classList.toggle('active');
-        const isExpanded = navList.classList.contains('active');
-        navToggle.setAttribute('aria-expanded', isExpanded);
-      });
-    }
+    // if (navToggle && navList) {
+    //   navToggle.addEventListener('click', () => {
+    //     navList.classList.toggle('active');
+    //     const isExpanded = navList.classList.contains('active');
+    //     navToggle.setAttribute('aria-expanded', isExpanded);
+    //   });
+    // }
   </script>
   
 </body>
