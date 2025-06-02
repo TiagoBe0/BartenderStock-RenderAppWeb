@@ -560,7 +560,7 @@ public class UsuarioController {
             Usuario login = (Usuario) session.getAttribute("usuariosession");
             if (login == null || !login.getId().equals(id)) {
                 
-            return "redirect:/usuario/registro-empresa(id="+id+")";
+            return "redirect:/usuario/inicioUsuario";
             }
 
             usuario = usuarioServicio.buscarPorId(id);
@@ -568,7 +568,7 @@ public class UsuarioController {
            
             session.setAttribute("usuariosession", usuario);
 
-            return "redirect:/usuario/registro-empresa(id="+id+")";
+            return "redirect:/usuario/inicioUsuario";
         } catch (ErrorServicio ex) {
            
 
