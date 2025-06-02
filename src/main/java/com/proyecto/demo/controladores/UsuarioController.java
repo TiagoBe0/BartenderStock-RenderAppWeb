@@ -151,7 +151,7 @@ public class UsuarioController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
     @GetMapping("/registro-cliente")
     public String registroCliente(HttpSession session, @RequestParam String id,String nombre, ModelMap model) throws ErrorServicio {
-        System.out.println("Estamos llegando a controlador del usuariossesision");
+       
         //barraServicio.registrar(nombre, id);
        //List<Barra> barras =usuarioServicio.todasLasBarras(id);
          //model.put("barras", barras);

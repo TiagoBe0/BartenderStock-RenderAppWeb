@@ -233,7 +233,7 @@
             </div>
 
             <form th:action="@{/usuario/actualizar-cliente}" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="id" th:value="${cliente?.id}"/>
+                <input type="hidden" name="id" th:value="${perfil.id}"/>
 
                 <div class="form-input-group">
                     <label for="nombreCliente">Nombre</label>
