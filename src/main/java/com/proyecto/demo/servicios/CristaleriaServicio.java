@@ -123,32 +123,11 @@ public void modificar(MultipartFile archivo, String tipo, String descripcion, fl
     // Cristal cristalNuevo = null; // Esta variable no se usa en el código que me mostraste
     Cristaleria cristaleria = new Cristaleria(); // (1) Creas una NUEVA instancia de Cristaleria. Es TRANSIENT.
 
-    if (idCristal != null && !idCristal.isEmpty()) { // Es buena práctica chequear también !idCristal.isEmpty()
-        cristal = cristalServicio.buscarPorId(idCristal);
-        if (cristal != null) {
-            cristaleria.setCristalRepo(cristal); // (2) Asocias un 'Cristal' (que si se encuentra, es PERSISTENT)
-            // Es importante que 'cristal.getFoto()' también sea un objeto Foto persistente o se maneje adecuadamente.
-            if (cristal.getFoto() != null) {
-                 cristaleria.setFoto(cristal.getFoto()); // (3) Asocias una 'Foto' (que si existe, es PERSISTENT)
-            } else {
-                 // Considera qué hacer si el cristal existente no tiene foto pero se proporciona un 'archivo' nuevo.
-                 // ¿Debería actualizarse la foto del 'cristal' o solo la de 'cristaleria'?
-            }
-        }
+    
         // ¿Qué pasa si idCristal se provee pero cristalServicio.buscarPorId(idCristal) devuelve null?
         // La lógica actual continuaría y podría intentar crear una nueva foto más abajo.
-    }
-
-    // Esta lógica de foto se ejecuta si 'cristal' es null (ya sea porque idCristal era null o no se encontró el cristal)
-    if (cristal == null) {
-        if (archivo != null && !archivo.isEmpty()) { // Chequear archivo.isEmpty() es importante
-            Foto foto = fotoServicio.guardar(archivo); // (4) Guardas una nueva 'Foto'. Ahora 'foto' es PERSISTENT.
-            cristaleria.setFoto(foto); // (5) Asocias la nueva 'Foto' persistente.
-        } else {
-            cristaleria.setFoto(null); // No hay foto o no se proporciona nueva.
-        }
-    }
-
+  
+            cristaleria.setDescripcion(idCristal);
 
     if (idBarra != null && !idBarra.isEmpty()) { // Chequear también !idBarra.isEmpty()
         Barra barraPerteneciente = barraServicio.buscarPorId(idBarra);
@@ -182,7 +161,6 @@ public void modificar(MultipartFile archivo, String tipo, String descripcion, fl
             }
         }
 
-        cristaleria.setDescripcion(descripcion);
         cristaleria.setPrecio(precio);
         cristaleria.setEnStock(enStock);
         cristaleria.setPrecioTotal(); // Asegúrate que este método no dependa de un ID generado por la BD si se llama antes de guardar.

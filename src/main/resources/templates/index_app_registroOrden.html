@@ -248,29 +248,6 @@
 </head>
 <body>
 
-<div id="app-container">
-
-  
-    <section id="content">
-        <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Formularios</a>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Buscar...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
-            <a href="#" class="notification">
-                <i class='bx bxs-bell'></i>
-                <span class="num" th:if="${notificaciones != null && notificaciones > 0}" th:text="${notificaciones}">0</span>
-            </a>
-            <a href="#" class="profile" th:if="${perfil != null && perfil.id != null}">
-                <img th:src="@{'/foto/usuario/' + ${perfil.id}}" alt="Foto de perfil">
-            </a>
-        </nav>
         <main>
             <a class="btn-dashboard-link" th:href="@{/usuario/panel-barra(id=${session.usuariosession.id})}">
                 <i class='bx bx-arrow-back'></i> Volver al Dashboard
@@ -284,7 +261,7 @@
                 <div th:if="${param.success}" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom:15px;">
                     <p>Orden creada con éxito.</p> </div>
 
-                <form th:action="@{/usuario/actualizar-cristaleria}" method="POST" enctype="multipart/form-data">
+                <form th:action="@{/usuario/registrar-orden}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" th:value="${perfil.id}"/>
 
                     <div class="form-input-group">
@@ -309,29 +286,21 @@
 
                     <div class="form-input-group">
                         <label for="idBarraSelect">Empresa</label>
-                        <select class="form-select" name="idBarra" id="idBarraSelect" required>
+                        <select class="form-select" name="idEmpresa" id="idBarraSelect" required>
                             <option value="" disabled selected>Selecciona una empresa...</option>
-                            <option th:each="barra : ${barras}" th:value="${barra.id}" th:text="${barra.nombre}">Nombre de Barra</option>
+                            <option th:each="empresa: ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombre}">Nombre de Empresa</option>
                         </select>
                     </div>
-
-                    <fieldset class="cristal-gallery-container">
-                        <legend>Asignar Foto Existente (Opcional)</legend>
-                        <div class="gallery" th:if="${cristales != null && !#lists.isEmpty(cristales)}">
-                            <div class="gallery-item" th:each="cristal : ${cristales}">
-                                <input class="form-check-input" type="radio" th:value="${cristal.id}" name="idCristal" th:id="'cristalRadio' + ${cristal.id}">
-                                <label class="form-check-label" th:for="'cristalRadio' + ${cristal.id}">
-                                    <img th:if="${cristal.foto != null}" th:src="@{'/foto/cristalfoto/' + ${cristal.id}}" alt="Imagen de cristal">
-                                     </label>
-                            </div>
-                        </div>
-                         <p th:if="${cristales == null || #lists.isEmpty(cristales)}" style="text-align:center; color:#777;">No hay imágenes de cristalería existentes para seleccionar.</p>
-                    </fieldset>
-                    
-                    <div class="form-input-group">
-                        <label for="fotoArchivo">Subir Nueva Foto (Si no seleccionaste una existente)</label>
-                        <input class="form-control" type="file" name="archivo" id="fotoArchivo" accept="image/*">
+  <div class="form-input-group">
+                        <label for="idBarraSelect">Cliente</label>
+                        <select class="form-select" name="idCliente" id="idBarraSelect" required>
+                            <option value="" disabled selected>Selecciona un cliente...</option>
+                            <option th:each="cliente: ${clientes}" th:value="${cliente.id}" th:text="${barra.nombre}">Nombre de Cliente</option>
+                        </select>
                     </div>
+                  
+                    
+                   
 
                     <button class="btn-submit-form" type="submit">Registrar Cristalería</button>
                 </form>

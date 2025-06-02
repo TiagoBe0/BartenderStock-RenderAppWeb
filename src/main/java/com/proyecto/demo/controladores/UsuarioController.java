@@ -187,14 +187,46 @@ public class UsuarioController {
             //barraServicio.registrar(nombre, id);
             Usuario usuario = usuarioServicio.buscarPorId(id);
             
-             model.addAttribute("barras", usuarioServicio.todasLasBarras(id));
-              model.addAttribute("cristales",cristalServicio.listarTodas());
+             model.addAttribute("empresas", usuarioServicio.todasLasBarras(id));
+              model.addAttribute("clientes",usuario.getProveedores());
             model.addAttribute("perfil", usuario);
         } catch (ErrorServicio e) {
             model.addAttribute("error", e.getMessage());
         }
         return "index_app_registroOrden.html";
     }
+    
+    
+    
+ //POST CREAR orden
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @PostMapping("/registrar-orden")
+    public String actualizarCristaleria(ModelMap modelo, HttpSession session,   String id, String tipo, String descripcion, float precio, int enStock,String idEmpresa,String idCliente) throws ErrorServicio {
+        
+         cristaleriaServicio.modificar(null, tipo, descripcion, precio, enStock, idEmpresa,id, idCliente);
+        Usuario usuario = null;
+        try {
+            //usuarioServicio.actualizarCapitalTotal(id);
+
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+            if (login == null || !login.getId().equals(id)) {
+                return "redirect:/inicio";
+            }
+
+            usuario = usuarioServicio.buscarPorId(id);
+            //usuarioServicio.modificarBarra(id,nombre);
+           
+            session.setAttribute("usuariosession", usuario);
+
+            return "redirect:/inicio";
+        } catch (ErrorServicio ex) {
+           
+
+            return "index_app.html";
+        }
+
+    }
+    
     
     
     
@@ -622,35 +654,6 @@ public class UsuarioController {
         return "exito.html";
     } 
 
- //POST CREAR CRISTALERIA
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
-    @PostMapping("/actualizar-cristaleria")
-    public String actualizarCristaleria(ModelMap modelo, HttpSession session,   String id,MultipartFile archivo, String tipo, String descripcion, float precio, int enStock,String idBarra,String idCristal) throws ErrorServicio {
-        
-         cristaleriaServicio.modificar(archivo, tipo, descripcion, precio, enStock, idBarra,id, idCristal);
-        Usuario usuario = null;
-        try {
-            //usuarioServicio.actualizarCapitalTotal(id);
-
-            Usuario login = (Usuario) session.getAttribute("usuariosession");
-            if (login == null || !login.getId().equals(id)) {
-                return "redirect:/inicio";
-            }
-
-            usuario = usuarioServicio.buscarPorId(id);
-            //usuarioServicio.modificarBarra(id,nombre);
-           
-            session.setAttribute("usuariosession", usuario);
-
-            return "redirect:/inicio";
-        } catch (ErrorServicio ex) {
-           
-
-            return "index_app.html";
-        }
-
-    }
-    
     
     
     //CREAR CRISTALERIA PPST
