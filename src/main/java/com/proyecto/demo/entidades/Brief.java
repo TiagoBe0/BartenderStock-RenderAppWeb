@@ -21,6 +21,81 @@ public class Brief {
     private String mail;
     private String objetivos;
     private boolean activo;
+    private String objetivosCorto;
+    private String adjetivos;
+    private String servicios;
+    private String publicoObjetivo;
+    private String inversiones;
+    private String modelosAseguir;
+    private String competencia;
+    private String debilidades;
+
+    public String getObjetivosCorto() {
+        return objetivosCorto;
+    }
+
+    public void setObjetivosCorto(String objetivosCorto) {
+        this.objetivosCorto = objetivosCorto;
+    }
+
+    public String getAdjetivos() {
+        return adjetivos;
+    }
+
+    public void setAdjetivos(String adjetivos) {
+        this.adjetivos = adjetivos;
+    }
+
+    public String getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(String servicios) {
+        this.servicios = servicios;
+    }
+
+    public String getPublicoObjetivo() {
+        return publicoObjetivo;
+    }
+
+    public void setPublicoObjetivo(String publicoObjetivo) {
+        this.publicoObjetivo = publicoObjetivo;
+    }
+
+    public String getInversiones() {
+        return inversiones;
+    }
+
+    public void setInversiones(String inversiones) {
+        this.inversiones = inversiones;
+    }
+
+    public String getModelosAseguir() {
+        return modelosAseguir;
+    }
+
+    public void setModelosAseguir(String modelosAseguir) {
+        this.modelosAseguir = modelosAseguir;
+    }
+
+    public String getCompetencia() {
+        return competencia;
+    }
+
+    public void setCompetencia(String competencia) {
+        this.competencia = competencia;
+    }
+
+    public String getDebilidades() {
+        return debilidades;
+    }
+
+    public void setDebilidades(String debilidades) {
+        this.debilidades = debilidades;
+    }
+    
+    
+    
 
     public boolean isActivo() {
         return activo;

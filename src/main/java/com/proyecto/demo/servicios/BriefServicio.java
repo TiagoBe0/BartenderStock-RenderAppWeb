@@ -18,7 +18,7 @@ public class BriefServicio {
     
     
     @Transactional
-    public void registrar(String mail,String nombreEmpresa,String nombre,String celular,String historia,String cuit,String objetivos){
+    public void registrar(String mail,String nombreEmpresa,String nombre,String celular,String historia,String cuit,String objetivos,String objetivosCorto,String adjetivos,String servicios,String publicoObjetivo,String inversiones, String modelosAseguir,String competencia,String debilidades){
         
         Brief brief = new Brief();
         brief.setMail(mail);
@@ -28,6 +28,15 @@ public class BriefServicio {
         brief.setHistoria(historia);
         brief.setCuit(cuit);
         brief.setActivo(true);
+        brief.setAdjetivos(adjetivos);
+        brief.setCompetencia(competencia);
+        brief.setObjetivosCorto(objetivosCorto);
+        brief.setPublicoObjetivo(publicoObjetivo);
+        brief.setServicios(servicios);
+        brief.setDebilidades(debilidades);
+        brief.setInversiones(inversiones);
+        brief.setModelosAseguir(modelosAseguir);
+        
         briefRepositorio.save(brief);
                
     
