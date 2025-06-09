@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rahip - Lista de Empresas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  
+  <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
+
+  <style>
+    /* Reset básico */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #4a1580; /* Fondo morado principal */
+    }
+
+    .content {
+        flex: 1; 
+    }
+
+    /* Variables de tema */
+    :root {
+        --bg-color: #4a1580; /* Morado principal */
+        --text-color: white; 
+        --link-color: white; 
+        --footer-bg: rgba(50, 7, 90, 0.983);
+    }
+
+    body.dark-theme {
+        --bg-color: #111;
+        --text-color: #e0e0e0;
+        --link-color: #7cc5f8;
+        --footer-bg: #111;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: Arial, sans-serif;
+        font-weight: 300;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Tabla de empresas */
+    .table-empresas-custom {
+      width: 100%;
+      margin-bottom: 1rem;
+      color: white;
+      border-collapse: collapse;
+    }
+
+    .table-empresas-custom th,
+    .table-empresas-custom td {
+      padding: 0.9rem;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .table-empresas-custom thead th {
+      background-color: rgb(67, 4, 101);
+      color: white;
+      font-weight: bold;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .table-empresas-custom tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .table-empresas-custom tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+    }
+
+    .table-title {
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        margin: 2rem 0;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--footer-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .footer-left p {
+      margin: 0;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .social-icon {
+      display: inline-block;
+      margin-left: 1rem;
+    }
+
+    .social-icon img {
+      width: 20px;
+      height: auto;
+    }
+
+    /* Botón de tema */
+    #theme-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: rgba(114, 5, 153, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      z-index: 1000;
+    }
+
+    #theme-toggle:hover {
+      background-color: rgba(66, 9, 124, 0.6);
+      transform: scale(1.05);
+    }
+
+    body.dark-theme #theme-toggle {
+      background-color: rgba(34, 34, 34, 0.8);
+      color: #5a0280;
+    }
+
+    /* WhatsApp float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 600;
+      width: 60px;
+      height: 60px;
+      margin-bottom: 70px;
+      background-color: rgba(37, 211, 101, 0.55);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .whatsapp-float img {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem 0.5rem;
+      }
+      
+      .footer-left p {
+        margin-bottom: 0.5rem;
+        font-size: 0.7rem;
+      }
+      
+      .footer-right {
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      
+      .social-icon {
+        margin: 0 0.5rem;
+      }
+      
+      .social-icon img {
+        width: 24px;
+      }
+
+      .table-empresas-custom th,
+      .table-empresas-custom td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .table-empresas-custom th,
+      .table-empresas-custom td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .footer-left p {
+        font-size: 0.6rem;
+      }
+
+      .social-icon img {
+        width: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
+      <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
+    </a>
+
+    <main class="content">
+      <div class="container mt-4">
+        <h2 class="text-center mb-4 table-title">Lista de Clientes</h2>
+        <div class="table-responsive">
+          <table class="table-empresas-custom">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">link</th>
+                <th scope="col">celular</th>
+                
+                <th scope="col">acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cliente : ${clientes}" th:if="${clientes.activa}">
+                <td th:text="${cliente.nombre}">cliente</td>
+                <td th:text="${cliente.link}">link</td>
+                <td th:text="${cliente.celular}">celular</td>
+                
+                            <td ><a th:href="@{/admin/deshabilitar-cliente/__${cliente.id}__}"><i class="fa fa-ban"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <p>RAHIP Estudio Creativo | Todos los derechos reservados 2025</p>
+      </div>
+      <div class="footer-right">
+        <a href="https://wa.me/+5492617501005" class="social-icon" target="_blank"><img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/instagram-blanco.svg" alt="Instagram"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/linkedin-blanco.svg" alt="LinkedIn"></a>
+        <a href="#" class="social-icon"><img src="layaout-web/archivos/iconos-redes/mail-blanco.svg" alt="Email"></a>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"></script>
+
+  <script>
+    // Theme toggle function
+    function toggleTheme() {
+      const body = document.body;
+      const button = document.getElementById('theme-toggle');
+      body.classList.toggle('dark-theme');
+      button.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+      
+      // Guardar preferencia en localStorage
+      const isDark = body.classList.contains('dark-theme');
+      localStorage.setItem('darkTheme', isDark);
+    }
+
+    // Cargar tema al iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('darkTheme') === 'true';
+      if (savedTheme) {
+        document.body.classList.add('dark-theme');
+        document.getElementById('theme-toggle').textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>
