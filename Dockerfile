@@ -25,7 +25,7 @@ WORKDIR /app
 
 # Copiamos el .war generado en la etapa 'builder' al directorio /app/app.war en la imagen final
 # El nombre original del artefacto es /app/target/SpringUsoSesionesUsuario-0.0.1-SNAPSHOT.war en la etapa builder
-COPY --from=builder /app/target/SpringUsoSesionesUsuario-0.0.1-SNAPSHOT.war app.war
+COPY --from=builder /app/target/SprinRahipWebAppFinal-0.0.1-SNAPSHOT.war app.war
 
 # Exponemos el puerto en el que tu aplicación Spring Boot se ejecuta (por defecto 8080)
 EXPOSE 8080
