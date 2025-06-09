@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,25 +19,24 @@
   <div class="wrapper">
     <header>
       <nav>
-        <a th:href="@{/}"  class="brand">
+        <a href="index.html" class="brand">
           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
         </a>
         <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
           <span class="hamburger-icon"></span>
           <span class="sr-only">Menú</span>
         </button>
-       <ul class="nav-list" id="navList">
-          <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
-          <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
-          <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
-          <li class="nav-item"><a th:href="@{/calificanos}">CALIFICANOS</a></li>
-          <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
+        <ul class="nav-list" id="navList">
+          <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
+          <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
+          <li class="nav-item"><a href="brief.html">BRIEF</a></li>
+          <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
+          <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
         
         </ul>
       </nav>
     </header>
 
-    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
     <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
       <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
     </a>
@@ -48,39 +47,73 @@
         <div class="container py-5">
 
           <!-- Introducción -->
-          <p class="intro text-center text-white mb-4" style="font-weight: 700;" >
+          <p class="intro text-center text-white mb-4"  >
             Recordá que con tu aporte por calificarnos, ayudás a cada vez ser mejores en esto que nos apasiona
           </p>
 
-          <form action="TU_ENDPOINT" method="post">
+          <form action="calificacion/registro" method="post">
             <!-- Nombre de la empresa -->
             <div class="mb-4">
-              <input type="text" name="empresa"
+              <input type="text" name="nombreEmpresa"
                      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
                      placeholder="Nombre de la empresa" required>
             </div>
 
             <!-- Pregunta + Rating -->
-            <p style="font-weight: 700;" class="question text-center text-white fst-italic mb-2">
-              Del 1 al 5, qué tan conforme estás con el tiempo de espera para recibir tu diseño finalizado
-            </p>
-            <div class="star-rating">
-              <input type="radio" id="star5" name="rating" value="5" />
+            <p  class="intro text-center text-white mb-4">
+             ¿Qué tan satisfecho estás con la atención recibida?
+             </p>   <div class="star-rating">
+              <input type="radio" id="star5" name="estrellasAtencion" value="5" />
               <label for="star5"></label>
-              <input type="radio" id="star4" name="rating" value="4" />
+              <input type="radio" id="star4" name="estrellasAtencion" value="4" />
               <label for="star4"></label>
-              <input type="radio" id="star3" name="rating" value="3" />
+              <input type="radio" id="star3" name="estrellasAtencion" value="3" />
               <label for="star3"></label>
-              <input type="radio" id="star2" name="rating" value="2" />
+              <input type="radio" id="star2" name="estrellasAtencion" value="2" />
               <label for="star2"></label>
-              <input type="radio" id="star1" name="rating" value="1" />
+              <input type="radio" id="star1" name="estrellasAtencion" value="1" />
               <label for="star1"></label>
             </div>
-            
+                        <!-- Pregunta + Rating -->
+      
+
+                        <!-- Pregunta + Rating -->
+            <p  class="intro text-center text-white mb-4">
+              ¿Qué tan conforme estás con el tiempo de espera para recibir tu diseño finalizado
+            </p>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="estrellasTiempo" value="5" />
+              <label for="star5"></label>
+              <input type="radio" id="star4" name="estrellasTiempo" value="4" />
+              <label for="star4"></label>
+              <input type="radio" id="star3" name="estrellasTiempo" value="3" />
+              <label for="star3"></label>
+              <input type="radio" id="star2" name="estrellasTiempo" value="2" />
+              <label for="star2"></label>
+              <input type="radio" id="star1" name="estrellasTiempo" value="1" />
+              <label for="star1"></label>
+            </div>
+
+
+                  <p  class="intro text-center text-white mb-4">
+           ¿Qué tanto te agrado el resultado de diseño recibido? 
+            </p>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="estrellasConfotmidad" value="5" />
+              <label for="star5"></label>
+              <input type="radio" id="star4" name="estrellasConfotmidad" value="4" />
+              <label for="star4"></label>
+              <input type="radio" id="star3" name="estrellasConfotmidad" value="3" />
+              <label for="star3"></label>
+              <input type="radio" id="star2" name="estrellasConfotmidad" value="2" />
+              <label for="star2"></label>
+              <input type="radio" id="star1" name="estrellasConfotmidad" value="1" />
+              <label for="star1"></label>
+            </div>
 
             <!-- Sugerencias -->
             <div class="mb-4">
-              <textarea name="sugerencias" rows="3"
+              <textarea name="comentarios" rows="3"
                         class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
                         placeholder="Si la empresa fuera tuya, ¿qué cambiarías para mejorar aún más nuestros servicios?"></textarea>
             </div>

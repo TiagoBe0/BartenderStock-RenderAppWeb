@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,25 +19,24 @@
   <div class="wrapper">
     <header>
       <nav>
-        <a th:href="@{/}" class="brand">
+        <a href="index.html" class="brand">
           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon">
         </a>
         <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
           <span class="hamburger-icon"></span>
           <span class="sr-only">Menú</span>
         </button>
-      <ul class="nav-list" id="navList">
-          <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
-          <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
-          <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
-          <li class="nav-item"><a th:href="@{/calificanos}">CALIFICANOS</a></li>
-          <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
+        <ul class="nav-list" id="navList">
+          <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
+          <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
+          <li class="nav-item"><a href="brief.html">BRIEF</a></li>
+          <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
+          <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
         
         </ul>
       </nav>
     </header>
 
-    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
     <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
       <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
     </a>
@@ -46,64 +45,181 @@
       <section class="brief-form">
         <div class="container py-5">
           <h2 class="text-center text-white mb-4">Datos Personales</h2>
-          <form action="TU_ENDPOINT" method="post">
-            <div class="mb-3">
-              <input
-                type="text"
-                name="empresa"
-                class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-                placeholder="Nombre de la empresa"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <input
-                type="text"
-                name="nombre"
-                class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-                placeholder="Nombre completo"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <input
-                type="tel"
-                name="telefono"
-                class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-                placeholder="Número de celular"
-                required
-              />
-            </div>
+ <form action="/brief/registro" method="post">
+    <div class="mb-3">
+    <input
+      type="text"
+      name="mail"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="correo electrónico"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="nombreEmpresa"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Nombre de la empresa"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="nombre"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Nombre de la persona a cargo del proyecto"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      type="tel"
+      name="celular"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Número de celular"
+      required
+    />
+  </div>
 
-            <h2 class="text-center text-white mt-5 mb-4">Empresa y Filosofía</h2>
-            <div class="mb-3">
-              <textarea
-                name="historia"
-                rows="2"
-                class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-                placeholder="Historia de la empresa"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <textarea
-                name="objetivos"
-                rows="2"
-                class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-                placeholder="Objetivos a largo plazo"
-                required
-              ></textarea>
-            </div>
+  <h2 class="text-center text-white mt-5 mb-4">Empresa y Filosofía</h2>
 
-            <div class="text-center">
-              <button
-                type="submit"
-                class="btn btn-outline-light rounded-pill px-5 py-2"
-              >
-                ENVIAR
-              </button>
-            </div>
-          </form>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="historia"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Historia de la empresa"
+      required
+    />
+  </div>
+    <div class="mb-3">
+    <input
+      type="text"
+      name="cuit"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="DNI/CUIT (necesario para la presentación del presupuesto)"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="objetivos"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Objetivos a largo plazo"
+      required
+    />
+  </div>
+ <div class="mb-3">
+    <input
+      type="text"
+      name="objetivosCorto"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Objetivos a corto plazo"
+      required
+    />
+ </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="adjetivos"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="
+Si su empresa fuera una persona, ¿qué adjetivo le daría?"
+      required
+    />
+
+ </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="servicios"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Describa sus productos, servicios o procesos de elaboración de los mismos"
+      required
+    />
+
+ </div>
+ <div class="mb-3">
+  <h2 class="text-center text-white mt-5 mb-4">Público objetivo</h2>
+  <select style="color: grey;"
+    name="publicoObjetivo"
+    id="publico_objetivo"
+    class="form-select form-select-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+    required
+  >
+    <option value="" disabled selected style="color: grey;">Seleccione un rango etario</option>
+    <option value="5-13" >De 5 a 13 años</option>
+    <option value="14-17">De 14 a 17 años</option>
+    <option value="18-22">De 18 a 22 años</option>
+    <option value="23-35">De 23 a 35 años</option>
+    <option value="36-55">De 36 a 55 años</option>
+    <option value="56+">De 56 en adelante</option>
+  </select>
+</div>
+
+
+  <div class="mb-3">
+    <input
+      type="text"
+      name="inversiones"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="¿Porqué crees que comprarían o invertirían en su empresa?
+"
+      required
+    />
+
+ </div>
+
+
+  <h2 class="text-center text-white mt-5 mb-4">
+Competencia y Sector</h2>
+
+  <div class="mb-3">
+    <input
+      type="text"
+      name="modelosAseguir"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="Mencionar nombre de empresas que admire a nivel departamental, provincial, nacional o a nivel mundial
+"
+      required
+    />
+  </div>
+    <div class="mb-3">
+    <input
+      type="text"
+      name="competencia"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="
+¿Quién es su competencia más directa?"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      name="debilidades"
+      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
+      placeholder="
+¿Qué desventajas posee frente a su competencia?"
+      required
+    />
+  </div>
+
+
+  <div class="text-center">
+    <button
+      type="submit"
+      class="btn btn-outline-light rounded-pill px-5 py-2"
+    >
+      ENVIAR
+    </button>
+  </div>
+</form>
+
+
 
           <div
             id="success-message"

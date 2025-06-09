@@ -253,7 +253,7 @@ body.dark-theme .nav-toggle .hamburger-icon::after {
 /* Rahip Info Section */
 .rahip-info {
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 2rem 1rem;
   max-width: 900px;
   margin: 0 auto;
   position: relative;
@@ -265,11 +265,16 @@ body.dark-theme .nav-toggle .hamburger-icon::after {
   font-size: 2rem; /* Slightly larger for emphasis */
   font-weight: bold;
   margin-bottom: 1.5rem; /* More space below heading */
+  
+  margin-top: 3rem;
+  font-size: 2.2rem; /* un poco más grande */
 }
 
+
 .rahip-info p {
-  font-size: 1.2rem;
-  line-height: 1.7; /* Slightly more line height for readability */
+  font-size: 1.4rem;   /* antes 1.2rem */
+  line-height: 1.8;    /* mejor legibilidad */
+  margin-top: 1rem;
 }
 
 /* "Servicios" section with "NOSOTROS" background text */

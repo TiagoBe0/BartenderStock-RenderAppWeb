@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
   
@@ -18,24 +18,23 @@
   <div class="wrapper">
     <header>
       <nav>
-        <a href="@{/}" class="brand">
+        <a href="index.html" class="brand">
           <img src="layaout-web/archivos/rahip-logo-blanco.svg" alt="Marca" class="brand-icon"> </a>
         <button class="nav-toggle" id="navToggle" aria-label="toggle navigation" aria-expanded="false">
           <span class="hamburger-icon"></span>
           <span class="sr-only">Menú</span>
         </button>
-          <ul class="nav-list" id="navList">
-          <li class="nav-item"><a th:href="@{/nosotros}">NOSOTROS</a></li>
-          <li class="nav-item"><a th:href="@{/servicios}">SERVICIOS</a></li>
-          <li class="nav-item"><a th:href="@{/brief}">BRIEF</a></li>
-          <li class="nav-item"><a th:href="@{/calificanos}">CALIFICANOS</a></li>
-          <li class="nav-item"><a th:href="@{/contacto}">CONTACTO</a></li>
-        
+        <ul class="nav-list" id="navList">
+          <li class="nav-item"><a href="nosotros.html">NOSOTROS</a></li>
+          <li class="nav-item"><a href="servicios.html">SERVICIOS</a></li>
+          <li class="nav-item"><a href="brief.html">BRIEF</a></li>
+          <li class="nav-item"><a href="calificanos.html">CALIFICANOS</a></li>
+          <li class="nav-item"><a href="contacto.html">CONTACTO</a></li>
+       
         </ul>
       </nav>
     </header>
     
-    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
         
     <a href="https://wa.me/+5492617501005" target="_blank" class="whatsapp-float">
       <img src="layaout-web/archivos/iconos-redes/whatsapp-blanco.svg" alt="WhatsApp">
@@ -43,29 +42,35 @@
 <main class="content">
 
   <section class="services-list-container">
-    <div class="service-card">
-      <img src="layaout-web/archivos/servicios-img/servicio-diseño.jpg" class="service-image" alt="Servicio de Diseño Gráfico">
-      <div class="gallery-text">DISEÑO<br><span>Creamos identidades visuales impactantes y funcionales para tu marca.</span></div>
-    </div>
-    <div class="service-card">
-      <img src="layaout-web/archivos/servicios-img/servicio-fotografia.jpg" class="service-image" alt="Servicio de Fotografía Profesional">
-      <div class="gallery-text">FOTO<br><span>Capturamos la esencia de tus productos y momentos con calidad profesional.</span></div>
-    </div>
-    <div class="service-card">
+
+       <div class="service-card">
       <img src="layaout-web/archivos/servicios-img/servicio-branding.jpg" class="service-image" alt="Servicio de Branding y Desarrollo de Marca">
       <div class="gallery-text">BRANDING<br><span>Diseñamos la marca para tu empresa o pyme de la mejor forma posible.</span></div>
     </div>
-    <div class="service-card">
+      <div class="service-card">
       <img src="layaout-web/archivos/servicios-img/servicio-redes.jpg" class="service-image" alt="Servicio de Gestión de Redes Sociales">
-      <div class="gallery-text">REDES<br><span>Gestionamos y creamos contenido atractivo para tus redes sociales.</span></div>
+      <div class="gallery-text">MANEJO DE REDES<br><span>Gestionamos y creamos contenido atractivo para tus redes sociales.</span></div>
+    </div>
+
+    <div class="service-card">
+      <img src="layaout-web/archivos/servicios-img/servicio-fotografia.jpg" class="service-image" alt="Servicio de Fotografía Profesional">
+      <div class="gallery-text">FOTOGRAFÍA<br><span>Capturamos la esencia de tus productos y momentos con calidad profesional.</span></div>
+    </div>
+      <div class="service-card">
+      <img src="layaout-web/archivos/servicios-img/servicio-uxui.jpg" class="service-image" alt="Servicio de Diseño UX/UI">
+      <div class="gallery-text">DISEÑO WEB UX/UI<br><span>Diseñamos interfaces intuitivas y experiencias de usuario memorables.</span></div>
     </div>
     <div class="service-card">
-      <img src="layaout-web/archivos/servicios-img/servicio-uxui.jpg" class="service-image" alt="Servicio de Diseño UX/UI">
-      <div class="gallery-text">UX/UI<br><span>Diseñamos interfaces intuitivas y experiencias de usuario memorables.</span></div>
+      <img src="layaout-web/archivos/servicios-img/servicio-diseño.jpg" class="service-image" alt="Servicio de Diseño Gráfico">
+      <div class="gallery-text">PAPELERIA CORPORATIVA<br><span>Diseñamos la papelería corporativa para tu empresa o negocio.</span></div>
     </div>
+ 
+        
+  
        <div class="service-card">
-      <img src="layaout-web/archivos/servicios-img/servicio-branding.jpg" class="service-image" alt="Servicio de Branding y Desarrollo de Marca">
-      <div class="gallery-text">MAIL CORPORATIVO<br><span>Creamos y gestionamos tu email corporativo.</span></div>
+      <img src="layaout-web/archivos/servicios-img/servicio-indumentaria.jpeg" class="service-image" alt="Servicio de Branding y Desarrollo de Marca">
+      <div class="gallery-text">INDUMENTARIA CORPORATIVA<br><span>Diseñamos y gestionamos la indumentaria corporativa de tu empresa.
+</span></div>
     </div>
     </section> <section class="rahip-info">
     </section>
