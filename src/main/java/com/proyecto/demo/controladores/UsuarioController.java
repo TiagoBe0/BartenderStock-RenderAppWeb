@@ -3,6 +3,7 @@ package com.proyecto.demo.controladores;
 
 import com.proyecto.demo.entidades.Usuario;
 import com.proyecto.demo.errores.ErrorServicio;
+import com.proyecto.demo.servicios.CalificacionServicio;
 import com.proyecto.demo.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -24,13 +25,45 @@ public class UsuarioController {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+     @Autowired
+    private CalificacionServicio calificacionServicio;
+    
     
     //CONTROLADORES RAHIP WEB
     
    
-       @GetMapping("/inicioUsuario")
+       @GetMapping("/inicioUsuariosd")
     public String inicioUsuario(ModelMap modelo) {
         return  "render-inicioUsuario.html";
     }
+       @GetMapping("/inicioUsuario")
+    public String tabla(ModelMap modelo){
+   
+    modelo.put("calificaciones", calificacionServicio.getAll());
+    return "tablaCalificanos.html";
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+
+    //REGISTRO USUARIO ADMIN
+       @PostMapping("/registrar")
+    public String registrarAdmin( ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2) {
+        
+        try {
+            usuarioServicio.registrar( nombre, apellido, mail, clave1, clave2);
+        } catch (ErrorServicio ex) {
+           
+            return "index.html";
+        }
+        modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
+        return "exito.html";
+    } 
+    
     
 }//llave de clase

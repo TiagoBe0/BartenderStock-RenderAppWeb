@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Briefs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #800000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #800000;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .activo-true {
+      color: green;
+      font-weight: bold;
+    }
+
+    .activo-false {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Briefs Registrados</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>Nombre</th>
+        <th>Celular</th>
+        <th>Email</th>
+        <th>CUIT</th>
+        <th>Activo</th>
+        <th>Historia</th>
+        <th>Objetivos</th>
+        <th>Objetivo Corto</th>
+        <th>Adjetivos</th>
+        <th>Servicios</th>
+        <th>Público Objetivo</th>
+        <th>Inversiones</th>
+        <th>Modelos a seguir</th>
+        <th>Competencia</th>
+        <th>Debilidades</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="brief : ${briefs}">
+        <td th:text="${brief.nombreEmpresa}">Empresa</td>
+        <td th:text="${brief.nombre}">Nombre</td>
+        <td th:text="${brief.celular}">Celular</td>
+        <td th:text="${brief.mail}">Mail</td>
+        <td th:text="${brief.cuit}">CUIT</td>
+        <td th:classappend="'activo-' + ${brief.activo}" th:text="${brief.activo ? 'Sí' : 'No'}">Activo</td>
+        <td th:text="${brief.historia}">Historia</td>
+        <td th:text="${brief.objetivos}">Objetivos</td>
+        <td th:text="${brief.objetivosCorto}">Objetivo Corto</td>
+        <td th:text="${brief.adjetivos}">Adjetivos</td>
+        <td th:text="${brief.servicios}">Servicios</td>
+        <td th:text="${brief.publicoObjetivo}">Público Objetivo</td>
+        <td th:text="${brief.inversiones}">Inversiones</td>
+        <td th:text="${brief.modelosAseguir}">Modelos a seguir</td>
+        <td th:text="${brief.competencia}">Competencia</td>
+        <td th:text="${brief.debilidades}">Debilidades</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

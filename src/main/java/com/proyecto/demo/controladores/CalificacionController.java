@@ -30,7 +30,7 @@ public class CalificacionController {
     public String tabla(ModelMap modelo){
    
     modelo.put("calificaciones", calificacionServicio.getAll());
-    return "tablaCalificacion.html";
+    return "tablaCalificanos.html";
     }
     
         @PostMapping("/registro")

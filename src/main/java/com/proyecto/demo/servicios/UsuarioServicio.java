@@ -34,7 +34,26 @@ public class UsuarioServicio implements UserDetailsService {
     
     
      
-     
+      @Transactional
+    public void registrar( String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
+        
+        validar(nombre, apellido, mail, clave, clave2);
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setMail(mail);
+        
+        
+        usuario.setRol(Rol.ADMIN);
+
+        String encriptada = new BCryptPasswordEncoder().encode(clave);
+        usuario.setClave(encriptada);
+        
+
+        usuarioRepositorio.save(usuario);
+
+    }
 
     public void validar(String nombre, String apellido, String mail, String clave, String clave2) throws ErrorServicio {
 
