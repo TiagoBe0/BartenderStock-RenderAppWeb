@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@
       <section class="brief-form">
         <div class="container py-5">
           <h2 class="text-center text-white mb-4">Datos Personales</h2>
- <form action="/brief/registro" method="post">
+ <form th:action="@{/brief/registro}" method="POST">
     <div class="mb-3">
     <input
       type="text"
