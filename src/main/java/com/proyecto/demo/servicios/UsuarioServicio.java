@@ -80,7 +80,11 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
     
-    
+     @Transactional(readOnly = true)
+     public List<Usuario> todosLosUsuarios(){
+     
+     return usuarioRepositorio.findAll();
+     }
     @Override
  @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {

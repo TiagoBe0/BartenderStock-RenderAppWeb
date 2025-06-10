@@ -80,6 +80,12 @@ public class Controlador {
     public String panel(){
         return "panel-rahip.html";
     }
+      @GetMapping("/tablaUsuario")
+    public String tablaUsuarios(ModelMap modelo){
+        
+        modelo.put("usuarios",usuarioServicio.todosLosUsuarios());
+        return "tablaUsuario.html";
+    }
     
     
     
