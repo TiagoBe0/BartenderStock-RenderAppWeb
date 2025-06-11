@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -1043,10 +1043,9 @@ body.dark-theme #theme-toggle {
     padding: 0.5rem;
     gap: 0.5rem;
   }
-
   .gallery-item img {
     width: 90%;
     margin: 0 auto;
     border-radius: 20px;
   }
-
+}
