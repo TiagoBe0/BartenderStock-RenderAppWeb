@@ -14,25 +14,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class Security extends WebSecurityConfigurerAdapter {
 
    
-    protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("LLEGAMOS AL LOGIN SECURITY");
-        http
-               .authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
-               .antMatchers("/css/*", "/js/*", "/img/*",
-                        "/**").permitAll()
-                .and().
-                formLogin()
-                .loginPage("/login-render")
-                .loginProcessingUrl("/logincheck")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/usuario/inicioUsuario")
-                .permitAll()
-                .and().logout()
-                .logoutUrl("/logout")
-               .logoutSuccessUrl("/login?logout")             
-               .permitAll().
-              and().csrf().disable();
-   }
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests()
+        .antMatchers("/admin/*").hasRole("ADMIN")
+        .antMatchers("/brief/registro").permitAll()  // 👈 PERMITIR POST
+        .antMatchers("/css/*", "/js/*", "/img/*", "/**").permitAll()
+        .and()
+        .formLogin()
+            .loginPage("/login-render")
+            .loginProcessingUrl("/logincheck")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/usuario/inicioUsuario")
+            .permitAll()
+        .and()
+        .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login?logout")
+            .permitAll()
+        .and()
+        .csrf().disable(); // Solo si realmente lo necesitás
+}
 }

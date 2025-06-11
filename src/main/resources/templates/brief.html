@@ -12,8 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
   
   <link rel="stylesheet" href="brief.css">
-<link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
-  
+  <link rel="icon" type="image/svg+xml" href="layaout-web/archivos/rahip-logo-lila.svg">
 </head>
 <body>
   <div class="wrapper">
@@ -44,197 +43,76 @@
       <section class="brief-form">
         <div class="container py-5">
           <h2 class="text-center text-white mb-4">Datos Personales</h2>
- <form action="/brief/registro" method="POST">
-    <div class="mb-3">
-    <input
-      type="text"
-      name="mail"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="correo electrónico"
-      required
-    />
-  </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="nombreEmpresa"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Nombre de la empresa"
-      required
-    />
-  </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="nombre"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Nombre de la persona a cargo del proyecto"
-      required
-    />
-  </div>
-  <div class="mb-3">
-    <input
-      type="tel"
-      name="celular"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Número de celular"
-      required
-    />
-  </div>
+          <form action="/brief/registro" method="POST">
+            <div class="mb-3">
+              <input type="email" name="mail" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="correo electrónico" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="nombreEmpresa" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Nombre de la empresa" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="nombre" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Nombre de la persona a cargo del proyecto" required />
+            </div>
+            <div class="mb-3">
+              <input type="tel" name="celular" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Número de celular" required />
+            </div>
 
-  <h2 class="text-center text-white mt-5 mb-4">Empresa y Filosofía</h2>
+            <h2 class="text-center text-white mt-5 mb-4">Empresa y Filosofía</h2>
 
-  <div class="mb-3">
-    <input
-      type="text"
-      name="historia"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Historia de la empresa"
-      required
-    />
-  </div>
-    <div class="mb-3">
-    <input
-      type="text"
-      name="cuit"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="DNI/CUIT (necesario para la presentación del presupuesto)"
-      required
-    />
-  </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="objetivos"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Objetivos a largo plazo"
-      required
-    />
-  </div>
- <div class="mb-3">
-    <input
-      type="text"
-      name="objetivosCorto"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Objetivos a corto plazo"
-      required
-    />
- </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="adjetivos"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="
-Si su empresa fuera una persona, ¿qué adjetivo le daría?"
-      required
-    />
+            <div class="mb-3">
+              <input type="text" name="historia" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Historia de la empresa" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="cuit" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="DNI/CUIT (necesario para la presentación del presupuesto)" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="objetivos" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Objetivos a largo plazo" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="objetivosCorto" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Objetivos a corto plazo" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="adjetivos" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Si su empresa fuera una persona, ¿qué adjetivo le daría?" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="servicios" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Describa sus productos, servicios o procesos de elaboración de los mismos" required />
+            </div>
 
- </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="servicios"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Describa sus productos, servicios o procesos de elaboración de los mismos"
-      required
-    />
+            <div class="mb-3">
+              <h2 class="text-center text-white mt-5 mb-4">Público objetivo</h2>
+              <select style="color: grey;" name="publicoObjetivo" id="publico_objetivo" class="form-select form-select-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" required>
+                <option value="" disabled selected style="color: grey;">Seleccione un rango etario</option>
+                <option value="5-13">De 5 a 13 años</option>
+                <option value="14-17">De 14 a 17 años</option>
+                <option value="18-22">De 18 a 22 años</option>
+                <option value="23-35">De 23 a 35 años</option>
+                <option value="36-55">De 36 a 55 años</option>
+                <option value="56+">De 56 en adelante</option>
+              </select>
+            </div>
 
- </div>
- <div class="mb-3">
-  <h2 class="text-center text-white mt-5 mb-4">Público objetivo</h2>
-  <select style="color: grey;"
-    name="publicoObjetivo"
-    id="publico_objetivo"
-    class="form-select form-select-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-    required
-  >
-    <option value="" disabled selected style="color: grey;">Seleccione un rango etario</option>
-    <option value="5-13" >De 5 a 13 años</option>
-    <option value="14-17">De 14 a 17 años</option>
-    <option value="18-22">De 18 a 22 años</option>
-    <option value="23-35">De 23 a 35 años</option>
-    <option value="36-55">De 36 a 55 años</option>
-    <option value="56+">De 56 en adelante</option>
-  </select>
-</div>
+            <div class="mb-3">
+              <input type="text" name="inversiones" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="¿Por qué crees que comprarían o invertirían en su empresa?" required />
+            </div>
 
+            <h2 class="text-center text-white mt-5 mb-4">Competencia y Sector</h2>
 
-  <div class="mb-3">
-    <input
-      type="text"
-      name="inversiones"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="¿Porqué crees que comprarían o invertirían en su empresa?
-"
-      required
-    />
+            <div class="mb-3">
+              <input type="text" name="modelosAseguir" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="Mencionar nombre de empresas que admire a nivel departamental, provincial, nacional o mundial" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="competencia" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="¿Quién es su competencia más directa?" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" name="debilidades" class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white" placeholder="¿Qué desventajas posee frente a su competencia?" required />
+            </div>
 
- </div>
-
-
-  <h2 class="text-center text-white mt-5 mb-4">
-Competencia y Sector</h2>
-
-  <div class="mb-3">
-    <input
-      type="text"
-      name="modelosAseguir"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="Mencionar nombre de empresas que admire a nivel departamental, provincial, nacional o a nivel mundial
-"
-      required
-    />
-  </div>
-    <div class="mb-3">
-    <input
-      type="text"
-      name="competencia"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="
-¿Quién es su competencia más directa?"
-      required
-    />
-  </div>
-  <div class="mb-3">
-    <input
-      type="text"
-      name="debilidades"
-      class="form-control form-control-lg bg-white bg-opacity-25 border-0 rounded-pill text-white"
-      placeholder="
-¿Qué desventajas posee frente a su competencia?"
-      required
-    />
-  </div>
-
-
-  <div class="text-center">
-    <button
-      type="submit"
-      class="btn btn-outline-light rounded-pill px-5 py-2"
-    >
-      ENVIAR
-    </button>
-  </div>
-</form>
-
-
-
-          <div
-            id="success-message"
-            class="alert alert-success success-animation"
-            role="alert"
-            style="
-              display: none;
-              position: fixed;
-              top: 20%;
-              left: 50%;
-              transform: translateX(-50%);
-              z-index: 1000;
-            "
-          >
-            ¡Formulario enviado correctamente!
-          </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-outline-light rounded-pill px-5 py-2">
+                ENVIAR
+              </button>
+            </div>
+          </form>
         </div>
       </section>
     </main>
@@ -251,6 +129,7 @@ Competencia y Sector</h2>
       </div>
     </footer>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 
   <script>
@@ -273,26 +152,6 @@ Competencia y Sector</h2>
         navToggle.setAttribute('aria-expanded', isExpanded);
       });
     }
-
-       // Script for the brief-form
-    const briefForm = document.querySelector(".brief-form form");
-    const successMsg = document.getElementById("success-message");
-
-    if (briefForm && successMsg) { // Check if elements exist before adding listener
-        briefForm.addEventListener("submit", function (e) {
-          //e.preventDefault();                      // Evita recarga
-          successMsg.style.display = "block";      // Muestra animación
-          // Disable button after submit attempt
-          const submitButton = briefForm.querySelector("button[type='submit']");
-          if(submitButton) submitButton.disabled = true;
-
-
-          setTimeout(() => {
-            window.location.href = "index.html";   // Redirige tras 2 s
-          }, 2000);
-        });
-    }
   </script>
-  
 </body>
 </html>
