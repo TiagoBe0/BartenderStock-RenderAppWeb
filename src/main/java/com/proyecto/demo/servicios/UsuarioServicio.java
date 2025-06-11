@@ -118,4 +118,20 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    
+     @Transactional(readOnly=true)
+    public Usuario buscarPorId(String id) throws ErrorServicio {
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+            return usuario;
+        } else {
+
+            throw new ErrorServicio("No se encontró el usuario solicitado");
+        }
+
+    }
+    
 }

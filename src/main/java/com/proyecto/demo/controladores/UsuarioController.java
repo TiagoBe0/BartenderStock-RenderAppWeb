@@ -66,4 +66,54 @@ public class UsuarioController {
     } 
     
     
+    
+    
+            //Este es el que llega a crear barra
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/tablaBrief")
+    public String tablaBrief(HttpSession session, @RequestParam String id,String nombre, ModelMap model) throws ErrorServicio {
+        
+        
+
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            Usuario usuario = usuarioServicio.buscarPorId(id);
+            
+            model.addAttribute("perfil", usuario);
+            
+        } catch (ErrorServicio e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "tablaBrief.html";}
+    
+    
+               //Este es el que llega a crear barra
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USUARIO')")
+    @GetMapping("/tablaCalificanos")
+    public String tablaCalificanos(HttpSession session, @RequestParam String id,String nombre, ModelMap model) throws ErrorServicio {
+        
+        
+
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            Usuario usuario = usuarioServicio.buscarPorId(id);
+            
+            model.addAttribute("perfil", usuario);
+            
+        } catch (ErrorServicio e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "tablaCalificanos.html";}
+    
+    
+    
+    
 }//llave de clase
