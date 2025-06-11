@@ -175,7 +175,7 @@
   const msg  = document.getElementById('success-message');
 
   form.addEventListener('submit', function(e) {
-    e.preventDefault();               // evitamos recarga inmediata
+    //e.preventDefault();               // evitamos recarga inmediata
     msg.style.display = 'block';      // mostramos el mensaje
     form.querySelector('button').disabled = true; // opcional: deshabilita botón
 

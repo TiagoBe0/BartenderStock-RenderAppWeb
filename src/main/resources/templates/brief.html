@@ -44,7 +44,7 @@
       <section class="brief-form">
         <div class="container py-5">
           <h2 class="text-center text-white mb-4">Datos Personales</h2>
- <form th:action="@{/brief/registro}" method="POST">
+ <form action="/brief/registro" method="POST">
     <div class="mb-3">
     <input
       type="text"
@@ -280,7 +280,7 @@ Competencia y Sector</h2>
 
     if (briefForm && successMsg) { // Check if elements exist before adding listener
         briefForm.addEventListener("submit", function (e) {
-          e.preventDefault();                      // Evita recarga
+          //e.preventDefault();                      // Evita recarga
           successMsg.style.display = "block";      // Muestra animación
           // Disable button after submit attempt
           const submitButton = briefForm.querySelector("button[type='submit']");
